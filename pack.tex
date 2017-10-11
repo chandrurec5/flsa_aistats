@@ -1,0 +1,100 @@
+%!TEX root =  flsa.tex
+%Packages
+\usepackage{amsmath}
+\usepackage{amsthm,amssymb}
+\usepackage{comment}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+%\usepackage{ntheorem}
+%\usepackage[textsize=tiny]{todonotes}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{pifont}
+\usepackage{makecell}
+\usepackage{slashbox}
+%!TEX encoding = UTF-8 Unicode\usepackage[numbers, sort, comma, square]{natbib}
+%New Commands
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\ip}[1]{\langle#1\rangle}
+\newcommand{\norm}[1]{\left\| #1\right\|}
+\newcommand{\normsm}[1]{\| #1\|}
+\newcommand{\eqdef}{\stackrel{\cdot}{=}}
+\setlength{\marginparwidth}{13ex}
+\newcommand{\todoc}[2][]{\todo[size=\scriptsize,color=blue!20!white,#1]{Csaba: #2}}
+\newcommand{\todoch}[2][]{\todo[size=\scriptsize,color=red!20!white,#1]{Chandru: #2}}
+\usepackage[disable]{todonotes}
+\usepackage{todonotes}
+\usepackage{placeins}
+\usepackage{xspace}
+
+
+\newcommand{\snorm}[1]{\left\|#1\right\|}
+\newcommand{\dcd}{d \times d}
+\newcommand{\err}{\emph{err}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\nn}{\nonumber}
+\newcommand{\cond}[1]{\kappa(#1)}
+\newcommand{\md}[1]{\left|#1\right|}
+\newcommand{\rhod}[1]{\rho_d(\alpha,#1)}
+\newcommand{\rhos}[1]{\rho_s(\alpha,#1)}
+\newcommand{\alphaps}{\alpha_s(P)}
+\newcommand{\alphapd}{\alpha_d(P)}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\zero}{\mathbf{0}}
+\renewcommand{\P}{\mathcal{P}}
+\newcommand{\pc}{p_{\mathcal{c}}}
+\newcommand{\E}{\mathbf{E}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\EE}[1]{\mathbf{E}\left[#1\right]}
+\newcommand{\EEP}[1]{\mathbf{E}_P\left[#1\right]}
+\newcommand{\gln}{\mathrm{GL}(d)}
+\newcommand{\gld}{\mathrm{GL}(d)}
+\newcommand{\ncn}{n\times n}
+\newcommand{\I}{\mathcal{I}} % something better?
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\re}[1]{\emph{re}(#1)}
+\newcommand{\im}[1]{\emph{im}(#1)}
+\newcommand{\op}{\oplus}
+\newcommand{\tL}{\tilde{\Lambda}}
+\newcommand{\tJ}{\tilde{J}}
+\newcommand{\Lt}{\Lambda_t}
+\newcommand{\ts}{\theta_*}
+\newcommand{\eb}{\bar{e}}
+\newcommand{\tb}{\bar{\theta}}
+\newcommand{\zb}{\bar{z}}
+\newcommand{\zh}{\hat{z}}
+\newcommand{\eh}{\hat{e}}
+%\newcommand{\rhoD}{\rho_D(\alpha,U,A)}
+%\newcommand{\rhoR}{\rho_R(\alpha,U,A)}
+\newcommand{\SD}{S^D_{\alpha,U}}
+\newcommand{\SR}{S^R_{\alpha,U}}
+\newcommand{\bu}{\beta(\alpha,U,P)}
+\newcommand{\thh}{\hat{\theta}}
+\newcommand{\gh}{\hat{\gamma}}
+\newcommand{\iid}{\emph{i.i.d.}\xspace}
+
+\newcommand{\M}{\mathcal{M}}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\S}{\mathcal{S}}
+\renewcommand{\R}{\mathcal{R}}
+\newcommand{\A}{\mathcal{A}}
+
+%Theorem Definition
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+\newtheorem{domain}{Domain}
+\newtheorem{condition}{Condition}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+%\theoremstyle{assumption}
+\newtheorem{assumption}{Assumption}

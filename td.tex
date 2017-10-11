@@ -1,0 +1,51 @@
+\section{Universality of Step-Size in Temporal Difference algorithms}
+We now briefly describe the problem of approximate policy evaluation in reinforcement learning. 
+Reinforcement Learning problems are useful to model situations where the agent need to perform action in a stochastically evolving environment. Formally, the environment is described by a \emph{Markov Decision Process} (MDP) given by the tuple $\mathcal{M}=<\S,\A,\P,\R,\gamma>$, where $\S$ is the state space (for simplicity of exposition, we assume $|\S|$ to be finite, however, our results do not need this assumption in our results), $\A$ is the set of actions (that the agent picks its action from), $\P=(p_a(s,s'),a\in \A, (s,s') \in \S\times \S)$ is the probability transition kernel that specifies probability transitioning from state $s$ to $s'$ under action $a$, the reward $\R=(r_a(s),a\in \A, s\in\S)$ received by the agent for performing action $a$ in state $s$ and $\gamma\in (0,1)$ is a given discounting factor.
+
+Formally, the action selection mechanism is known as a policy which maps states to probability distributions over actions. The agent then is interested in evaluating the expected  discounted sum of reward given by $V_\pi(s)=\E[\sum_{t=0}^\infty\gamma^t r_{a_t}(s_t)| s_o=s, a_t\sim\pi(\cdot|s_t), s_{t+1}\sim p_{a_t}(s_t,\cdot)]$
+\begin{comment}
+\begin{align}\label{eq:valfuncs}
+V_\pi(s)=\E[\sum_{t=0}^\infty\gamma^t r_{a_t}(s_t)| s_o=s, a_t\sim\pi(\cdot|s_t), s_{t+1}\sim p_{a_t}(s_t,\cdot)]\end{align}
+\end{comment}
+, where $\pi$ is the said policy that defines probability distribution $\pi(\cdot | s)$ over actions for any given state $s\in \S$. $V_\pi(s)$ is known as the value of state $s$ under policy $\pi$, and the vector $(V_\pi(s),s\in\S)\in\R^{|\S|}$ is known as the value function. It is known that the value function obeys the Bellman Equation given by
+\begin{align}\label{eq:bell}
+V_\pi=R_\pi+\gamma P_\pi V_\pi,
+\end{align}
+where $R_\pi=(\E_\pi[r_a(s)],s\in\S)\in \R^{|\S|}$ is the reward vector and $P_\pi(s,s')=\E_\pi p_a(s,s')$ is the probability transition matrix of the Markov chain under policy $\pi$.
+
+\paragraph{Approximate Policy Evaluation:} A key step in many RL tasks is to compute $V_\pi$, however,  since $|\S|$ is typically large (or even infinite), usually the value function is approximated by a linear architecture, i.e., $V_\pi=\Phi \theta_\pi$, where $\Phi$ is a $|\S|\times d$ \emph{feature-matrix} and  $\theta_\pi \in \R^d$ is a weight vector. The approximate policy evaluation then boils down to computing $\theta_\pi$ from samples. In this paper, we consider an \iid sampling model where samples are presented as a sequence $(s_t,r_t,s'_t)_{t\geq0}$, where $s_t\sim d_{\pi_b}$, $a_t\sim \pi_b(\cdot|s)$, $s'_t\sim p_{a_t}(s,\cdot)$ with $d_{\pi_b}$ being the stationary distribution of the Markov chain under what is known as the \emph{behaviour policy} $\pi_b$. The sampling is useful to model scenarios where data is collected from the stationary Markov chain induced by policy $\xi$ and is presented to the agent either in the form of a batch \cite{lange} or as experience replay \cite{lin}. 
+
+One way to solve the problem of APE is to solve a linear system of equations\footnote{Alternatively, one can think optimizing an appropriate objective functions. However, the algorithms for APE that we consider in this paper are LSA algorithms and it is convenient for us to take the view that each of these algorithms is a LSA to solve a related linear system of equations in $d$ variables.} (such as the BE in \eqref{eq:be}) but in $d$ variables. In this paper, we are interested in a specific class of algorithms (for APE) based on the idea of temporal difference learning that only make $O(d)$ computations per iteration.
+ 
+ We take up the TD(0) (simply temporal difference or TD) \cite{sutton} and gradient temporal difference learning (GTD) \cite{gtd} algorithms, and ask whether the idea of CS-PR can be helpful. In particular, we wish to design these algorithms in a problem independent (i.e., independent of the details of the underlying MDP) fashion.
+\subsection{Temporal Difference Learning TD(0)}
+The updates of the TD(0) algorithm with CS-PR averaging can be given as below
+\begin{align}\label{eq:td}
+\begin{split}
+\delta_t&=r_t+(\gamma \phi'_t-\phi_t)^\top \theta_t,\\
+\theta_{t+1}&=\theta_t+\alpha \rho_t\phi_t (\delta_t),\\
+\theta_{t}&=\frac{1}{t+1}\sum_{i=0}^t \theta_t
+\end{split}
+\end{align}
+where $\phi_t, \phi'_t\in \R^d$ are the feature vectors of states $s_t$ and $s'_t$\footnote{The $\phi$s form the rows of the feature matrix $\Phi$, i.e., $\phi_t=\Phi(s_t,\cdot)$ and $\phi'_t=\Phi(s_t,\cdot)$}, and $\rho_t$ is an importance sampling ratio (see below).
+Note that the recursion in \eqref{eq:td} can be cast in the general form in \eqref{eq:lsa} by letting $b_t=r_t \phi_t$ and $A_t=\rho_t\phi_t(\phi_t-\gamma\phi'_t)^\top$. 
+We now have the following two results for the TD(0) algorithm in \eqref{eq:td}. First, we begin with the \emph{on-policy} setting, where $\pi_b=\pi$ the sample are obtained from the policy whose value function we want to evaluate using the linear architecture. In this setting, $\rho_t=1,\forall t\geq 0$.
+\begin{theorem}\label{th:tdon}
+The instance dependent bound in \Cref{th:rate} holds for \eqref{eq:td} for $\pi_b=\pi$ and $\alpha=\frac{1}{B^2 d}$, where $B=\norm{\Phi}_\infty$.
+\end{theorem}
+The second setting is the \emph{off-policy} setting where in $\pi_b\neq \pi$, and $\rho_t=\frac{\pi(a_t|s_t)}{\pi_b(a_t|s_t)}$. This setting is known to be troublesome in that TD(0) has been shown to diverge \cite{baird}. We show a surprising result that TD(0) with \emph{normalized} features admits a universal step-size.
+\begin{theorem}\label{th:tdoff}
+ and When the features are normalized i.e., $\norm{Phi(s,\cdot)}_2=1$, then or all $\pi_b$ such that $\E[\phi_t\phi_t^\top]=\E[\phi'_t {\phi'_t}^\top]$, the instance dependent bound in \Cref{{th:rate}} holds for \eqref{eq:td} $\forall \alpha\in (0,1/\rho_{\max})$.
+\end{theorem}
+\subsection{Gradient Temporal Difference Learning}
+In order to address the divergence in the \emph{off-policy} scenario \citet{gtd} developed the gradient temporal difference learning algorithm. We show that a variant of the GTD (that we introduce in this paper) admits a universal step-size.
+\begin{align}\label{eq:gtd}
+\begin{split}
+\Delta_t&=\phi_t(\gamma \phi'_t-\phi_t)^\top,\\
+y_{t+1}&=y_t+\alpha\rho_t(\phi_t r_t+\Delta_t\theta_t -y_t),\\
+\theta_{t+1}&=\theta_t+\alpha\Delta_t^\top y_{t+1}
+\end{split}
+\end{align}
+\begin{theorem}\label{th:gtd}
+The instance dependent bounds in \Cref{th:rate} holds for the GTD algorithm in \eqref{eq:gtd} $\forall \alpha\in (0,\frac{1}{B^2d\rho_{\max}})$.
+\end{theorem}

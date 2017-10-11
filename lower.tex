@@ -1,0 +1,31 @@
+\section{Lower Bound}
+Consider the LSA with $b_t=0$, and $P^0$ has all the mass concentrated on $A_{P^0}=\begin{bmatrix} \lambda_{\min} &0\\ 0& \lambda_{\max}\end{bmatrix}$, for some $\lambda_{\max}>\lambda_{\min}>0$. Note that in this example $\ts=0$.
+By choosing $\alpha<\frac2{\lambda_{\max}}$, in this case it is straightforward to write the expression for $\eh_t$ explicitly as below:
+\begin{align*}
+\eh_t&=\frac{1}{t+1}\sum_{s=0}^t e_t = \frac{1}{t+1}\sum_{s=0}^t (I-\alpha A_P)^{t-s} e_0\\
+&=\frac{1}{t+1}(\alpha A)^{-1}\left(I-(I-\alpha A)^{t+1}\right)e_0
+\end{align*}
+\begin{comment}
+\begin{align*}
+\norm{\eh_t}^2&=\frac{1}{(t+1)^2}\norm{(\alpha A_P)^{-1}\left(I-(I-\alpha A_P)^{t+1}\right)e_0}^2
+&\leq\frac{1}{(t+1)^2}\alpha^2\norm{A_P^{-1}}^2\norm{e_0}^2
+\end{align*}
+\end{comment}
+
+\begin{align*}
+\norm{\eh_t}^2\geq \eh^2_t(1)=\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
+\end{align*}
+Note that in this example, $\rhos{P^0}=\rhod{P^0}=\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(1-\alpha \lambda_{\min})$. Sandwiching the error between the lower and upper bounds we have
+\begin{align}
+\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)\leq \norm{\eh_t}^2\leq
+\frac{1}{(t+1)^2} \left(\alpha^{-1}\rhos{P^0}+\alpha^{-2}\rhos{P^0}^2\right)\norm{\theta_0}^2
+\end{align}
+\begin{example}
+Consider distributions $P^1$, $P^2$ and $P^3$ which are concentrated on matrices $A_{P^1}=\begin{bmatrix} 10 &100\\ 0 &10\end{bmatrix}$, $A_{P^2}=\begin{bmatrix} 10 &10\\ 0 &10\end{bmatrix}$, $A_{P^3}=\begin{bmatrix} 10 &0 \\ 0 &10\end{bmatrix}$. Note that $P^1$, $P^2$ and $P^3$ are respectively AS, PD, SPD respectively. Consider the LSA for the three case of $P^1$, $P^2$ and $P^3$ with $b_t=0$ and $\ts=0$
+We now list the following observations:
+\begin{itemize}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
+\item In all the three instance, $0<\alpha<\frac2{10}$ ensures that the error $\norm{\eh_t}\ra 0$ as $t\ra\infty$. Thus the range of $\alpha$ is uniform across $P^i,i=1,2,3$.
+\item $\rhos{P^1}=\rhod{P^1}<0$, and hence one cannot apply results of \Cref{th:pdrate}. However, with  $U=\begin{bmatrix}1 &0 \\ 0 &0.2-\epsilon\end{bmatrix}$ for some $\epsilon>0$ we have $P^1_U$ to be the distribution concentrated on the matrix $A_{P^1_U}=\begin{bmatrix} 10 &20 \\ 0 &10\end{bmatrix}$ and one can apply the results of \Cref{thm:simtran,cor:as}. Notice that the condition number $\norm{U}{U^-1}\approx 5$.
+\end{itemize}
+We plot $L_t$ for the three cases for $t=1,\ldots,100$ and we can see that the condition number $\norm{U}{U^-1}\approx 5$, shows up in the AS case ($P^1$).
+\end{example}

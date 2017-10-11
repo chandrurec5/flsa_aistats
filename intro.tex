@@ -1,0 +1,80 @@
+%!TEX root =  flsa.tex
+\section{Introduction}\label{sec:intro}
+Low iteration-cost incremental learning algorithms (e.g., variations of gradient descent) have been widely applied in machine learning problems. Linear stochastic approximation algorithms (LSAs in short) are an important class of incremental algorithms used widely in machine learning and in particular reinforcement learning. LSAs can be expressed in the following general form:
+\begin{align}\label{eq:lsaintro}
+\theta_t=\theta_{t-1}+\alpha_t (b_t-A_t \theta_{t-1}),
+\end{align}
+with $(\alpha_t)_t$ a positive step-size sequence chosen by the user and 
+$(b_t,A_t)\in \R^d\times \R^{\dcd}$,  $t\geq 0$, a sequence of identically distributed random variables. The aim of setting up the stochastic recursion in \eqref{eq:lsaintro} is to compute the solution of the equation 
+$\E[b_t] - \E[A_t] \theta = 0$ (where $\E$ stands for mathematical expectation) using the noisy observation sequence $(b_t,A_t)$.
+Some examples of LSAs include the stochastic gradient descent algorithm (SGD) for the problem of linear least-squares estimation  (LSE) \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms in RL \cite{sutton,konda-tsitsiklis,KoTsi03:LSA,gtd,gtd2,gtdmp}.
+\todoc{konda-tsitsiklis reference resolved to tsitsiklis-van-roy. is this what you want?? I also added KoTsi03:LSA, maybe that's what you wanted.}
+%An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
+ A critical aspect of the design of these methods is the choice of learning rates i.e., the step-size sequence $(\alpha_t)_{t\geq 0}$: poor choices lead to slow convergence, or instability. In particular, learning rates can degrade, or the rate may depend on problem dependent constants, which can be very large. 
+ %The choice of the step-size sequence $(\alpha_t)_t$ is critical for the performance of LSAs such as \eqref{eq:lsaintro}. 
+%Informally speaking, smaller step-sizes are better for noise rejection and larger step-sizes lead to faster forgetting of initial conditions (smaller bias). At the same time, step-sizes that are too large might result in instability of \eqref{eq:lsaintro}% even when $(A_t)_t$ has favourable properties\footnote{To be specific }. 
+A useful choice has been the diminishing step-sizes \cite{gtd2,gtdmp,konda-tsitsiklis}, where $\alpha_t\ra 0$ such that $\sum_{t\geq 0} \alpha_t=\infty$ and $\sum_{t\geq 0} \alpha^2_t<\infty$. Here, $\alpha_t\to0$ circumvents the need for guessing the magnitude of step-sizes that stabilize the updates, while the condition $\sum_{t\geq 0} \alpha_t=\infty$ ensures that initial conditions are forgotten and the condition  $\sum_{t\geq 0} \alpha^2_t<\infty$ ensures that the variance eventually goes to zero.  An alternate idea, which we call LSA with constant step-size and Polyak-Ruppert averaging (LSA with CS-PR, in short), is to run \eqref{eq:lsaintro} by choosing $\alpha_t=\alpha>0$ $\forall t\geq 0$ with some $\alpha>0$, and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{i=0}^t \theta_i$. Thus, in LSA with CS-PR, $\theta_t$ is an internal variable and $\thh_t$ is the output of the algorithm (see \Cref{sec:prob} for a formal definition of LSA with CS-PR). The idea is that the constant step-size leads to faster forgetting of initial conditions, while the averaging on the top reduces noise. This idea goes back to  \citet{ruppert} and \citet{polyak-judisky} who considered it in the context of stochastic approximation that LSA is a special case of. 
+%Intuitively, the CS-PR technique can be seen to address the learning vs noise rejection trade-off, where the constant step-size takes care of the learning  and the averaging of the iterates takes care of the noise rejection.
+\paragraph{Motivation:} Recently, \citet{bach} considered stochastic gradient descent (SGD)\footnote{SGD is an LSA of the form in \eqref{eq:lsaintro}.} with CS-PR for LSE and \iid sampling and showed the following interesting results hold together: $(i)$ there exists an \emph{universal} constant step-size choice that can be calculated from only the knowledge of the bound on the magnitude of the noisy data; $(ii)$ and for the SGD with CS-PR (with the said constant step-size), the leading term as $t\to\infty$
+ in the mean-squared prediction error after $t$ updates is at most $\frac{C}{t}$; where the constant $C>0$ in the rate expression depends \emph{only} on the bound on the data, the dimension $d$ and is in particular independent of the eigen spectrum of $\E[A_t]$, a property which is not shared by other step-size tunings and variations of the basic SGD method. In simple terms, this means that there exists a constant universal step-size  and uniform rates (that are independent of problem instance).
+ %\footnote{See \cref{sec:related} for further discussion of the nature of these results.}
+\todoc{Dimension?}
+\paragraph{Focus:} We are interested in the setting of \emph{policy evaluation} \cite{dann} using linear value function approximation from experience replay \cite{lin} in a batch setting \cite{lange} in RL using the TD class of algorithms \cite{sutton,konda-tsitsiklis,gtd,gtd2,gtdmp}. Our aim here is to repeat the feat of \cite{bach}, in that we want to design TD algorithms in a problem independent fashion. We want to explore whether it is possible to have universal step-size and uniform rates for RL problems.
+\paragraph{Setup:}  In this paper, we study general LSAs with CS-PR (thereby extending the scope of prior work by \citet{bach} from SGD to general LSAs thereby covering TD algorithms as well) \todoc{Do our results imply theirs? Do we simplify improve their bounds, while extending the scope? Even if the answer is no, we need to add remarks on these questions.} For simplicity, we consider the \iid setting \footnote{While seemingly simple for the RL setting, however, in the light of the results and critical insights obtained, it turns out that the \iid case is quite useful and important to study}.  Our restrictions on the common \todoc{what is common?} distribution is that the ``noise variance'' should be bounded (as we consider squared errors), and that the matrix $\E[A_t]$ must be Hurwitz, i.e., all its eigenvalues have positive real parts. %This latter assumption can be shown to be necessary for the stability of the LSA iterations. \todoc{Add citation. Or remove/comment out the sentence.}
+\begin{table*}
+\begin{tabular}{|c|c|c|c|c}\hline
+Problem& Universal Step-Size& Uniform Asymptotic Rate& Uniform Finite-Time Rate& Remark \\\hline
+\end{tabular}
+\end{table*}
+\paragraph{Contributions:} The important results are as under:
+%While asymptotically diminishing step-sizes are common in RL literature \cite{ilstd,gtdmp,korda-prashanth}, the constant step-size choice has also been used in the past \cite{gtd2}.
+\begin{enumerate}[leftmargin=*]%, before = \leavevmode\vspace{-\baselineskip}]
+\item \textbf{General LSA}
+	\begin{itemize}[leftmargin=*]
+\item \textbf{Finite-time Instance Dependent Bounds} (\Cref{sec:mainresults}): For a given $P$, we  measure the performance of a given LSA with CS-PR in terms of the mean square error (MSE) given by $\EEP{\normsm{\thh_t-\ts}^2}$.
+For the first time in the literature,
+we show that (under our stated assumptions) there exists an $\alpha_P>0$ such that 
+for any $\alpha\in (0,\alpha_P)$,
+the MSE %of a given LSA with CS-PR
+is at most $\frac{C_{P,\alpha}}{t}+\frac{C_{P',\alpha}}{t^2}$ with some positive constants $C_{P,\alpha},C_{P',\alpha}$ that we explicitly compute from $P$.
+%The MSE can further be broken down to a \emph{bias} term (arising due to the initial condition $\theta_0$) that decays at a rate $O(\frac{1}{t^2})$ and a \emph{variance} term (due to the noise) that decays at at rate $O(\frac{1}{t})$.
+\item For a given class $\P$ of general LSA, we show that there exists \emph{no universal step-size} choice for $\P$.
+\end{itemize}
+\item \textbf{Temporal Difference Learning}:  We show that there exists \emph{universal step-size} choices for the following classes of TD algorithms (universality here means that the choice is independent of the underlying MDP of the RL task):
+\begin{itemize}[leftmargin=*]
+\item $(\P_{TDON})$ TD(0) algorithm in the on-policy setting 
+\item $(\P_{TDOFF})$ TD(0) algorithm with normalized features in the off-policy setting.
+\item $(\P_{GTD} )$ A modified version of GTD algorithm in the off-policy setting. \end{itemize}
+\item \textbf{Uniform Rates:}  We show that uniform finite time rates cannot be achieved even for the case of linear least squares problem. This result also means that uniform asymptotic rates don't exist for TD algorithms.
+\end{enumerate}
+
+\paragraph{Significance:} The negative result on the universal step-sizes for general LSA, makes the investigations on the universality of step-sizes in TD algorithms (classes $\P_{TDON}, \P_{TDOFF}$ and $\P_{GTD}$). 
+\begin{comment}
+%one can choose some step-size $\alpha$  such that $C_{P,\alpha}$ from above is uniformly bounded (i.e., replicating the result of \citet{bach}).%
+\footnote{Of course, the term $C_{P',\alpha}/t^2$ needs to be controlled, as well. Just like \citet{bach}, here we focus on $C_{P,\alpha}$, which is justified if one considers the MSE as $t\to\infty$. Further justification is that we actually find a negative result. See above.}
+%It is of interest to know that for a given LSA with CS-PR and a given class $\P$ of distributions, whether it is possible to ensure uniform performance $\forall P\in \P$. 
+We show via an example that in general this is not possible.
+%that there is a class $\P$ that does not `admit' a constant step-size $\alpha_{\P}$ that guarantees uniform performance $\forall P\in \P$. 
+In particular, the example applies to RL, hence, we get a negative result for RL, which states that from only bounds on the data one cannot choose a step-size $\alpha$ to guarantee that $C_{P,\alpha}$ of CS-PR is uniformly bounded over $\P$.
+We also define a subclass  $\P_{\text{SPD},B}$ of problems, related to SGD for LSE, that does `admit' a uniform constant step-size, thereby recovering a part of the result by \citet{bach}.
+Our results in particular shed light on the precise structural assumptions that are needed 
+to achieve a uniform bound for CS-PR. 
+For further details, see \Cref{sec:related}.
+\item \textbf{Automatic Step-Size} (\Cref{sec:stepsizes}):
+The above negative result implies that in RL one needs to choose the constant step-size based on properties of the instance $P$ to avoid the explosion of the MSE.
+To circumvent this, we propose a natural step-size tuning method to guarantee instance-dependent boundedness.
+We experimentally evaluate the proposed method and find that it is indeed able to achieve its goal on a set of synthetic examples
+where no constant step-size is available to prevent exploding MSE. %Further, it is empirically demonstrated that the method is able to find a step-size, which is close to the theoretically recommended step-size which results in the fastest convergence. \todoc{True??}
+\end{enumerate}
+%\paragraph{Implications:} 
+In addition to TD($0$), our results directly can be applied to other \emph{off-policy} TD algorithms such as GTD/GTD2 with CS-PR (\Cref{sec:related}). \todoc{How about TD($\lambda$)? Will we discuss this somewhere? Maybe in the organization section this can be mentioned.}
+%In the case of TDC only asymptotic bounds were known \cite{gtd2} and our results are a first step
+%\todoc{Why only a step? What is missing?} towards proving finite time bounds.
+In particular, our results show that the GTD class of algorithms guarantee a $O(\frac{1}{t})$ rate for MSE (without use of projections), improving on a previous result by \citet{gtdmp} that guaranteed a $O(\frac{1}{\sqrt{t}})$ rate for this class for the projected version\footnote{Projections can be problematic since they assume knowledge of $\norm{\ts}$, which is not available in practice.} of the algorithm. \todoc{And projections are problematic on their own. Will we discuss this somewhere. Or should the projection issue be a footnote here?}
+\todoc{How about Prashanth's paper? Should we mention it somewhere? The reviewers will push back if we don't.}
+%\paragraph{Organization:} The paper is organized as follows \todoc{Do not forget to fill this in.}
+\paragraph{Set up and Method:}  
+One setting that fits our assumption is 
+Our analysis for the case of general LSA does not use specific structures, and hence cannot recover entirely, the results of \citet{bach} who use the problem specific structures in their analysis.
+\end{comment}
+

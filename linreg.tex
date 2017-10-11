@@ -1,0 +1,20 @@
+\begin{comment}
+LSA with CS-PR was considered in \cite{polyak-judisky} under the additive noise assumption, wherein $A_t=A$. Recent work by \cite{bach} considers a stochastic gradient descent (SGD) algorithm for the problem of linear prediction given in \Cref{ex:linreg}.
+\begin{example}\label{ex:linreg}
+Let $(x_t,y_t)\in \R^d\times \R,\,t\geq 1$ be \iid such that $\EE{\norm{x_t}^2}$ and $\EE{y_t^2}$ are finite. Further, we assume bounded data i.e., $\norm{(x_t,y_t)}^2\leq B$ for some positive real number $B>0$. Here, $x_t,\,t\geq 1$ are the features and $y_t$ are real labels and the linear regression problem constitutes minimizing the quadratic loss function $f(\theta)=\EE{\left(\ip{x_t,\theta}-y_t\right)^2}$. SGD with CS-PR to minimize $f(\theta)$ can be given as below:
+\begin{subequations}\label{eq:linreg}
+\begin{align}
+\theta_t&=\theta_{t-1}-\alpha x_t\left(\ip{x_t,\theta_{t-1}} -y_t\right)\\
+\thh_t&=\frac{1}{t+1}\sum_{s=0}^t \theta_t
+\end{align}
+\end{subequations}
+Here $\nabla f(\theta_{t-1})=x_t\left(\ip{x_t,\theta_{t-1} -y_t}\right)$ is the \emph{stochastic gradient} of the objective $f(\theta)$. It follows from the \iid assumption on $(x_t,y_t)$ that $A_t=x_t x_t^\top$ and $b_t=y_t x_t$ are also \iid, and with this identification one can see that \eqref{linreg} is of the form in \eqref{conststep}. In this case $A_P$ is SPD.
+In the linear regression setting, the error of a parameter $\theta$ is measured as the difference between the loss at the said parameter and the loss at the optimum, which has the following form
+\begin{align}\label{eq:mselinreg}
+f(\theta)-f(\ts)=(\theta-\ts)^\top A_P (\theta-\ts)=\EE{\norm{\theta-\ts}^2_{A_P}}
+\end{align}
+\end{example}
+In this setting, \cite{bach} show that the variance term in the MSE is at most $O(\frac{C}{t})$, where $C$ does not depend on the condition number. This ``remarkable'' result is due to the following facts: $(i)$ $A_P$ in this case is symmetric positive definite, $(ii)$ the MSE in \eqref{eq:mselinreg} is measured with respect to $A_P$, $(iii)$ the noise $\epsilon_t=y_t-\ip{\ts,x_{t-1}}$ is structured i.e., $\EE{\epsilon_t^2 x_t x_t^\top}\leq R A_P$ for some constant $R>0$.
+At the same time, the bias term decays at a rate $\frac{C'}{t^2}$, where the constant $C'$ contains the factor $(\theta_0-\ts)^\top A^{-1}_P (\theta_0-\ts)$ and is dependent on the condition number.
+\end{comment}
+

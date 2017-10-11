@@ -1,0 +1,82 @@
+%!TEX root =  flsa.tex
+\section{Related Work}\label{sec:related}
+We first discuss the related work outside of RL setting, followed by related work in the RL setting. In both cases, we highlight the  insights that follows from the results in this paper.
+
+\textbf{SGD for LSE}: As mentioned in the previous section, distributions underlying
+% in \Cref{sec:intro}, we were motivated by the results obtained by \citet{bach}, where the authors analyze the performance of 
+SGD for LSE with bounded data 
+is a subset of $\P_{\text{PSD},B}$ and hence is weakly admissible under a fixed constant step-size choice. 
+However, we also noted that $\P_{\text{PSD},B}$ is not admissible. This seems to be at odds with the result of \citet{bach}
+who prove that the MSE of SGD with CS-PR with an appropriate constant is bounded by
+$\frac{C}{t}$ where $C>0$ only depends on $B$. The apparent contradiction is resolved by noting that 
+{\em (i)} in SGD the natural loss is $\EE{\normsm{\thh_t-\ts}^2_{A_P}}$ with $A_P$ SPD, and 
+{\em (ii)} the noise (arising due to the residual error) is ``structured'', i.e., its variance \todoc{What exactly is this?}
+is bounded by $R\,A_P$ for some constant $R>0$ (see $\mathcal{A}3$, \cite{bach}).
+%Nevertheless, the bias term of their result decays at a rate $\frac{C'}{t^2}$, where the constant $C'$ contains the factor $(\theta_0-\ts)^\top A^{-1}_P (\theta_0-\ts)$ and is thus dependent on $P$ (in particular, it is dependent on the condition number of $A_P$).
+\todoc{There is a subtlety here, because, if I believe you, 
+\citet{bach} sells their result as a non-asymptotic result. How can they do this?
+Can we be more explicit where in the paper $C_{P',\alpha}/t^2$ shows up -- see the notation below? We must be very explicit here.
+The reviewers may not like this.
+}
+
+\textbf{Additive vs. multiplicative noise}: Analysis of LSA with CS-PR goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$.
+A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we use newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Jordan decomposition and similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of 
+\citet{bach}.
+
+\textbf{Results for RL}: We are presented with data in the form of an \iid sequence $(\phi_t,\phi'_t,r_t)\in \R^d\times\R^d\times \R$. For a fixed constant $\gamma \in (0,1)$ define  $\Delta_t\eqdef \phi_t\phi_t^\top-\gamma \phi_t\phi_t^{'\top}$, $C_t=\phi_t\phi_t^\top$ and $b_t=\phi_r r_t$. In what follows, $\mu_t>0$ is an \emph{importance} sampling factor whose aim is to correct for mismatch in the (behavior) distribution with which the data was collected and the (target) distribution with respect to which one wants to learn. A factor $\mu_t=1,\,\forall t\geq 0$ will mean that no correction is required\footnote{This is known as the \emph{on-policy} case where the behavior is identical to the target. The general setting where $\mu_t>0$ is known as \emph{off-policy}.}. The various TD class of algorithms that can be cast as LSAs are given in \cref{tb:tdalgo}.
+\begin{table}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|l|p{60mm}|}\hline
+Algorithm& Update & Remark\\ \hline
+TD(0) 
+	& $\begin{aligned}\theta_t&=\theta_{t-1}+\alpha_t (b_t -\Delta_t\theta_{t-1})\end{aligned}$ 
+	& \cite{korda-prashanth}: $\alpha_t=O(\frac{1}{t})^\beta$, $\beta\in(0,1)$; PR-avg, ``on-policy''; $\EE{\norm{\eh_t}}= O(\frac{1}{\sqrt{t}}).$ \\ \hline
+GTD/GTD2
+	& $\begin{aligned} y_{t}&=y_{t-1}+\beta_t(\mu_t b_t -\mu_t \Delta_t \theta_{t-1}- Q_t y_{t-1})\\ \theta_t &=\theta_{t-1}+\alpha_t (\mu_t A^\top_t y_{t-1})\end{aligned}$
+	& \cite{gtd2}: $\beta_t=\eta \alpha_t$, $\sum_{t\geq 0}\alpha_t=\infty$, $\sum_{t\geq 0}\alpha^2_t<\infty$; $e_t\ra 0$ as $t\ra\infty$ w.p.1. 
+	\cite{gtdmp}: $\alpha_t=\beta_t=O(\frac{1}{\sqrt{t}})$; Projection+PR; $\,\norm{e_t} =O(t^{-\frac{1}{4}})$ w.h.p.\\\hline
+%TDC
+%	& $\begin{aligned} y_{t}&=y_{t-1}+\beta_t(\mu_t b_t -\mu_t \Delta_t \theta_{t-1}-C_t y_{t-1})\\ \theta_t &=\theta_{t-1}+\alpha_t (\mu_t b_t-\mu_t\Delta_t\theta_{t-1}+ (\Delta^\top_t-C_t)y_{t-1})\end{aligned}$
+	%& \cite{gtd2}: $\beta_t=\eta \alpha_t$, $\sum_{t\geq 0}\alpha_t=\infty$, $\sum_{t\geq 0}\alpha^2_t<\infty$; $e_t\ra 0$ as $t\ra\infty$ w.p.1. \\\hline
+\end{tabular}
+}
+\caption{Rates for TD algorithms available in the literature \cite{korda-prashanth,gtdmp,gtd2}. }
+\label{tb:tdalgo}
+\end{table}
+\begin{comment}
+\begin{table}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|c|}\hline
+Algorithm& Update &Stepsize &Rate \\ \hline
+TD(0)& $\begin{aligned}\theta_t&=\theta_{t-1}+\alpha_t (b_t -\Delta_t\theta_{t-1})\\ \thh_t&=\frac{1}{t+1}\sum_{s=0}^t \theta_t\end{aligned}$ &$\begin{aligned}\alpha_t&=O(\frac1{t})^\delta,\\ &\delta\in(1/2,1)\end{aligned}$ &$\EE{\norm{\eh_t}}\leq O(\frac{1}{\sqrt{t}})$ for $\delta\ra 1$ \\ \hline
+GTD& $\begin{aligned} y_{t}&=y_{t-1}+\beta_t(\mu_t b_t -\mu_t \Delta_t \theta_{t-1}- Q_t y_{t-1})\\ \theta_t &=\theta_{t-1}+\alpha_t (\mu_t A^\top_t y_{t-1})\end{aligned}$ & $\begin{aligned}&\beta_t=\eta \alpha_t,\sum_{t\geq 0}\alpha_t=\infty, \\ &\sum_{t\geq 0}\alpha^2_t<\infty \end{aligned}$ & $e_t\ra 0$ w.p.1 \\\hline
+TDC& $\begin{aligned} y_{t}&=y_{t-1}+\beta_t(\mu_t b_t -\mu_t \Delta_t \theta_{t-1}-C_t y_{t-1})\\ \theta_t &=\theta_{t-1}+\alpha_t (\mu_t b_t-\mu_t\Delta_t\theta_{t-1}+ (\Delta^\top_t-C_t)y_{t-1})\end{aligned}$ & $\begin{aligned}&\beta_t,\alpha_t,\frac{\alpha_t}{\beta_t} \ra 0,~\text{as}~t\ra \infty,\\& \sum_{t\geq 0}\alpha_t=\infty, \sum_{t\geq 0}\beta_t=\infty, \\ &\sum_{t\geq 0}\alpha^2_t<\infty, \sum_{t\geq 0}\beta^2_t<\infty \end{aligned}$ & $e_t\ra 0$ w.p.1 \\\hline
+GTD& $\begin{aligned} y_{t}&=\Pi_Y \left(y_{t-1}+\alpha_t(\mu_t b_t -\mu_t \Delta_t \theta_{t-1}-Q_t y_{t-1})\right)\\ \theta_t &=\Pi_{\Theta}\left(\theta_{t-1}+\alpha_t (\mu_t A_t^\top y_{t-1})\right)\\ \thh_t&=\frac{\sum_{s=0}^t \alpha_s\theta_s}{\sum_{s=0}^t \alpha_s}\end{aligned}$ & $\alpha_t =O(\frac{1}{\sqrt{t}})$ & $\norm{A_P\eh_t-b}^2 \leq O(\frac{1}{\sqrt{t}})$ w.h.p\\\hline
+
+\end{tabular}
+}
+\label{tb:rates}
+\end{table}
+\end{comment}
+%\paragraph{Related Work in RL:} 
+The TD(0) algorithm is the most basic of the class of TD algorithms. 
+An important shortcoming of TD(0) was its instability in the \emph{off-policy} case, which 
+was successfully mitigated by the \emph{gradient temporal difference} learning GTD algorithm \cite{gtd2}. 
+GTD was proposed by \citet{gtd}; its variants, namely GTD2 and TDC, were proposed later by \citet{gtd2}. 
+The initial convergence analysis for GTD/GTD2/TDC was only asymptotic in nature \cite{gtd,gtd2} with diminishing step-sizes.
+
+The most relevant to our results are those by \citet{korda-prashanth} in TD(0) and by \citet{gtdmp} in GTD. For the TD(0) case,  diminishing step-sizes $\alpha_t=O(\frac{1}{t})^\beta,\beta \in(0,1)$ with PR averaging is showed to exhibit a rate of $O(\frac{1}{t})$ decay for the MSE when $\beta\ra 1$ \cite{korda-prashanth}. 
+In the case of GTD/GTD2 diminishing step-sizes $\alpha_t=O(\frac{1}{\sqrt{t}})$, projection of iterates and PR-averaging leads to a rate of $O(\frac{1}{\sqrt{t}})$ 
+for the prediction error $\normsm{A_P\thh_t-b_P}^2$ with high probability \cite{gtdmp}. 
+\citet{gtdmp} also suggest a new version of GTD based on stochastic mirror prox ideas, called the GTD-Mirror-Prox, 
+which also shown to achieve an $O(\frac{1}{\sqrt{t}})$ rate for $\normsm{A_P\thh_t-b_P}^2$ with high probability under similar step-size choice that was used by them for the GTD.
+
+All previous results on these RL algorithms assume that \Cref{assmp:lsa} holds (the Hurwitz assumption is satisfied by definition for on-policy TD(0), while it holds by design for the others). \todoc{Are we sure?
+How about TDC? How about GTD-Mirror-Prox?}
+Thus, \Cref{th:rate} applies to all of TD(0)/GTD/GTD2 with CS-PR in all cases considered in the literature.
+%Finite time performance of TDC was unknown in prior literature and our work provides a first step by understanding TDC with CS-PR. \todoc{I think this could be considered a major result if the Hurwitz condition can be shown to hold.}
+In particular, our results show that the error in the GTD class of algorithms decay at the $O(\frac{1}{t})$ rate (even without use of projection or mirror maps) instead of $O(\frac{1}{\sqrt{t}})$, a major improvement on previously published results. In comparison to the TD(0) results by \citet{korda-prashanth}, \Cref{th:rate} is better in that it provides the bias/variance decomposition. %Further, their results are specific to TD(0) where $A_P$ is known to be positive definite, and it is unclear whether it extends in a straightforward manner to the GTD class or TDC. \todoc{Would not the similarity transform idea work? Why not? A comment is needed.}
+While the $i.i.d$ assumption is made in much of prior work \cite{gtd2,gtdmp}, however, it is important to note that \citet{korda-prashanth} handle the Markov noise case which is not dealt with in this paper. \todoc{How about others? We should mention if others also assume iid.}
+\begin{comment}
+\paragraph{Related Work in RL} The various temporal difference learning algorithms can be written as in \Cref{table:td}. The TD(0) algorithm is an on-policy algorithm ($\mu_t=1$) and is unstable in the general {off-policy} setting. The gradient temporal difference (GTD) algorithm \cite{gtd,gtd2,gtdmp} is stable in off-policy setting as well. Recent work by \cite{korda-prashanth} derive finite time bounds for the TD(0) for two different cases of step-sizes one without PR averaging and other with PR averaging. In the case without PR averaging, \cite{korda-prashanth} consider step-sizes of the form $\frac{c_0c}{c+t}$, where $c_0$ and $c$ are problem dependent positive constants, to dervie a rate of $O(\frac{1}{t})$ for the MSE.  In the case with PR averaging (row $1$ of \Cref{tb:rates}), \cite{korda-prashanth} consider step-size of the from $c_0\left(\frac{c}{c+t}\right)^\delta,\,\delta \in (1/2,1)$ where $c_0, c$ are problem independent positive constants, and show that this choice yeilds a rate of $O(\frac{1}{t})$ for $\delta \ra 1$ and $t\geq t_0$ (where $t_0$ is a problem dependent time instant). A possible limiting feature of the results by \cite{korda-prashanth} is that either the problem knowledge is required or the bounds hold only after a problem dependent time. A centered TD(0) variant is also considered by \cite{korda-prashanth}, however, a projection operator is required to keep the iterates bounded. Also, the bounds by \cite{korda-prashanth} don't have an explicit bias variance decomposition. The works on GTD and TDC by \cite{gtd,gtd2} show only asymptotic convergence w.p.1. Recently, the work by \cite{gtdmp} shows a rate of $\frac{1}{\sqrt{t}}$ for GTD with use of projection operation, and also proposed a variant namely GTD-Mirror-prox based on stochastic mirror-prox ideas which achieves $\frac{1}{\sqrt{t}}$ rate without use of projection. In comparison, we don't use of projections, our bounds hold for all time $t$, and the bounds are dependent on the problem instance only to the extent of choosing a step-size that leads to stable behavior, in which case we show that $O\frac{1}{t}$ rate holds (the scaling factor hidden in the $O$ expression is problem dependent). Further, our results provide explicit bias variance decomposition.
+\end{comment}

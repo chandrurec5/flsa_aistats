@@ -1,0 +1,19 @@
+\section{Numerical Experiments}
+%\input{plts}
+\paragraph{Mountain Car}   
+We ran the experiments in mountain car for the on-policy as well as off-policy setting. We used \emph{Tile coding} and \emph{Fourier} basis (un-normalized and normalized). The left most plot in \cref{fig:plots} shows the results for the \emph{on-policy} setting and the second from left in \eqref{fig:plots} shows the results for \emph{off-policy} setting in the mountain car experiment. The step-size choices for the various experiments can be found in the \Cref{tab:step-size}. In the experiments, we find that both tile coding and Fourier features perform equally well. It is interesting to note that even though the normalized and un-normalized Fourier basis functions make use different constant step-size choices (which vary almost by a factor of $\alpha=1$ versus $\alpha=\frac1{100}$ in the case of $9^{th}$ order Fourier basis functions) the reduction in error is more or less similar. \emph{Off-policy} learning is relatively slower due to the fact that the constant step-size choices across the three different basis functions are diminished by a factor of $30$. Here again, as predicted by \Cref{th:tdoff}, TD(0) converges for tile coding and  normalized Fourier basis. We also observed that, in general GTD was slower than TD(0) (see more on this phenomenon in the text below).
+\begin{table}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|c|c|}\hline
+\backslashbox{Policy}{Basis} & Tile& \makecell{Fourier\\ Un-normalized} &\makecell{Fourier \\ Normalized}\\ \hline
+	\emph{on}& $\frac1k$	&$\frac1d$ & $1$\\ \hline
+	\emph{off}& $\frac1{\rho_{\max}k}$	& $\frac1{\rho_{\max}d}$ & $\frac1{\rho_{\max}}$\\\hline			
+\end{tabular}
+}
+\label{tab:step-size}
+\caption{step-size choices for the \emph{on/off}-policy settings in the mountain car experiment. The same step-size rule was followed for TD as well as GTD. Notice that these step-size choices directly follow from the results in \Cref{th:tdon,th:tdoff,th:gtd} without any further tuning.}
+\end{table}
+%\input{plts}
+\paragraph{Baird} We observed that TD(0) in the \emph{off-policy} setting with normalized features diverges. However, this divergence does not contradict \Cref{th:tdoff}, since the condition $\E[\phi_t\phi_t^\top]=\E[\phi'_t\phi_t^\top]$ required by \cref{} does not hold in this example. \citet{} mention that\footnote{We believe that this choice in fact comes from \cite{dann} (see Figure $23$d) } for the BAIRD domain $\alpha=0.005$ (and $\beta=16$ which is the ratio of the step-sizes between primal and dual variable)is the optimal step-size. We compared the performance of GTD with $\alpha=0.005$ (and $\beta=16$) with the choice of $\alpha=\frac{1}{4d}$ and initial condition $x=[1 1 1 1 1 1 10 1]$, and found that our step-size choice of $\alpha=\frac1{4d})$ exhibited slower convergence (see the third plot from left of \eqref{fig:plots}). However, when we tested with random inital conditions, it turned out that our step-size choice performs better than the previous choice of $\alpha=0.005$ ($\beta=16$). This fact could be reconciled by looking at the spectrum of the (stationary) matrix $I-\alpha H$ for the two cases of $\alpha$ and it turned out that for the choice of $\alpha=0.005$ the matrix has eigen values much closer to $1$ than for $\alpha=\frac1{4d}$.
+\paragraph{Speed of GTD methods} 
+We also tested the speed of GTD and GTD-MP methods on a very simple example with $A_t=b_t=a,\forall t\geq 0$. The results for this experiment can be found in the right most plot in \eqref{fig:plots}.

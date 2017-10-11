@@ -1,0 +1,41 @@
+\begin{figure}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{cc}
+\begin{tikzpicture}[scale=0.5]
+\begin{axis}[
+xlabel=$\sigma_A$,
+ylabel=$\alpha_P$, legend pos= north east,
+title= Tuned Vs Hand Computed Step-Size
+]
+\addplot[only marks, blue, mark=*, mark options={blue}, error bars/.cd,y dir=both,  y explicit] table [x index=0, y index=1, y error index=2]{./hur};
+\addplot[only marks, red, mark=square, mark options={red}, error bars/.cd,y dir=both,  y explicit] table [x index=0, y index=1, y error index=2]{./hur_act};
+\addlegendentry{\Cref{alg:tuning}}
+\addlegendentry{Hand Computed}
+\end{axis}
+\end{tikzpicture}
+
+&
+\begin{tikzpicture}[scale=0.5]
+\begin{axis}[
+xlabel=$t$,
+ylabel=$\EE{\normsm{\thh_t-\ts}^2}$, legend pos=north east,
+title= MSE corresponding to step-size tuned by \Cref{alg:tuning}
+]
+\addplot[only marks,mark=square,red,each nth point=25] plot file {./hur1};
+\addplot[only marks,mark=diamond,blue,each nth point=25] plot file {./hur2};
+\addplot[only marks,mark=star,green,each nth point=25] plot file {./hur3};
+\addplot[only marks,mark=o,black,each nth point=25] plot file {./hur4};
+\addplot[only marks,mark=triangle,magenta,each nth point=25] plot file {./hur5};
+\addlegendentry{$\sigma_A=0$}
+\addlegendentry{$\sigma_A=2$}
+\addlegendentry{$\sigma_A=5$}
+\addlegendentry{$\sigma_A=10$}
+\addlegendentry{$\sigma_A=20$}
+
+\end{axis}
+\end{tikzpicture}
+\end{tabular}
+}
+\caption{The left plot shows comparison of the constant step-size $\alpha_P$ as function of $\sigma_A$ found by \Cref{alg:tuning} versus the constant step-size computed in closed form.  The right plot shows the performance of LSA with CS-PR (with the step-size choosen by \Cref{alg:tuning}) for various $\sigma_A$ values. The errors were insignificant and hence error bars are not shown in the right plot.}
+\label{fig:tune}
+\end{figure}

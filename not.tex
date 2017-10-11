@@ -1,0 +1,50 @@
+%!TEX root =  flsa.tex
+\section{Notations and Definitions}\label{sec:def}
+We denote the sets of real and complex numbers by $\R$ and $\C$, respectively. For $x\in \C$ we denote its modulus and complex conjugate by $\md{x}$ and $\bar{x}$, respectively. We denote $d$-dimensional vector spaces over $\R$ and $\C$ by $\R^{d}$ and $\C^{d}$, respectively, and use $\R^{\dcd}$ and $\C^{\dcd}$ to denote $\dcd$ matrices with real and complex entries, respectively. We denote the transpose of $C$ by $C^\top$ and the conjugate transpose by $C^*={\bar{C}}^\top$ (and of course the same notation applies to vectors, as well). We will use $\ip{\cdot,\cdot}$ to denote the inner products: $\ip{x,y}=x^* y$. \todoc{Usually, people define this as $y^* x \ne x^* y$. It does not make a difference in terms of the math, but there could be slight differences. And we will need to be consistent.}
+We use $\norm{x} = \ip{x,x}^{1/2}$ to denote the $2$-norm.
+For $x\in\C^d$, we denote the general quadratic norm with respect to a positive definite (see below) Hermitian matrix $C$ (i.e., $C=C^*$) by $\norm{x}^2_C\eqdef x^*\, C \,x$.
+The norm of the matrix $A$ is given by $\norm{A}\eqdef \sup_{x\in \C^d:\norm{x}=1} \norm{Ax}$.  We use $\cond{A}=\normsm{A}\normsm{A^{-1}}$ to denote the condition number of matrix $A$. We denote the spectral radius of a matrix $A$ by $\Lambda(A)=\{\max_i \norm{\lambda_i}: \lambda_i ~\text{is an eigenvalue of}~A\}$.
+We denote the identity matrix in $\C^{\dcd}$ by $\I$ and the set of invertible $\dcd$ complex matrices by $\gld$.
+For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \C^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \C^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\C^d$ and $\C^{d\times d}$, respectively, of radius $B$.
+We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$;
+$\E$ denotes mathematical expectation.
+
+Let us now state some definitions that will be useful for presenting our main results. \todoc{Actually, we should remove all definitions not needed by the main body.}
+\begin{definition}\label{def:dist}
+For a probability distribution $P$ over $\C^d \times \C^{d\times d}$, we let $P^V$ and $P^M$ 
+denote the respective marginals of $P$ over $\C^d$ and $\C^{d\times d}$. \todoc{Changed this.}
+By \emph{abusing notation} we will often write $P = (P^V,P^M)$ to mean that $P$ is a distribution with the given marginals.
+%Let $P=(P^V,P^M)$ denote a $2$-tuple of probability distributions; $P^V$ over $\C^{d}$ and $P^M$ over $\C^{\dcd}$. 
+Define $A_P=\int M\, dP^M(M), C_P=\int M^* M \,dP^M(M),  b_P=\int v\, dP^V(v)\,,
+\rhod{P}\eqdef {\inf}_{x\in\C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)-\alpha A_P^* A_P\right)x},
+\rhos{P}\eqdef{\inf}_{x\in \C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)-\alpha C_P\right)x}\,.
+$
+\begin{comment}
+\begin{align*}
+&A_P=\int M\, dP^M(M), C_P=\int M^* M \,dP^M(M),  b_P=\int v\, dP^V(v)\,,\\
+&\rhod{P}\eqdef {\inf}_{x\in\C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)-\alpha A_P^* A_P\right)x},\\ 
+&\rhos{P}\eqdef{\inf}_{x\in \C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)-\alpha C_P\right)x}\,.
+\end{align*}
+\end{comment}
+\end{definition}
+Note that $\rhod{P}\ge \rhos{P}$. Here, subscripts $s$ and $d$ stand for \emph{stochastic} and \emph{deterministic} respectively.  \todoc{Strict inequality?? How about $P^M$ concentrating on zero? I changed the strict inequality to non-strict.}
+\todoc{Explain why we use subindex $d$ and $s$.}
+\todoc{Since $\rhod$ depends on $P^M$ only, why not make it a function of $P^M$ only? Or at least add a remark?}
+\begin{definition}\label{def:simdist}
+Let $P=(P^V,P^M)$ as in \Cref{def:dist}; $b\sim P^V$ and $A\sim \P^M$ be random variables distributed according to $P^V$ and $P^M$. For $U\in \gld$ define $P_U$ to be the  distribution of $(U^{-1}b,U^{-1}AU)$. We also let
+$(P_U^V,P_U^M)$ denote the corresponding marginals. \todoc{I hope this works out.}
+\end{definition}
+\begin{definition}
+We call a matrix $A\in \C^{\dcd}$  \emph{Hurwitz} (H) if all eigenvalues of $A$ have positive real parts. We call a matrix $A\in \C^{\dcd}$ \emph{positive definite} (PD) if $\ip{x,Ax} >0,\,\forall x\neq 0 \in \C^{d}$.  
+If $\inf_x \ip{x,Ax}\ge 0$ then $A$ is \emph{positive semi-definite} (PSD).
+\todoc{I think usually this is defined as $\ip{Ax,x}>0$. Same issue as with $\ip{\cdot,\cdot}$.}
+We call a matrix $A\in \R^{\dcd}$ to be \emph{symmetric positive definite} (SPD) is it is symmetric i.e., $A^\top=A$ and PD. \todoc{Add note that SPD implies real.}
+\end{definition}
+Note that SPD implies that the underlying matrix is real.
+\begin{definition}\label{distpd}
+We call the distribution $P$ in \Cref{def:dist} to be H/PD/SPD if $A_P$ is H/PD/SPD.
+\end{definition}
+Though $\rhos{P}$ and $\rhod{P}$ depend only on $P^M$, we use $P$ instead of $P^M$ to avoid notational clutter.
+\begin{example}
+The matrices $\begin{bmatrix}0.1 &-1\\ 1 & 0.1\end{bmatrix}$, $\begin{bmatrix} 0.1 & 0.1 \\ 0 & 0.1\end{bmatrix}$ and $\begin{bmatrix}0.1 &0 \\ 0 & 0.1\end{bmatrix}$ are examples of H, PD and SPD matrices, respectively, and they show that while SPD implies PD, which implies H, the reverse implications do not hold.
+\end{example}

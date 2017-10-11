@@ -1,0 +1,333 @@
+\documentclass{article}
+\usepackage[a4paper]{geometry}
+\input{pack}
+\newcommand{\Prob}[1]{\mathbb{P}\left(#1\right)}
+% if you need to pass options to natbib, use, e.g.:
+ \PassOptionsToPackage{compress}{natbib}
+ \usepackage{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+%\usepackage{nips_2017}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2017}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+%\usepackage{varioref}
+%\usepackage{thmtools}
+\usepackage{aliascnt}
+\newcommand{\tcite}[1]{\citeauthor{#1}~\citeyear{#1}}
+\usepackage{titlecaps}
+\usepackage[capitalize]{cleveref}
+\usepackage{amsmath,amssymb,graphicx}
+\crefname{assumption}{Assumption}{Assumption}
+
+% BIBLIOGRAHY -----------------------------------------------------------------------------
+% Option 1: bibtex natbib
+%\usepackage[numbers]{natbib}
+%\usepackage[colorlinks=true,linkcolor=blue,citecolor=purple,pagebackref=true]{hyperref}
+% Option 2: biblatex
+%\usepackage[backend=bibtex,natbib=true,backref=false]{biblatex}
+%\usepackage[backend=bibtex,style=ieee,natbib=true,backref=false]{biblatex}
+%\addbibresource{ref.bib}
+% Adding back references to bib entries:
+%\DefineBibliographyStrings{english}{%
+%backrefpage = {page},% originally "cited on page"
+%backrefpages = {pages},% originally "cited on pages"
+%}
+% Title, authors, etc. -------------------------------------------------------------------------
+
+
+
+\title{Finite Time Bounds for Temporal Difference Learning with Function Approximation: Problems with some ``state-of-the-art'' results}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+Chandrashekar Lakshmi Narayanan
+\and
+Csaba Szepesv\'ari 
+%  David S.~Hippocampus\thanks{Use footnote for providing further
+%    information about author (webpage, alternative
+%    address)---\emph{not} for acknowledging funding agencies.} \\
+%  Department of Computer Science\\
+%  Cranberry-Lemon University\\
+%  Pittsburgh, PA 15213 \\
+%  \texttt{hippo@cs.cranberry-lemon.edu} \\
+  %% examples of more authors
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \AND
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+}
+\date{}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+\begin{abstract}
+In all branches of mathematics, including learning theory,
+results build on previous results. Thus, it is important to keep the literature free of erroneous claims.
+This short report lists some problems with the proofs and claims in the recent papers by \cite{flstd,lstdicml}, whose longer version containing the proofs are available on arxiv \citep{flstda,lstdicmla}. 
+In particular, it follows that the results in these papers, if true, would need completely new proofs, and thus should not be used in the form stated by the authors.
+\end{abstract}
+\section{Introduction}
+This short report lists some problems with the proofs of the claims in two recent papers  by \cite{flstd,lstdicml}.
+As the problems seem serious, our conclusion is that to obtain results similar to those claimed in these two works, the assumptions of the stated claims need to be considerably strengthened and the form of the results will also need to be adjusted in significant ways.
+
+The report is not self contained and its scope is limited to an audience who are interested in RL and TD(0) and specifically the above-mentioned papers.
+Furthermore, since \cite{flstd,lstdicml} omitted the proofs, we will instead discuss their longer version in what follows, which have identical statements but include the proofs. The longer version of the paper by \cite{flstd} is \citep{flstda}, while the longer version
+of \cite{lstdicml} is \citep{lstdicmla}.
+We will  borrow the notation directly from these works.
+%While the arguments presented below are about technical issues in the analysis, we don't provide any proofs as such and hence the presentation turns out to be a commentary of the prior results.\par
+%The report is organized as follows. In \Cref{sec:flstd} we discuss the issues with the approach in \cite{flstda} and in \Cref{sec:lstdicml} the roadblocks as seen in \cite{lstdicmla} are presented. Both sections have other subsections which deal with the various separate difficulties.
+
+\section{Expected Error Bound}
+
+\subsection{Bugs in the paper by \cite{flstda}}
+One of the main results of \citet{flstda} is Theorem 1, which states a bound on the expected error.
+The proof of this theorem can be found in section A.2, starting on page 16.
+The proof up to Eq. (26) is correct (in the definition of $M_{n+1}$, $F_n$ should be $F$).
+However, after this display, we are told that by (A4), which ensures that $\frac1T \sum_{i=1}^T \phi(s_i) \phi_t(s_i)^\top \succ \mu I$ for some $\mu>0$, $\bar A_n = \frac1n \sum_{t=1}^n \phi_t (\phi_t - \beta \phi_t')^\top$ is such that $\bar A_n - (1-\beta) \mu I $ is positive definite. 
+Here, $n>0$ is an arbitrary index and for $t\ge 1$ we use the abbreviation $\phi_t = \phi(s_{i_t})$ and $\phi_t' = \phi(s_{i_t}')$, where $i_t\in \{1,\dots,T\}$ is a random index.
+\begin{quote}
+In general, (A4) does \emph{not} imply that  $\bar A_n - (1-\beta) \mu I $ is positive definite.
+\end{quote}
+Take for example $n=1$. We would need that $\phi_1 (\phi_1 - \beta \phi_1')^\top - (1-\beta) \mu I$ is positive definite.
+It is easy to construct examples where this is not true: Nothing prevents, for example, $\phi_1 = \beta \phi_1'$, in which case $\bar A_1 - (1-\beta)\mu I = -(1-\beta)\mu I$ is \emph{negative} definite.
+(Note that the matrices involved are \emph{not} symmetric. Unfortunately, none of the two papers defines what is meant by positive definite in this case. We assume that the definition used is that a square, real-valued matrix $A$ is called positive definite if $x^\top A x\ge 0$ for any $x$ real-valued vector of appropriate dimension.)
+In fact, we don't see why the claimed relationship would hold even when 
+$\bar A_n$ is replaced by $\hat A_T \doteq  \frac1T \sum_{i=1}^T \phi( s_i) (\phi(s_i) - \beta \phi(s_i'))^\top$,
+and we in fact suspect that this claim is false in full generality. But at minimum, a proof would be required and the whole subsequent argument will need to be changed.
+\subsection{Bugs in the paper by  \cite{lstdicmla}}
+In page 14 the expression below ``$A$ is a possibly random matrix...'' is not justified (personal communication with one of the authors confirmed this).  In particular, the claim here is that if $A$ is a random matrix with $\norm{A}_2\le C$ with $C$ a deterministic constant then for any $\theta$ deterministic vector,
+\begin{align*}
+\EE{ \theta^\top A^\top \EE{ \epsilon_n | \mathcal{F}_n } A \theta \,|\, s_0 } \le C^2 \theta^\top \EE{ \epsilon_n|s_0 } \theta\,.
+\end{align*}
+Recall that here $\epsilon_n$ is a matrix of appropriate dimensions, the ``mixing-error term''
+and is actually $\mathcal{F}_n$ measurable ($\epsilon_n = \EE{ a_n | \mathcal{F}_n } - \mathbb{E}_{\Psi}[a_n]$). 
+When the Markov chain is started from its stationary state 
+(which is not ruled out by the conditions of the theorem under question), $\EE{ \epsilon_n|s_0 } = 0$.
+If the above inequality was true, we would get 
+\begin{align*}
+\EE{ A^\top \epsilon_n  A  \,|\, s_0 } = 0\,.
+\end{align*}
+However, letting $B = \EE{\epsilon_n|\mathcal{F}_n}$ and, for example,
+$A = C B/\norm{ B }_2$, we have 
+\begin{align*}
+A^\top \EE{ \epsilon_n | \mathcal{F}_n } A  = \frac{C^2}{\norm{ B }_2^2} B^\top B B
+\end{align*}
+and it is easy to construct examples where the expectation of this is nonzero.
+
+Also in page 14, we find the following inequality
+\begin{align*}
+(d+2)\left( e^{2(1+\beta)\sum_{k=1}^n \gamma_k}\norm{\theta_0}^2_2+ e^{2(1+\beta)\sum_{k=1}^n \gamma_k}\left(\sum_{k=1}^n \gamma_k e^{-(1+\beta)\sum_{j=1}^{k-1} \gamma_j}\right)^2+\norm{\theta^*}_2^2\right)\norm{\E(\epsilon_n|s_0)}_2\\
+\leq (d+2)\frac{\norm{\theta_0}_2^2+1+\norm{\theta^*}_2^2}{(1-\beta)^2}e^{2(1+\beta)\sum_{k=1}^n \gamma_k}\norm{\E(\epsilon_n|s_0)}_2,
+\end{align*}
+where it is not clear as to how the $(1-\beta)^2$ factor appears in the denominator (also confirmed by a personal communication with one of the authors).
+
+
+\section{Problems with the Proof: High Probability Bound}
+\subsection{Bugs in the paper by \cite{flstda}}
+The proof of the high probability bound starts on page 14, in section A.1.
+The first problem happens in the display on the bottom of this page in the proof of Lemma 6.
+Here, we are told that for $A = \phi \phi^\top - \beta \phi (\phi')^\top$ (we are dropping indices to remove clutter),
+\begin{align*}
+A^\top A = \norm{\phi}^2 \phi \phi^\top - \beta ( 2 - \norm{\phi}^2\beta ) \phi' (\phi')^\top\,,
+\end{align*}
+where $\norm{x}$ denotes the $2$-norm of $x$.
+However, using $A = \phi( \phi-\beta \phi')^\top$, a direct calculation gives:
+\begin{align*}
+A^\top A 
+& = ( \phi-\beta \phi') \phi^\top \phi ( \phi-\beta \phi')^\top \\
+& = \norm{\phi}^2  ( \phi-\beta \phi') ( \phi-\beta \phi')^\top \\
+& = \norm{\phi}^2  \left\{ \phi \phi^\top-\beta (\phi' \phi^\top + \phi (\phi')^\top) + \beta^2 \phi' (\phi')^\top \right\}\,,
+\end{align*}
+which does not match the previous display.
+The terms that do not match are the linear-in-$\beta$ terms.
+In the first display we have $ -2 \beta \phi' (\phi')^\top$, while in the bottom we have $-\beta (\phi' \phi^\top + \phi (\phi')^\top)$.
+
+The first equality of their display states (in equivalent form) that 
+\begin{align*}
+A^\top A = \norm{\phi}^2 ( \phi \phi^\top - 2\beta \phi (\phi')^\top +\beta^2 \phi' (\phi')^\top )\,.
+\end{align*}
+We see that while this is closer to the correct result, here the mistake is that $-2\beta \phi  (\phi')^\top$ is replacing $-\beta(\phi (\phi')^\top + \phi' \phi^\top)$.
+\begin{comment}
+We also have a hard time following the rest of the proof of this lemma.
+In fact, we have a simple proof for a result similar to stated in this lemma.
+This works by observing that one needs to 
+bound the Lipschitz factor of $\theta \mapsto \bar T_n \dots \bar T_{t+1} ( (I-\gamma_t A_t)\theta + b_t )$, where
+$A_t = \phi_t (\phi_t -\beta \phi_t')^\top$, $b_t = r_{i_t} \phi_t$ and
+ $\bar T_t(\theta) = (I-\gamma_t \bar A_T) \theta + \bar b_T$ (we assume that the stepsize sequence is deterministic).
+ Clearly, this Lipschitz factor can be bounded by $\prod_{s=t+1}^n \norm{I-\gamma_s \bar A_T}_2 \norm{I-\gamma_t A_t}_2$
+ (the composition of Lipschitz maps is Lipschitz with a factor that is the product of the individual maps' Lipschitz factors). 
+Invoking (A3) then indeed gives some version of Lemma 7.
+By making an appropriate assumption (similar to those used in our paper), 
+$\prod_{s=t+1}^n \norm{I-\gamma_s \bar A_T}_2 $ can be controlled.
+\end{comment}
+\subsection{Bugs in the paper by  \cite{lstdicmla}}
+(In this paper, $s_t$ is a sequence of states obtained whole following a fixed policy in an MDP.)
+In page 10 of \cite{lstdicmla} the expression for $\mathbf{E}[a_{j+1}^\top a_{j+1}]$ contains terms that involve the product of $P$ and $P^\top$. This cannot be correct, as here we can take the expectation first over the next state, which will bring in a \emph{single} instance of $P$.
+To remove clutter, drop the $j$ subindex, and set $A = \phi(\phi- \beta \phi')^\top$, where $\phi  = \phi(s_{j})$ and $\phi' = \phi(s_{j+1})$.
+The incriminated expression from Eq. (15) of the paper is
+\begin{align}
+\EE{ A - \tfrac{\gamma}{2} A^\top A  } = \Phi^\top (I - \beta \Psi P - \tfrac{\gamma}{2}(\Delta - \beta P^\top (2I - \beta \Delta)\Psi P) ) \Phi\,.
+\label{eq:bad1}
+\end{align}
+Here, $\Phi$ is the $S\times d$ matrix whose $s$th row is $\phi^\top(s)$ ($s\in \{1, \dots, S\}$),
+$\Psi$ is the $S \times S$ diagonal matrix whose $i$th diagonal entry is $\Prob{s_t = i}$,  \todoc{Do they assume stationarity?}
+while $\Delta$ is another $S\times S$ diagonal matrix whose $s$th entry is $\norm{\phi(s)}_2^2$.
+A direct calculation (as before) gives that
+\begin{align}
+A^\top A 
+& = ( \phi-\beta \phi') \phi^\top \phi ( \phi-\beta \phi')^\top  \nonumber \\
+& = \norm{\phi}^2  ( \phi-\beta \phi') ( \phi-\beta \phi')^\top \nonumber \\
+& = \norm{\phi}^2  \left\{ \phi \phi^\top-\beta (\phi' \phi^\top + \phi (\phi')^\top) + \beta^2 \phi' (\phi')^\top \right\}\, \nonumber \\
+& = \norm{\phi}^2  \phi \phi^\top-\beta \norm{\phi}^2 \phi' \phi^\top -\beta \norm{\phi}^2  \phi (\phi')^\top + \beta^2 
+\norm{\phi}^2 \phi' (\phi')^\top\,.
+\end{align}
+%where we abbreviate the 2-norm with $\norm{\cdot}$.
+The expectation of each terms are as follows:
+\begin{align*}
+\EE{\norm{\phi}^2  \phi \phi^\top } 
+& = \sum_s \Prob{s_t = s}\norm{\phi(s)}^2 \phi(s) \phi(s)^\top = \Phi^\top \Delta \Psi \Phi\,,\\
+\beta \EE{\norm{\phi}^2 \phi' \phi^\top } 
+& = \beta \sum_s \Prob{s_t = s}\norm{\phi(s)}^2 \left\{ \sum_{s'}  P(s'|s) \phi(s')  \right\} \phi(s)^\top 
+   = \beta (P \Phi)^\top \Delta \Psi \Phi\,,\\
+\beta \EE{\norm{\phi}^2 \phi (\phi')^\top } 
+& = \beta \EE{\norm{\phi}^2 \phi' \phi^\top }^\top
+= \beta \left\{(P \Phi)^\top \Delta \Psi \Phi\right\}^\top 
+=  \beta (\Phi^\top \Delta \Psi P \Phi) \,,\\
+\EE{ \beta^2  \norm{\phi}^2 \phi' (\phi')^\top } 
+& =\beta^2 \sum_s P(s_t=s) \norm{\phi(s)}^2 \left\{ \sum_{s'} P(s'|s) \phi(s') \phi(s')^\top \right\}\,.
+\end{align*}
+Further,
+\begin{align*}
+\EE{ A }  = \Phi^\top  \Psi (I - \beta P) \Phi\,.
+\end{align*}
+Putting together things we see the mismatch with \eqref{eq:bad1}.
+To see this even more clearly, assume that $ \norm{\phi(s)}^2 = 1$ for any $s\in \{1,\dots,S\}$.
+Then, $\Delta = I$, and by stationarity, $\Prob{s_{t+1} = s } = \Prob{s_t=s}$, hence,
+\begin{align*}
+\EE{ \beta^2  \norm{\phi}^2 \phi' (\phi')^\top } & =
+\beta^2 \EE{ \phi (\phi)^\top } =\beta^2 \Phi^\top \Psi \Phi\, .
+\end{align*}
+Thus, 
+\begin{align*}
+\EE{ A^\top A } & = 
+\Phi^\top  \Psi \Phi -  \beta \Phi^\top P^\top  \Psi \Phi - \beta \Phi^\top  \Psi P \Phi + \beta^2 \Phi^\top \Psi \Phi \\
+& = 
+\Phi^\top  \left(\Psi -  \beta  (P^\top  \Psi +   \Psi P) + \beta^2 \Psi \right) \Phi \\
+\end{align*}
+and hence
+\begin{align*}
+\EE{ A - \frac{\gamma}{2} A^\top A } & = 
+ \Phi^\top \Psi(I - \beta P) \Phi - \tfrac{\gamma}{2} 
+ \Phi^\top  \left(\Psi -  \beta  (P^\top  \Psi +   \Psi P) + \beta^2 \Psi \right) \Phi \\
+& = 
+\Phi^\top  \left\{ \Psi (I - \beta P)- \tfrac{\gamma}{2} 
+\left(\Psi -  \beta  (P^\top  \Psi +   \Psi P) + \beta^2 \Psi \right) \right\} \Phi \,.
+\end{align*}
+while \eqref{eq:bad1} gives
+\begin{align*}
+\EE{ A - \tfrac{\gamma}{2} A^\top A  } 
+& = \Phi^\top (I - \beta \Psi P - \tfrac{\gamma}{2}(I - \beta P^\top (2I - \beta I)\Psi P) ) \Phi \\
+& = \Phi^\top \left\{I - \beta \Psi P - \tfrac{\gamma}{2}(I - 2 \beta P^\top\Psi P  +  \beta^2 P^\top \Psi P) \right\} \Phi\,.
+\end{align*}
+Choosing $\Phi = I$, we find that the two expressions are equal if and only if
+\begin{align*}
+ \Psi (I - \beta P)- \tfrac{\gamma}{2} \left( \Psi -  \beta  (P^\top  \Psi +   \Psi P) + \beta^2 \Psi \right)
+= 
+I - \beta \Psi P - \tfrac{\gamma}{2}(I - 2 \beta P^\top\Psi P  +  \beta^2 P^\top \Psi P)\,,
+\end{align*}
+which implies, e.g., that $\Psi=I$ (by choosing $\gamma=0$), which is not possible since the diagonal elements of $\Psi$ must sum to one.
+Even if we correct the first identity to $\Psi$, we see that we must have
+\begin{align*}
+ \Psi -  \beta  (P^\top  \Psi +   \Psi P) + \beta^2 \Psi 
+ = I - 2 \beta P^\top\Psi P  +  \beta^2 P^\top \Psi P\,,
+\end{align*}
+which again, means that $\Psi = I$, and also that $P^\top \Psi + \Psi P = P^\top \Psi P$ and that $\Psi = P^\top \Psi P$.
+The first equality is always false, and the others are false except (perhaps) in some very special cases.
+
+
+\section{Issues with the Setup}
+\subsection{Boundedness of iterates: \citet{flstda}}
+\citet{flstda} assume that the parameter vector stays such that the value function $\Phi \theta$  will be bounded in $L^\infty$-norm (see assumption (A3) of \cite{flstd} and \cite{flstda}). This assumption is critical in establishing Lemma~7 (see pages 15 and 16, \cite{flstda}), in an argument that is similar to the proof of McDiarmid's inequality.
+We suspect the following shortcomings with assumption (A3):
+\begin{itemize}
+\item The assumption is stated in a somewhat sloppy fashion. We take the authors meant to say that $\sup_n \norm{\Phi \theta_n}_\infty<+\infty$ holds almost surely. This seems like a strong assumption:  ensuring this will most likely further restrict the step-size sequences that can be used. The step-size sequences that give the best rate under (A3) may include step-size sequences which in fact lead to $\Prob{\limsup_{n\to\infty}\norm{\theta_n}=\infty}>0$. Without proving that this is not the case, the results of the paper have limited utility.
+% We see in our paper that for some cases, the iterates can blow up if the step-size is inappropriately selected!
+\item One possibility would be to modify the algorithm by adding a projection step to guarantee boundedness.
+It is still unclear  whether this alone would ensure convergence of the error to zero. In any case, the expected error bound analysis is invalidated if a projection step is present (basically, the algebraic identities will all fail to hold) and a new proof will be required.
+
+%For the sake of an argument let us also additionally assume that the iterates are bounded by a projection step (which  \citet{flstda} don't mention explicitly). Then would the recursion unfold the same way as it does in Equation (26) of \cite{flstda} (or Equation (13) of \cite{flstd})? How are we to ensure decay/contraction (as shown in Equation (27) of \cite{flstda}) at each step (since projection might be non-contracting)?
+%\item The recursion eventually (see Equation (26) of \cite{flstda}) has only \emph{additive noise} and not \emph{multiplicative noise} as analyzed in our submission. The additive noise is captured in the form of the $H_\beta^2$ term in Equation (28) of \cite{flstd}. This reduction to additive noise is possible due to \textbf{$(A3)$}.
+\end{itemize}
+\subsection{Boundedness of iterates:  \citet{lstdicmla}}
+\citet{gugan} mention that (citing a personal communication with \citet{lstdicmla}) 
+that \cite{lstdicmla} assume implicitly a projection step in all the high probability bounds. 
+While this implicit projection in itself does not affect the high probability bound proofs directly, 
+the algebraic steps are invalidated.
+Furthermore, the set that the iterates are projected to should contain the TD(0) solution.
+How to ensure this (without knowing $A,b$) remains to be seen.
+
+\subsection{Relation between Covariance Matrix and $\bar{A}_T$ matrix}
+\citet{flstda} assume positive definiteness of \textbf{$(A4)$} covariance matrix $\frac{1}{T}\Phi^\top_T \Phi_T$. However, unlike regression problems, in reinforcement learning problems what appears in the recursion (see Equation (6)) is not the covariance matrix, but a different matrix $\bar{A}_T=\frac{1}{T}\sum_{i=1}^T \phi(s_i)(\phi(s_i)-\beta\phi(s_i'))^\top$ defined in pages 2, 4 (below Equation (5)), 8 and 16 of \cite{flstda}. Usually, without a sampling assumption known as the `on-policy' case (see \cite{gtd} for a discussion on `on-policy' vs `off-policy') the eigenvalues of $\bar{A}_T$ cannot be guaranteed to have all positive real parts. While \citet{flstda} mention the `on-policy' sampling in the introduction, there is no explicit sampling assumption in the list of assumption. In fact, we doubt that the proposed algorithm will converge without extra assumption (as discussed above).
+\if0
+This is worrisome for the following reasons
+\begin{itemize}
+\item \textbf{$(A4)$} deals only with the covariance matrix and it is not clear how that alone is sufficient to say that $\bar{A}_n-(1-\beta)\mu$ is positive definite (see below Equation (26) page 16 of \cite{flstda}; the problem mentioned earlier).
+\item For the sake of the argument, let us suppose that $(1-\beta)\mu$ is the smallest eigenvalue of $\bar{A}_n$. However, the problem here is that $\bar{A}_n$ is not symmetric in general and it is typical in reinforcement learning applications to say a non-symmetric matrix $M$ is positive definite if $x^\top M x>0$ for all real valued vectors $x$. While it follows from this notion of positive definiteness of $M$ that all the eigenvalues of $M$ have positive real parts, there could still be eigenvalues with complex conjugate parts. Hence to assume that the smallest eigenvalue of $\bar{A}_n$ to be $(1-\beta)\mu$ might be problematic (because there could be other complex eigenvalues with smaller magnitude). While it might be true in practice that the smallest eigenvalue of $\bar{A}_n$, is greater than $(1-\beta)\mu$ to our knowledge there is no proof for this fact in literature.
+\end{itemize}
+\fi
+\subsection{Blow Up of the Bound}
+We would like to note that the rate expression in Corollary~4 of \cite{flstda} (or Corollary~2 of \cite{flstd}) contains a constant $C$. The authors do mention that the sampling error (a.k.a. variance) blows up as $\alpha \rightarrow 1$.
+However, it also looks like that even the constant $C=\sum_{n=1}^\infty \exp(-\mu cn^{1-\alpha})$ (appearing in the bound of the bias) will blow up as $\alpha\rightarrow 1$, in which case it seems that the claim that the $1/\sqrt{n}$ rate can be achieved in the limit will not hold.
+
+\subsection{Doubt about the Effectiveness of the Algorithms}
+In Corollary~4 of \cite{flstda} (or Corollary~2 of \cite{flstd}), we learn that the value of $c$ governing the stepsize of the primary update must be in a small range (it must be between $1.33$ and $2$). This means, that effectively, the stepsize $\gamma_n$ behaves as $1/n^\alpha$ ($c$ has very little effect). At least when $\alpha=1$, we know that stepsizes like this make the bias decrease slowly and averaging remains ineffective. This seems to be at odds with the suggestion after this result that $\alpha\to 1$ is a desirable choice. In fact, we would be inclined to choose $\alpha=1/2$, i.e., its lowest value. This is because then the bias is decreased relatively quickly, while the variance will be controlled by the additional averaging. However, given all the problems with this, it remains to be seen whether this is indeed a reasonable choice and under exactly what conditions this is reasonable.
+\bibliographystyle{plainnat}
+\bibliography{issuesref}
+%\newpage
+%\input{linal}
+
+
+
+
+%$f_m(\theta_{m-1})=(\theta^\top \phi(s_{i_m})-(r_{i_m}+\beta\theta^\top \phi(s_{i_{m+1}})))$
+\end{document}

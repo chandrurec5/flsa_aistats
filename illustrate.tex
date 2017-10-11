@@ -1,0 +1,30 @@
+%!TEX root =  flsa.tex
+%\subsection{Illustrative Examples}
+%In this section, we present some illustrative examples and make some useful remarks about the same.
+\if0
+\begin{example}\label{ex:pdas}
+Matrices $A_1=\begin{bmatrix} 2 &1 \\-1 &0\end{bmatrix}$,
+$A_2=\begin{bmatrix}1 & -1\\ 1 &0 \end{bmatrix}$ and $A_3=\begin{bmatrix} 1 & 10-\epsilon \\ 0 &1 \end{bmatrix},0<\epsilon<0.1$ are not positive definite. However choosing $U_1=\begin{bmatrix} \frac{1}{\sqrt{2}}& -\frac{1}{\sqrt{2}}\\ -\frac{1}{\sqrt{2}} &\frac{1}{\sqrt{2}} \end{bmatrix}$, $U_2=\begin{bmatrix} \frac{\sqrt{2}}{1-i\sqrt{3}} & \frac{\sqrt{2}}{1+i\sqrt{3}} \\ -\frac{1}{\sqrt{2}} &\frac{1}{\sqrt{2}}\end{bmatrix}$ and $U_3=\begin{bmatrix} 1 & 0\\ 0 &\frac{1}{10} \end{bmatrix}$, we can see that matrices $J_i=U_i^{-1}A_i U_i,i=1,2,3$ are positive definite.
+\end{example}
+The above example \Cref{ex:pdas} illustrates the use of appropriate $U_i,i=1,2,3$ matrices to transform Hurwitz problems into positive definite problems. In particular, the second problem involves the use of a complex matrix $U_2$.
+\fi
+\todoc{I commented out the Hurwitz example. I did not find it very useful.}
+The following example can shed further light on the structure of the bound:%
+\todoc{I am wondering whether this could replace Theorem 2?}
+\begin{example}\label{ex:geo}
+Consider the one dimensional case where $A_t=\rho$ for some $0<\rho<1$, $b_t$ a bounded \iid zero mean random variable with variance $\sigma^2$, and $\ts=0$. We can easily calculate 
+that $e_t=(1-\alpha\rho)^t e_0+\sum_{s=1}^t (1-\alpha \rho)^{t-s}\alpha b_s$ and thus the MSE becomes \todoc{Check what happens with $t=0$!}
+$%\begin{align*}
+\E[(\thh_t)^2]=\frac{1}{(t+1)^2}\left( (\alpha\rho)^{-1}(1-\alpha\rho)^{t+1}) \theta_0+ \sum_{s=1}^t (\alpha\rho)^{-1}(1-\alpha \rho)^{t-s+1} \alpha b_s\right)^2
+\leq (\alpha\rho)^{-2}\left(\frac{\norm{\theta_0}^2}{(t+1)^2}+\frac{\alpha^2\sigma^2}{t+1}\right)
+$.
+%\,.
+%\end{align*}
+\end{example}
+%The above example helps to interpret the error dynamics of \Cref{eq:lsa} in terms of sum of a geometric series with common factor $\alpha\rho$.
+\begin{comment}
+\begin{example}
+Consider deterministic problems $P^1$, $P^2$ and $P^3$ with $A_{P^1}=\begin{bmatrix} 10 &100\\ 0 &10\end{bmatrix}$, $A_{P^2}=\begin{bmatrix} 10 &9.99\\ 0 &10\end{bmatrix}$, $A_{P^3}=\begin{bmatrix} 10 &0 \\ 0 &10\end{bmatrix}$, $\sigma^2_{A_{P^i}}=\sigma_{b_{P^i}}=0,\,i=1,2,3$. Note that $P^1$, $P^2$ and $P^3$ are respectively H, PD, SPD respectively.
+\end{example}
+\input{plts}
+\end{comment}

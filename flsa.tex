@@ -1,0 +1,56 @@
+\documentclass[twoside]{article}
+\usepackage{aistats2018}
+% If your paper is accepted, change the options for the package
+% aistats2018 as follows:
+%  
+%\usepackage[accepted]{aistats2018}
+%
+% This option will print headings for the title of your paper and
+% headings for the authors names, plus a copyright note at the end of
+% the first column of the first page.
+
+% my packages
+\usepackage[numbers]{natbib}
+\usepackage{cleveref}
+\crefname{assumption}{Assumption}{Assumption}
+\input{pack}
+\author{
+Chandrashekar Lakshminarayanan and Csaba Szepesv\'ari,\\
+University of Alberta\\
+\{chandrurec5,csaba.szepesvari\}@gmail.com 
+}
+
+\begin{document}
+
+\twocolumn[
+
+\aistatstitle{Linear Stochastic Approximation: Constant Step-Size and Iterate Averaging}
+
+%\aistatsauthor{ Chandrashekar Lakshminarayanan \And Csaba Szepesva\'ri }
+
+%\aistatsaddress{ Google Deepmind} 
+]
+
+% \nipsfinalcopy is no longer used
+%\input{abstract}
+\input{intro}
+\input{not}
+\input{prob}
+\input{landscape}
+%\input{universal}
+\input{instance}
+
+%\input{uniform}
+%\input{td}
+\input{rel}
+\input{exp}
+%\input{uniform}
+%\input{related}
+%\input{stepsizes}
+%\input{tune}
+%\input{concl}
+%\newpage
+%\input{linal}
+\bibliographystyle{apalike}
+\bibliography{ref}
+\end{document}

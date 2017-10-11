@@ -1,0 +1,27 @@
+%!TEX root =  flsa.tex
+\section{Automatic Tuning of Step-Sizes}\label{sec:stepsizes}
+It is straightforward to see from \eqref{eq:lsaintro} that $\alpha_t$ cannot be asymptotically increasing. We now present some heuristic arguments in favour of a constant step-size over asymptotically diminishing step-sizes in \eqref{eq:lsaintro}.
+It has been observed that when the step-sizes of form $\alpha_t=\frac{c}{t}$ or $\alpha_t=\frac{c}{c+t}$ (for some $c>0$) are used, the MSE, $\EE{\normsm{\theta_t-\ts}^2}$, is not robust to the choice of $c>0$ \cite{korda-prashanth,bach-moulines}. In particular only a $O(\frac{1}{t^{{\mu c}/2}})$ decay can be achieved for the MSE, where $\mu$ is the smallest positive part of the eigenvalues of \todoc{I added: ``eigenvalues of''} $A_P$ \cite{bach-moulines}. Note that, in the case of LSA with CS-PR, \Cref{th:rate} guarantees a $O(\frac{1}{t})$ rate of decay for the MSE and the problem dependent quantities affect only the constants and not the exponent. Also, in the case of important TD algorithms such as GTD/GTD2/TDC, while the theoretical analysis uses diminishing step-sizes, the experimental results are with a constant step-size or with CS and PR averaging \cite{gtd2,gtdmp}. Independently, \citet{dann} also observe in their experiments that a constant step-size is better than diminishing step-sizes.\par
+We would like to remind that in \Cref{sec:uniform} we showed that weak admissibility might not hold for all problem classes, and hence a uniform choice for the constant step-size might not be possible, However, motivated by \Cref{th:rate} and also by the usage of constant step-size in practice \cite{dann,gtd2,gtdmp}, we suggest a natural algorithm to tune the constant step-size, shown as \Cref{alg:tuning}.\par
+\begin{algorithm}
+\caption{Automatic Tuning of Constant Step-Size}
+\begin{algorithmic}[1]
+\STATE{Initialize: $\theta_0$, $\alpha=\alpha_{\max}$, $k$, $T$ }
+\FOR{$t=1,2,\ldots, $}
+\STATE{$\theta_t=\theta_{t-1}+\alpha (b_t-A_t\theta_{t-1}), \thh_t=\thh_{t-1}+\frac{1}{t+1}(\theta_t-\thh_{t-1})$}
+\IF{$IsUnstable(\normsm{\thh_t},\ldots,\normsm{\thh_{(t-kT)\wedge 0}})=\mathrm{True}$}
+\STATE{$\alpha=\alpha/2$}
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\label{alg:tuning}
+\end{algorithm}
+In \Cref{alg:tuning}, $T>0$ is a time epoch and $k$ is a given integer and $\alpha_{\max}>0$ is the maximum step-size that is allowable. From the Gronwall-Bellman lemma it follows that in \Cref{alg:tuning} $\norm{\theta_t}\leq C(1+e^{\beta t})$ with some $C>0$, where the sign of $\beta$ determines whether the iterates are bounded. 
+Using this fact, we observe that the sequence $r_i=\frac{\normsm{\thh_{(t-kT+iT)\wedge 0}}}{\normsm{\thh_{(t-kT+(i-1)T)\wedge 0}}},i=1,\ldots,k$ should be ``roughly'' (making allowance for the persistent noise) decreasing and converge to $1$ when the step-size is large enough so that the iterates stay bounded and eventually converge. 
+The idea is that the $IsUnstable()$ routine in \Cref{alg:tuning} calculates $\{r_i\}_i$ based on its input and returns true when any of these is larger than a preset constant $c>1$. By choosing a larger the constant $c$, the probability of false detection of a run-away event decreases rapidly, while still controlling for the probability of altogether missing a run-away event.\par
+We ran numerical experiments on the class with $A_{P}=\begin{bmatrix} 1 &-10\\ 10 &1\end{bmatrix}$, $\sigma_b=0$ and $b_t=b,\forall t\geq 0$ (chosen such that $\ts=(1,1)^\top$) and $M_t,\,t \geq 0$ with varying $\sigma_A$'s. This problem class does not admit an apriori step-size (due to the unknown $\sigma_A$ and the dependence of step-size on $\sigma_A$) that prevents the explosion of MSE.
+The results (see \Cref{fig:tune}) show that \Cref{alg:tuning} does find a problem dependent constant step-size  (within a factor of the best possible hand computed step-size) that avoids the MSE blow up. We chose $k=2$ and $T=5$, the preset constant was chosen to be $1.025$ and the results are for $\sigma_A=0,2,5,10,20$.
+\Cref{alg:tuning} is oblivious of the data distribution, and the hand computed step-size is based on full problem information (i.e., $\sigma_A$).
+ Further, the results (in the right plot of \Cref{fig:tune}) also confirm our expectation that higher step-sizes lead to faster convergence.
+
+

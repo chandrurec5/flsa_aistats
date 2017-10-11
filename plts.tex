@@ -1,0 +1,45 @@
+\FloatBarrier
+\begin{figure*}[t]
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ccc}
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+    ]
+    \addplot[smooth] table[y error index = 2]  {tile1};
+        \addplot[smooth] table[y error index = 2]  {tile2};
+            \addplot[smooth] table[y error index = 2]  {tile3};
+                \addplot[smooth] table[y error index = 2]  {tile4};
+\end{axis} \end{tikzpicture}
+&
+
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+    ]
+    \addplot[smooth] table[y error index = 2]  {tile1};
+        \addplot[smooth] table[y error index = 2]  {tile2};
+            \addplot[smooth] table[y error index = 2]  {tile3};
+                \addplot[smooth] table[y error index = 2]  {tile4};
+\end{axis} \end{tikzpicture}
+&
+
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+    ]
+    \addplot[smooth] table[y error index = 2]  {tile1};
+        \addplot[smooth] table[y error index = 2]  {tile2};
+            \addplot[smooth] table[y error index = 2]  {tile3};
+                \addplot[smooth] table[y error index = 2]  {tile4};
+\end{axis} \end{tikzpicture}
+
+\end{tabular}
+}
+\end{figure*}

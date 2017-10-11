@@ -1,0 +1,70 @@
+%!TEX root =  flsa.tex
+\section{Uniform bounds}\label{sec:uniform}
+If $\P$ is weakly admissible, \todoc{Maybe moving the definitions concerning admissibility here would be better. The text could be shortened, etc. Ideally, everything is defined just before its used for the first time, except some things which are needed everywhere.}
+then one can choose some step-size $\alpha_{\P}>0$ solely based on the knowledge of $\P$ and
+conclude that for any $P\in \P$, the MSE will be bounded as shown in \Cref{th:rate}. 
+When $\P$ is not weakly admissible but rich enough to include the examples showing \cref{th:lb}, 
+no fixed step-size can guarantee bounded MSE for all $P\in \P$.
+On the other hand, if $\P$ is admissible then the error bound stated in  \cref{th:rate} becomes independent of the instance,
+while when $\P$ is not admissible, but ``sufficiently rich'', this does not hold.
+Hence, an interesting question to investigate is whether a given set $\P$ is (weakly) admissible. 
+
+A reasonable assumption is that $(b_t,A_t)\in \R_B^{d}\times \R_B^{\dcd}$ with some $B>0$ (i.e., the data  is bounded with bound $B$) and that $A_P$ is positive definite for $P\in \P$. Call the set of such distributions $\P_B$.
+\todoc{By allowing complex valued data, \cref{lm:notwad}, a negative result, is weakened. In fact, for precision, we probably should make it clear what distributions need to be in $\P_B$ for
+\cref{lm:notwad} to hold.}
+Is positive definiteness and boundedness sufficient for weak admissibility? The answer is no:
+% $\P_{\text{PD},B}$ be such that  $\P^M_{\text{SD},B}=\{ P^M \in \P^M_B \,:\,  \supp(P^M)\subset \text{PD} \}\,$ , where PD denotes the set of positive definite matrices.
+\begin{proposition}\label{lm:notwad}
+For any fixed $B>0$,
+the set $\P_B$ is not weakly admissible.
+% i.e.,
+%positive definiteness alone is insufficient for weak admissibility.
+\end{proposition}
+Consider now the strict subset of $\P_B$ that contains distributions $P$ such that for any $A$ in the support of $P$, $A$ is PSD.
+Call the resulting set of distributions $\P_{\text{PSD},B}$.
+Note that the distribution of data originating from linear least-squares estimation with SGD is of this type.
+Is $\P_{\text{PSD},B}$ weakly admissible? The answer is yes in this case:
+\begin{proposition}\label{lm:ppsdbwd}
+For any $B>0$, the set $\P_{\text{PSD},B}$ is weakly admissible
+and in particular any $0<\alpha < 2/B$ witnesses this.%
+\todoc{So this altogether is weaker than what Bach founds. They prove strong admissibility.
+I am guessing that for this they use that the loss is special and also that the noise is special.
+This would be a good place to somehow incorporate this with a (short?) proof.
+}
+\end{proposition}
+However, admissibility does not hold for the same set:
+\begin{proposition}\label{lm:ppsdbna}
+For any $B>0$, the set $\P_{\text{PSD},B}$ is not admissible.
+\end{proposition}
+
+\begin{comment}
+\begin{proof}
+Fix an arbitrary $\alpha>0$. We show that there exists $P\in \P$ such that $\rho_\alpha(P)<0$.
+For $\epsilon \in (0,1/2)$ let $P=(P^V,P^M)$ be the distribution such that $P^M$ is supported on $\{-I,I\}$ and takes on the value of $I$ with probability $1/2+\epsilon$. Then $A_P = 2\epsilon I \succ 0$, hence $P\in \P_1$. Further, $Q_P = I$.
+Hence, $\rhos{P} = 4\epsilon-\alpha$. Hence, if $\epsilon<\alpha/4$, $\rho_\alpha(P)<0$.
+\end{proof}
+\end{comment}
+
+\begin{comment}
+\begin{proof}
+Take any $P\in \P_{\text{PSD}}$ and let $H\sim P$.
+Consider the SVD of $H$: $H = U \Lambda U^\top$ where $U$ is orthonormal and $\Lambda$ is diagonal with
+nonnegative elements. Note that $\Lambda \preceq B\, \I$ and thus $\Lambda^2 \preceq B \Lambda$.
+Then for any $x\in \R^d$, $x^\top H^\top H x = x^\top U \Lambda^2 U^\top x \le B x^\top U \Lambda U^\top x = B x^\top H x$.
+Taking expectations we find that $x^\top Q_P x \le B x^\top H_P x$.
+Hence, $\rho_\alpha(P) = 2 x^\top H_P x - \alpha x^\top Q_P x \ge (2- \alpha B ) \,x^\top H_P x $.
+Thus, for any $\alpha<2/B$, $\rho_\alpha(P)>0$.
+\end{proof}
+\end{comment}
+% However, when we impose additional structure in the data in the form of positive semi-definiteness,  we then observe weak admissibility in \Cref{lm:ppsdwd}, and at the same time, it is not enough to guarantee admissibility in \Cref{lm:ppsdna}.
+\begin{comment}
+\FloatBarrier
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}\hline
+Problem Class & Weak Admissible & Admissible &Example \\ \hline
+$\P_B$ &\ding{53} &\ding{53} & RL\\\hline
+$\P_{\text{PSD},B}$ &\ding{51} &\ding{53} & SGD for Linear Regression\\\hline
+$\P_{\text{PD},B}$ &\ding{51} &\ding{51} & SGD for Linear Regression with regularization\\\hline
+\end{tabular}
+\end{table}
+\end{comment}

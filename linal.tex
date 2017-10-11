@@ -1,0 +1,399 @@
+%!TEX root =  flsa.tex
+\appendix
+\section{Linear Algebra Preliminaries}\label{sec:appendix}
+\subsection{Additional Notations}\label{sec:addnot}
+For $x=a+ib\in \C$, we denote its real and imaginary parts by $\re{x}=a$ and $\im{x}=b$ respectively. Given a $x\in \C^d$, for $1\leq i \leq d$, $x(i)$ denotes the $i^{th}$ component of $x$.
+For any $x\in \C$ we denote its modulus $\md{x}=\sqrt{\re{x}^2+\im{x}^2}$ and its complex conjugate by $\bar{x}=a-ib$.
+We use $A\succeq 0$ to denote that the
+square matrix $A$ is Hermitian and positive semidefinite (HPSD):
+$A = A^*$, $\inf_x x^* A x\ge 0$. We use $A\succ 0$ to denote that the square matrix $A$ is Hermitian and positive definite (HPD): $A=A^*$, $\inf_x x^* A x > 0$.
+For $A,B$ HPD matrices, $A\succeq B$ holds if $A-B\succeq 0$.
+We also use $A\succ B$ similarly to denote that $A-B \succ 0$.
+We also use $\preceq$ and $\prec$ analogously. We denote the smallest eigen value of a real symmetric positive definite matrix $A$ by $\lambda_{\min}(A)$.\par
+We now present some useful results from linear algebra.
+
+Let $B$ be a $\dcd$ block diagonal matrix given by $B=\begin{bmatrix} B_1 &0 &0 &\ldots &0 \\ 0 &B_2 &0 &\ldots &0  \\ \vdots &\vdots &\vdots &\vdots &\vdots \\ 0 &\ldots &0 &0 &B_k \end{bmatrix}$, where $B_i$ is a $d_i \times d_i$ matrix such that $d_i<d,\,\forall i=1,\ldots,k$ (w.l.o.g) and $\sum_{i=1}^k d_i=d$. We also denote $B$ as
+\begin{align*}
+B=B_1 \op B_2 \op \ldots B_k=\op_{i=1}^k B_i
+\end{align*}
+
+\subsection{Results in Matrix Decomposition and Transformation}
+We will now recall Jordon decomposition.
+\begin{lemma}\label{jordon}
+Let $A\in \C^{\dcd}$ and $\{\lambda_i\in \C,i=1,\ldots,k\leq d \}$ denote its $k$ distinct eigenvalues.
+There exists a complex matrix $V\in \C^{\dcd}$ such that $A=V\tL V^{-1}$, where
+$\tL=\tL_1\op\ldots\op\tL_k$, where each $\tL_i,\,i=1,\ldots,k$ can further be written as $\tL_i= {\tL}^i_{1}\op \ldots \op {\tL}^i_{{l(i)}}$. Each of ${\tL}^i_{j},j=1,\ldots,l(i)$ is a $d^i_j\times d^i_j$ square matrix such that $\sum_{j=1}^{l(i)} d^i_j =d_i$ and has the special form given by
+${\tL}^i_{j}=\begin{bmatrix} \lambda_i &1 &0 &\ldots &0 &0\\ 0 &\lambda_i &1 &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\lambda_i &1 \\ 0 &\ldots &0 &0 &0 &\lambda_i \end{bmatrix}$.
+\end{lemma}
+
+\begin{lemma}\label{lm:simtran}
+Let $A\in \C^{\dcd}$ be a Hurwitz matrix. There exists a matrix $U\in \gln$ such that $A=U\Lambda U^{-1}$ and $\Lambda^*+\Lambda$ is a real symmetric positive definite matrix.
+\end{lemma}
+\begin{proof}
+It is trivial to see that for any $\Lambda\in \C^{\dcd}$, $\left(\Lambda^*+\Lambda\right)$ is Hermitian. We will use the decomposition of $A=V \tL V^{-1}$ in \Cref{jordon} and also carry over the notations in \Cref{jordon}. Consider the diagonal matrices $D^i_j=\begin{bmatrix} 1  &0 &0 &\ldots &0 &0\\ 0 &\re{\lambda_i} &0 &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\re{\lambda_i}^{d^i_j-1} &0 \\ 0 &\ldots &0 &0 &0 &\re{\lambda_i}^{d^i_j} \end{bmatrix},\,\forall j=1,\ldots,l(i)$, $D^i=D^i_1 \op\ldots\op D^i_{l(i)},\,\forall i=1,\ldots,k$ and $D=D^1 \op\ldots\op D^k$.
+It follows that $A=(VD) \Lambda (VD)^{-1}$, where $\Lambda$ is a matrix such that
+$\Lambda=\Lambda_1 \op \ldots \op \Lambda_k$, where each $\Lambda_i,\,i=1,\ldots,k$ can further be written as
+$A_i=\Lambda^i_{1} \op \ldots \op \Lambda^i_{{l(i)}}$. Each of $\Lambda^i_{j}$ is a $d^i_j\times d^i_j$ square matrix with the special form given by
+$\Lambda^i_{j}=\begin{bmatrix} \lambda_i &\re{\lambda_i} &0 &\ldots &0 &0\\ 0 &\lambda_i &\re{\lambda_i} &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\lambda_i &\re{\lambda_i} \\ 0 &\ldots &0 &0 &0 &\lambda_i \end{bmatrix}$.
+
+Now we have $\frac{(\Lambda^*+\Lambda)}{2}=\op_{i=1}^k \op_{j=1}^{l(i)}\frac{\Lambda^{i*}_{j}+\Lambda^i_{j}}{2}$, where $\frac{\Lambda^{i*}_{j}+\Lambda^i_{j}}{2}=\begin{bmatrix} \re{\lambda_i} &\frac{\re{\lambda_i}}{2} &0 &\ldots &0 &0\\ \frac{\re{\lambda_i}}{2} &\re{\lambda_i} &\frac{\re{\lambda_i}}{2} &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\re{\lambda_i} &\frac{\re{\lambda_i}}{2} \\ 0 &\ldots &0 &0 &\frac{\re{\lambda_i}}{2} &\re{\lambda_i} \end{bmatrix} $. Then for any $x=(x(i),i=1,\ldots,d)\in \C^d (\neq \mathbf{0})$, we have %there exists a $b\in \{-1,1\}^d$, such that
+\begin{align*}
+x^* \frac{(\Lambda^*+\Lambda)}{2} x &=\re{\lambda_i} \left(\sum_{i=1}^d \bar{x}{(i)} x(i)+\sum_{i=1}^{d-1} \frac{\bar{x}(i) x(i+1) + x(i)\bar{x}(i+1)}{2}\right) \\
+&=\frac{\re{\lambda_i}}{2}\left(\md{x(1)}^2+ \md{x(d)}^2\right)+\frac{\re{\lambda_i}}{2}\left( \sum_{i=1}^{d-1} \md{x(i)}^2+\bar{x}(i) x(i+1) + x(i)\bar{x}(i+1)+\md{x(i+1)}^2 \right)\\
+&>\frac{\re{\lambda_i}}{2}\left(\sum_{i=1}^d \md{x(i)+x(i+1)}^2 \right)\\
+&> 0
+\end{align*}
+\end{proof}
+\section{Proofs}\label{sec:proofs}
+\subsection{LSA with CS-PR for Positive Definite Distributions}
+%In this subsection, we assume that $P$ satisfies the assumptions in \Cref{assmp:lsa} and in addition $P$ is \emph{positive definite}.
+In this subsection, we re-write \eqref{eq:lsa} and \Cref{assmp:lsa} to accomodate complex number computations and in addition assume that $P$ is \emph{positive definite}. To this end,
+\begin{subequations}\label{eq:lsacmplx}
+\begin{align}
+\label{conststep}&\text{LSA:} &\theta_t&=\theta_{t-1}+\alpha(b_t-A_t\theta_{t-1}),\\
+\label{iteravg}&\text{PR-Average:} &\thh_t&=\frac{1}{t+1}{\sum}_{i=0}^{t}\theta_i,
+\end{align}
+\end{subequations}
+where $\thh_t, \theta_t \in \C^{d}$. We now assume,
+\begin{assumption}\label{assmp:lsacmplx}
+\begin{enumerate}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
+\item \label{dist} $(b_t, A_t)\sim (P^b,P^A), t\geq 0$ is an \iid sequence, where $P^b$ is a distribution over $\C^d$ and $P^A$ is a distribution over $\C^{\dcd}$. We assume that $P$ is positive definite.
+\item \label{matvar} The martingale difference sequences\footnote{$\EE{M_t|\F_{t-1}}=0$ and $\EE{N_t|\F_{t-1}}=0$} $M_t\eqdef A_t-A_{P}$ and $N_t\eqdef b_t-b_{P}$ associated with $A_t$ and $b_t$ satisfy the following
+\begin{align*}\E\left[ \norm{M_t}^2\mid\F_{t-1}\right]\leq \sigma^2_{A_P}, \, \E[N_t^* N_t]=\sigma^2_{b_P}.\end{align*}
+\item $A_P$ is invertible and there exists a $\ts=A^{-1}_Pb_P$.
+\end{enumerate}
+\end{assumption}
+
+
+
+
+
+We now define the error variables and present the recurison for the error dynamics. In what follows, definitions in \Cref{sec:def} and \Cref{sec:prob} continue to hold.
+\begin{definition}\label{def:err}
+\begin{itemize}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
+\item Define error variables $e_t\eqdef \theta_t-\ts$ and $\eh_t\eqdef \thh_t-\ts$.
+\item Define $\forall\, t\geq 0$ random vectors $\zeta_t\eqdef b_t-b-(A_t-A_P)\ts$.
+\item Define constants $\sigma_1^2\eqdef\sigma_A^2\norm{\ts}^2+\sigma_b^2$ and $\sigma_2^2\eqdef\sigma_A^2\norm{\ts}$. Note that $\EE{\norm{\zeta_t}^2}\leq \sigma_1^2$ and $\EE{\norm{M_t\zeta_t}}\leq \sigma_2^2$.
+%\item Define constants $\EE{\norm{\zeta_t}^2}\eqdef\sigma_1^2$ and $\EE{\norm{M_t\zeta_t}}\eqdef \sigma_2^2$.
+\item Define $\forall\,i\geq j$, the random matrices $F_{i,j}=(I-\alpha A_i)\ldots (I-\alpha A_j)$ and $\forall,\,i<j$ $F_{i,j}=\I$.
+\end{itemize}
+\end{definition}
+
+
+
+\paragraph{Error Recursion} Let us now look at the dynamics of the error terms defined by
+\begin{align}\label{eq:errrec}
+\begin{split}
+\theta_t&=\theta_{t-1}+\alpha\big(b_t-A_t\theta_{t-1}\big)\\
+\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\big(b_t-A_t(\theta_{t-1}-\ts+\ts)\big)\\
+e_t&=(I-\alpha A_t)e_{t-1}+\alpha(b_t -b -(A_t-A)\ts)\\
+e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t
+\end{split}
+\end{align}
+
+\begin{lemma}\label{lm:pd}
+Let $P$ be a distribution over $\C^d\times \C^{\dcd}$ satisfying \Cref{assmp:lsacmplx}, then there exists an $\alpha_P>0$ such that $\rhod{P}>0$ and $\rhos{P}>0,~\forall \alpha \in (0,\alpha_P)$.
+\end{lemma}
+\begin{proof}
+\begin{align*}
+\rhos{P}&\stackrel{(a)}{=}\inf_{x:\norm{x}=1}x^* (A_P^*+A_P)x -\alpha x^*\EE{A_t^* A_t} x\\
+&\stackrel{(b)}{=}\inf_{x:\norm{x}=1}x^* (A_P^*+A_P)x -\alpha x^* A^*_P A_P -\alpha x^* \EE{M_t^* M_t} x\\
+&\stackrel{(c)}{\geq} \lambda_{\min}(A^*_P+A_P)-\alpha \norm{A_P}^2-\sigma^2_A
+\end{align*}
+The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^*_P+A_P)}{\norm{A_P}^2+\sigma^2_A}$. Here $(a)$ follows from definition of $\rhos{P}$ in \Cref{def:dist}, $(b)$ follows from the fact that $M_t$ is a martingale difference term (see \Cref{assmp:lsacmplx}) and $(c)$ follows from the fact that for a real symmetric matrix $M$ the smallest eigen value is given by $\lambda_{\min}=\inf_{x:\norm{x}=1} x^* M x $.
+\end{proof}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}[Product unroll lemma]\label{lem:genunroll}
+Let $t>i\ge 1$, $x,y\in \C^d$ be $\F_{i}$-measurable random vectors. Then,
+\begin{align*}
+\E[x^* F_{t,i+1}y|\F_i]=x^* (I-\alpha A_P)^{t-i} y\,.
+\end{align*}
+\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}
+By the definition of $F_{t,i+1}$,
+and because $F_{t-1,i+1} = (I-\alpha A_{t-1}) \dots (I-\alpha A_{i+1})$ is $\F_{t-1}$-measurable,
+as are $x$ and $y$,
+\begin{align*}
+\EE{x^* F_{t,i+1} y | \F_{t-1} } &= x^\top \EE{ (I-\alpha A_t) | \F_{t-1} } F_{t-1,i+1} y\\
+&=x^*  (I-\alpha A_P)  F_{t-1,i+1} y\,.
+\end{align*}
+By the tower-rule for conditional expectations and our measurability assumptions,
+\begin{align*}
+\EE{x^* F_{t,i+1} y | \F_{t-2} }
+&=x^*  (I-\alpha A_P)  \EE{F_{t-1,i+1} |\F_{t-2}} y\\
+&= x^* (I-\alpha A_P)^2 F_{t-2,i+1} y\,.
+\end{align*}
+Continuing this way we get
+\begin{align*}
+\EE{x^* F_{t,i+1} y | \F_{t-j} }
+= x^* (I-\alpha A_P)^j F_{t-j,i+1} y\,, \quad j=1,2,\dots,t-i\,.
+\end{align*}
+Specifically, for $j=t-i$ we get
+\begin{align*}
+\EE{x^* F_{t,i+1} y | \F_{i} }  = x^* (I-\alpha A_P)^{t-i} y\,.
+\end{align*}
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}\label{noisecancel}
+Let $t>i\ge 1$ and let $x\in \C^d$ be a $\F_{i-1}$-measurable random vector. Then,
+$\E[x^* F_{t,i+1}\zeta_{i}]=0$.
+\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}
+By \Cref{lem:genunroll},
+\begin{align*}
+\EE{x^* F_{t,i+1} \zeta_i | \F_{i} }  = x^* (I-\alpha A_P)^{t-i} \zeta_i\,.
+\end{align*}
+Using the tower rule,
+\begin{align*}
+\EE{x^* F_{t,i+1} \zeta_i | \F_{i-1} }
+= x^* (I-\alpha A_P)^{t-i}\EE{ \zeta_i | \F_{i-1} }= 0\,.
+\end{align*}
+\end{proof}
+
+\begin{lemma}\label{lem:unroll}
+For all $t>i\ge 0$, $\E \ip{e_i,F_{t,i+1} e_i}=\E\ip{e_i,(I-\alpha A_P)^{t-i} e_i}$.
+\end{lemma}
+\begin{proof}
+The lemma follows directly from \Cref{lem:genunroll}. Indeed,
+$\theta_i$ depends only on $A_1,\dots,A_{i},b_1,\dots,b_{i}$, $\theta_i$ and so is $e_i$ $\F_i$-measurable.
+Hence, the lemma is applicable and implies that
+\begin{align*}
+\EE{ \ip{e_i, F_{t,i+1} e_i} | \F_i } =
+\EE{ \ip{e_i, (I-\alpha A_P)^{t-i} e_i} | \F_i }\,.
+\end{align*}
+Taking expectation of both sides gives the desired result.
+\end{proof}
+
+\begin{lemma}\label{innerproduct}
+Let $i>j \ge 0$ and let $x\in \R^d$ be an $\F_j$-measurable random vector.
+Then,
+\begin{align*}
+\E\ip{F_{i,j+1}x,F_{i,j+1}x}\leq (1-\alpha \rhos{P})^{i-j}\E\norm{x}^2\,.
+\end{align*}
+\end{lemma}
+\begin{proof}
+Note that
+$S_t\doteq \EE{ (I-\alpha A_t)^* (I-\alpha A_t) | \F_{t-1} }
+= I - \alpha (A_P^* + A_P) + \alpha^2 \EE{ A_t^* A_t | \F_{t-1} }$.
+Since $(b_t,A_t)_t$ is an independent sequence, $\EE{ A_t^* A_t|\F_{t-1}} = \EE{ A_1^* A_1 }$.
+Now, using the definition of $\rhos{P}$ from \Cref{def:dist}
+$\sup_{x:\norm{x}= 1} x^\top S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A_P^* + A_P - \alpha \EE{A_1^\top A_1}) x
+= 1-\alpha \rhos{P}$.
+Hence,
+\begin{align*}
+&\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }\\
+&= \EE{x^* F_{i-1,j+1}^\top (I-\alpha A_i)^* (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
+&=(x F_{i-1,j+1})^* \, S_i \, F_{i-1,j+1} x\\
+&\le (1-\alpha \rhos{P}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x} \\
+& \le (1-\alpha \rhos{P})^2\, \ip{ F_{i-2,j+1} x, F_{i-2,j+1} x} \\
+& \quad \vdots \\
+& \le (1-\alpha \rhos{P})^{i-j}\, \norm{x}^2\,.
+%&= \E[x^\top (I-\alpha H_{j+1})\ldots (I-\alpha H_i)^\top (I-\alpha H_i)\ldots (I-\alpha H_{j+1})x|\F_{i-1}]\\
+%&=(1-\alpha\rhos{P}) \E[x^\top (I-\alpha H_{j+1})\ldots (I-\alpha H_{i-1})^\top (I-\alpha H_{i-1})\ldots (I-\alpha H_{j+1})x]
+\end{align*}
+\end{proof}
+
+
+
+
+
+\begin{comment}
+\begin{lemma}
+Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, then there exists an $\alpha_P$ such that $\rhod{P}>0$ and $\rhos{P}>0,~\forall \alpha \in (0,\alpha_P)$.
+\end{lemma}
+\begin{proof}
+Since $P$ is positive definite from \Cref{distpd} it follows that $A_P$ is positive definite. Now
+\begin{align*}
+\rhos{P}&={\inf}_{x\in \C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)-\alpha C_P\right)x}\\
+&\geq {\inf}_{x\in \C^d\colon\norm{x}=1}\ip{x,\left((A_P+A_P^*)\right)x}-\alpha B^2\\
+&\geq \lambda_{\min}(A_P+A_P^*)-\alpha B^2
+\end{align*}
+By choosing $\alpha_P<\frac{\lambda_{\min}(A_P+A_P^*)}{B^2}$, it follows that $\rhos{P}>0,\forall \alpha \in (0,\alpha_P)$. Further, by noting that $C_P\succeq A_P^* A_P$, it is easy to check that $\rhod{P}>\rhos{P}>0,\,\forall \alpha \in(0,\alpha_P)$.
+\end{proof}
+\end{comment}
+
+
+
+\begin{theorem}\label{th:pdrate}
+Let $\eh_t$ be as in \Cref{def:err}. %Let $P$ be a distribution over $\C^d\times\C^{\dcd}$ satisfying \Cref{assmp:lsacmplx}.
+Then
+\begin{align}
+%\EE{\norm{\eh_t}^2}
+%\leq
+%\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
+\E[\norm{\eh_t}^2]
+\leq \left(1+\frac2{\alpha\rhod{P}}\right)\, \frac1{\alpha\rhos{P}}\, \,
+%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)+\alpha \sigma_2^2\norm{e_0}}{t+1} \right)\,.
+\end{align}
+\end{theorem}
+\begin{proof}
+
+\begin{align*}
+e_t
+& = (I-\alpha A_t) (I-\alpha A_{t-1}) e_{t-2}\\ &+ \alpha (I-\alpha A_t) \zeta_{t-1} +\alpha \zeta_t \\
+& \quad \vdots\\
+& = (I-\alpha A_t) \cdots (I-\alpha A_1) e_0\\ &+ \alpha (I-\alpha A_t) \cdots (I-\alpha A_2) \zeta_1 \\
+& + \alpha (I-\alpha A_t) \cdots (I-\alpha A_3) \zeta_2\\
+&  \quad \vdots \\
+&+ \alpha \zeta_t\,,
+\end{align*}
+which can be written compactly as
+\begin{align}
+\label{eq:etft}
+e_t = F_{t,1} e_0 + \alpha (F_{t,2} \zeta_1 + \dots + F_{t,t+1} \zeta_t )\,,
+\end{align}
+\begin{align*}
+\eh_t=\frac{1}{t+1}{\sum}_{i=0}^{t}e_i
+=\frac{1}{t+1}&\Big\{{\sum}_{i=0}^{t} F_{i,1} e_0 \\
+&+ \alpha \sum_{i=1}^{t} \left(\sum_{k=i}^{t} F_{k,i+1} \right)\zeta_i \Big\} ,
+\end{align*}
+where in the second sum we flipped the order of sums and swapped the names of the variables that the sum runs over.
+It follows that \todoc{We should rather use $C$ instead of $H$ here?}
+\begin{align*}
+\E[\norm{\eh_t}^2]&=\E\ip{\eh_t,\eh_t}
+=\frac{1}{(t+1)^2} \sum_{i,j=0}^t \E\ip{e_i,e_j}\,.
+\end{align*}
+Hence, we see that it suffices to bound $\EE{\ip{ e_i,  e_j }}$.
+There are two cases depending on whether $i=j$. When $i< j$,
+\begin{align*}
+\E\ip{e_i,e_j}
+&=\E \ip{e_i,\big[F_{j,i+1} e_i+\alpha\textstyle\sum_{k=i+1}^j F_{j,k+1}\zeta_{k}\big]}\\
+&=\E\ip{e_i,F_{j,i+1} e_i}  \text{(from \Cref{noisecancel})}\\
+&=\E\ip{e_i, (I-\alpha A)^{j-i} e_i} \text{(from \Cref{lem:unroll})}
+\end{align*}
+and therefore
+\begin{align*}
+\label{inter}
+\sum_{i=0}^{t-1}\sum_{j=i+1}^t \E\ip{e_i,e_j}
+&=\frac1{\alpha\rhod{P}} {\sum}_{i=0}^{t-1}\E\ip{e_i,e_i}\\
+&\leq \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t}\E\ip{e_i,e_i}\,.
+\end{align*}
+Since $\sum_{i,j}\cdot{} = \sum_{i=j}\cdot{} + 2 \sum_i \sum_{j>i} \cdot{}$,
+\begin{align*}
+{\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}&= \left(1+\frac2{\alpha\rhod{P}}\right){\sum}_{i=0}^{t}\E\ip{e_i,e_i}\,.
+\end{align*}
+Expanding $e_i$ using \eqref{eq:etft} and then using \Cref{innerproduct} and \Cref{assmp:lsacmplx}
+\begin{align*}
+\E\ip{e_i,e_i}&=\E\ip{F_{i,1}e_0,F_{i,1}e_0}+\alpha^2{\sum}_{j=1}^i\E\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}+\alpha\sum_{j=1}^i  \E\ip{F_{i,1} e_0, F_{i,j+1}\zeta_j}\\
+&\leq (1-\alpha\rhos{P})^i\norm{e_0}^2+ \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}+ \alpha \frac{{\sigma}^2_2 \norm{e_0}}{\alpha\rhos{P}}\,,
+\end{align*}
+and so
+\begin{align*}
+{\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}
+&\leq \left(1+\frac2{\alpha\rhod{P} }\right)\, \frac1{\alpha\rhos{P}}\, (t(\alpha^2{\sigma}_1^2+\alpha {\sigma}^2_2\norm{e_0}) +\norm{e_0}^2)\,.
+\end{align*}
+Putting things together,
+\begin{align}
+\E[\norm{\eh_t}^2]
+\leq \left(1+\frac2{\alpha\rhod{P}}\right)\, \frac1{\alpha\rhos{P}}\, \,
+%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)+\alpha \sigma_2^2\norm{e_0}}{t+1} \right)\,.
+\end{align}
+\end{proof}
+
+\paragraph{Proof of \Cref{lm:hur}}
+\begin{lemma} %\label{lm:hur}
+Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, then there exists an $\alpha_{P_U}>0$ and $U\in \gln$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0,~\forall \alpha \in (0,\alpha_P)$.
+\end{lemma}
+\begin{proof}
+We know that $A_P$ is Hurwitz and from  \Cref{lm:simtran} it follows that there exists an $U\in \gld$ such that  $\Lambda=U^{-1} A_P U$ and $(\Lambda^*+\Lambda)$ is real symmetric and positive definite. Using \Cref{def:simdist}, we have $A_{P_U}=\Lambda$ and from \Cref{lm:pd} we know that there exists an $\alpha_{P_U}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0,~\forall \alpha \in (0,\alpha_{P_U})$.
+
+\end{proof}
+
+
+
+\begin{lemma}[Change of Basis]\label{lm:cb}
+Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ as in \Cref{assmp:lsa} and let $U$ be chosen according to \Cref{lm:hur}. Define $\gamma_t\eqdef U^{-1}\theta_t,\,,\gamma_*\eqdef U^{-1}\ts$, then
+\begin{align}
+\EE{\norm{\gamma_t-\gamma_*}^2}
+\leq
+\left(1+\frac2{\alpha\rhod{P_U}}\right)\frac{\norm{U^{-1}}^2}{\alpha \rhos{P_U}}
+\left(\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{\theta_0-\ts}}{t+1} \right)\,.
+%\left(\frac{\norm{\gamma_0-\gamma_*}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2+\alpha \norm{\gamma_0-\gamma_*})}{t+1} \right)\,,
+\end{align}
+where $\gh_t=\frac{1}{t+1}\sum_{s=0}^t \gamma_s$.
+\end{lemma}
+\begin{proof}
+Consider the modified error recursion in terms of $z_t\eqdef \gamma_t-\gamma_*$
+\begin{align}\label{eq:newerrrec}
+\begin{split}
+e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t\\
+U^{-1}e_t&=(I-\alpha U^{-1}A_t U) U^{-1}e_{t-1}+ \alpha U^{-1}\zeta_t\\
+z_t&=(I-\alpha \Lambda_t) z_{t-1}+\alpha H_t,
+\end{split}
+\end{align}
+where  $\Lambda_t=U^{-1}A_t U$ and $H_t=U^{-1}\zeta_t$. Note that the error recursion in $z_t$ might involve complex computations (depending on whether $U$ has complex entries or not), and hence \eqref{eq:lsacmplx} and \Cref{assmp:lsacmplx} are useful in analyzing $z_t$.
+We know that $\EE{\norm{H_t}^2}\leq \norm{U^{-1}}^2\EE{\norm{\zeta_t}}$ and $\EE{\norm{\Lambda_t H_t}}=\EE{\norm{U^{-1}A_t UU^{-1}\zeta_t}}=\EE{\norm{U^{-1}A_t \zeta_t}}\leq \norm{U^{-1}}\EE{\norm{A_t\zeta_t}}=\norm{U^{-1}}\sigma_2^2$. Now applying \Cref{th:pdrate} to $\hat{z}_t\eqdef \frac{1}{t+1}\sum_{s=0}^t z_t$, we have
+\begin{align}
+\E[\norm{\zh_t}^2]
+&\leq \left(1+\frac2{\alpha\rhod{P_U}}\right)\, \frac1{\alpha\rhos{P_U}}\, \,
+\left(\frac{\norm{z_0}^2}{(t+1)^2}+ \frac{\alpha^2(\norm{U^{-1}}^2\sigma_1^2)+\alpha (\norm{U^{-1}}\sigma_2^2)\norm{z_0}}{t+1} \right)\,\\
+&\leq \left(1+\frac2{\alpha\rhod{P_U}}\right)\, \frac1{\alpha\rhos{P_U}}\, \,
+\left(\frac{\norm{U^{-1}}^2\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\norm{U^{-1}}^2\sigma_1^2)+\alpha (\norm{U^{-1}}\sigma_2^2)\norm{U^{-1}}\norm{e_0}}{t+1} \right)\,
+\end{align}
+
+\end{proof}
+
+\paragraph{Proof of \Cref{th:rate}}
+Follows by substituting $\theta_t=U\gamma_t$ in \Cref{lm:cb}.
+\begin{comment}
+\begin{theorem}[Lower Bound]
+There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, such that $\alpha_P>0$, such that $\rhos{P}>0$ and $\rhod{P}>0,\,\forall \alpha\in (0,\alpha_P)$ and
+\begin{align*}
+\EE{\norm{\thh_t-\ts}^2} &\geq \frac{1}{(t+1)^2}(\alpha)^{-2}(\rhod{P}\rhos{P})^{-1}\Big( \big(1-(1-\alpha \rhos{P})^t\big) \norm{\theta_0-\ts}^2 \\&+ \sum_{s=1}^t \big(1-(1-\alpha \rhos{P})^{(t-s)}\big) \big(\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}\big) \Big)
+\end{align*}
+\end{theorem}
+\end{comment}
+\paragraph{Proof of \Cref{th:lb}}
+
+Consider the LSA with $(b_t,A_t)\sim P$ such that $b_t=(N_t,0)^\top\in\R^2$ is a zero mean \iid random variable with variance $\sigma^2_b$, and $A_t=A,\,\forall t\geq 0$, where $A=A_P=\begin{bmatrix} \lambda_{\min} &0\\ 0& \lambda_{\max}\end{bmatrix}$, for some $\lambda_{\max}>\lambda_{\min}>0$. Note that in this example $\ts=0$.
+By choosing $\alpha<\frac2{\lambda_{\max}}$, in this case it is straightforward to write the expression for $\eh_t$ explicitly as below:
+\begin{align*}
+\eh_t&=\frac{1}{t+1}\sum_{s=0}^t e_t = \frac{1}{t+1}\sum_{s=0}^t (I-\alpha A_P)^{t-s} e_0 + \sum_{s=1}^t \sum_{i=s}^t (I-\alpha A_P)^{i-s} b_s\\
+&=\frac{1}{t+1}(\alpha A_P)^{-1}\left[\left(I-(I-\alpha A_P)^{t+1}\right)e_0 + \sum_{s=1}^t \left(I-(I-\alpha A_P)^{t+1-s}\right) b_s\right]\,.
+\end{align*}
+Thus,
+\begin{align*}
+\EE{\norm{\eh_t}^2}&\stackrel{(a)}{=}\frac{1}{(t+1)^2}\Big[\norm{(\alpha A_P)^{-1}\left(I-(I-\alpha A_P)^{t+1}\right)e_0}^2 \\ 
+&+\sum_{s=1}^t \norm{(\alpha A_P)^{-1}\left(I-(I-\alpha A_P)^{t+1-s}\right)b_s}^2\Big]\,,
+%&\leq\frac{1}{(t+1)^2}\alpha^2\norm{A_P^{-1}}^2\norm{e_0}^2
+\end{align*}
+and hence
+\begin{align*}
+\EE{\norm{\eh_t}^2}
+& \geq \EE{\eh^2_t(1)}\stackrel{(b)}{=}\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}\Big[\left(1-(1-\alpha \lambda_{\min})^{t+1}\right)^2 \theta^2_0(1)\\
+& + \frac{1}{(t+1)^2}\sum_{s=1}^t\left(1-(1-\alpha \lambda_{\min})^{t+1-s}\right)^2 b^2_s(1) \Big]\,.
+\end{align*}
+Here $(a)$ and $(b)$ follows from the \iid assumption. Note that in this example, $\rhos{P}=\rhod{P}=2\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(2-\alpha \lambda_{\min})$, and $\norm{\ts}=0$ and $\sigma^2_A=0$. Further, the result follows by noting the fact that noting the fact that $\norm{b_t}^2=b_t(1)^2$ and $\norm{\theta_t}^2=\theta_t(1)^2$.
+%\begin{align}
+%\EE{\norm{\eh_t}^2}\geq \frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
+%\end{align}
+
+
+
+
+\paragraph{Proof of \Cref{lm:notwad}}
+Fix an arbitrary $\alpha>0$. We show that there exists $P\in \P$ such that $\rho_\alpha(P)<0$.
+For $\epsilon \in (0,1/2)$ let $P=(P^V,P^M)$ be the distribution such that $P^M$ is supported on $\{-I,I\}$ and takes on the value of $I$ with probability $1/2+\epsilon$. Then $A_P = 2\epsilon I \succ 0$, hence $P\in \P_1$. Further, $Q_P = I$.
+Hence, $\rhos{P} = 4\epsilon-\alpha$. Hence, if $\epsilon<\alpha/4$, $\rho_\alpha(P)<0$.
+
+\paragraph{Proof of \Cref{lm:ppsdbwd}}
+Since $\P_{\text{PSD},B}$ is supported on the set of positive semi-definite matrices, we know for any $A\in \R^{\dcd}$ that is PSD, we can consider the SVD of $A$: $A = U \Lambda U^\top$ where $U$ is orthonormal and $\Lambda$ is diagonal with
+nonnegative elements. Note that $\Lambda \preceq B\, \I$ and thus $\Lambda^2 \preceq B \Lambda$.
+Then for any $x\in \R^d$, $x^\top A^\top A x = x^\top U \Lambda^2 U^\top x \le B x^\top U \Lambda U^\top x = B x^\top A x$.
+Taking expectations we find that $x^\top C_P x \le B x^\top A_P x$.
+Hence, $\rhos{P_{\text{PSD},B}} = 2 x^\top A_P x - \alpha x^\top C_P x \ge (2- \alpha B ) \,x^\top A_P x $.
+Thus, for any $\alpha<2/B$, $\rho_\alpha(P)>0$.
+
+
+\paragraph{Proof of \Cref{lm:ppsdbna}}
+Consider the case when the smallest eigenvalue of $A_P$ is $0$.

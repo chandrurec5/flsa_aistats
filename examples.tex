@@ -1,0 +1,70 @@
+Our objective is to analyse $\EE{\norm{\thh_t-\theta^*}_C^2}$, where $C$ is a positive definite matrix.
+
+\begin{example}\label{ex:tdzero}[Temporal Difference Learning-  (TD(0)) ]
+The simplest temporal difference learning algorithm with a constant stepsize $\alpha>0$ is given by
+\begin{align}
+\label{tdzero}
+\begin{split}
+\theta_t
+& = \theta_{t-1}+\alpha\, (R_t+ \gamma \ip{\theta_{t-1},\tilde{\phi}_t } - \ip{\theta_{t-1},\phi_t})\phi_t \\
+& = \theta_{t-1}+\alpha\, \bigl( R_t\phi_t- (\phi_t \phi_t^\top-\gamma \phi_t \tilde{\phi}_t^\top)\theta_{t-1}\bigr)\,.
+\end{split}
+\end{align}
+Here, $(\phi_t,\tilde{\phi}_t,R_t)\in \R^n\times \R^n \times \R$ is the data at time $t$.
+Assuming $(\phi_t,\tilde{\phi}_t,R_t)$ is \iid and say, bounded,
+we see that with $A_t = \phi_t \phi_t^\top-\gamma \phi_t \tilde{\phi}_t^\top$, $b_t = R_t \phi_t$, \eqref{tdzero} is in the form of
+\eqref{conststep}.
+Note that the matrices $A_t$ are rank-1, hence the algorithm can indeed be implemented using $O(n)$ storage and
+time (as is also shown in the first form of the update of $\theta_t$). In the so called `on-policy' setting, it is known that $A_P$ is positive definite \cite{}. Note that in general neither $A_t$ nor $A_P$ is symmetric.
+\todoc[inline]{Finish: This is indeed satisfied in ``on policy'' TD, etc. Add at least one reference. Note that this is TD(0).}
+In TD learning the error of a parameter $\theta$ is commonly measured using the expected squared
+prediction error $L_t(\theta) = \EE{ (\phi_t^\top \theta - \phi_t^\top \ts)^2 } = \norm{\theta - \ts}_C^2$,
+where $C = \EE{ \phi_t \phi_t^\top }$ is assumed to be PD.
+\if0
+\begin{align}\label{tdzero}
+\theta_t=&\theta_{t-1}+\alpha \big(\phi(s_t) R(s_t)\nn\\&+ (\phi(s_t)\phi^\top(s_t)-\gamma \phi(s_t)\phi^\top(s'_t))\theta_{t-1}\big),
+\end{align}
+where are $s_t,s'_t\in S$ with $S$ being a finite set, $\phi(s)\in \R^n$ are the so called \emph{feature} vectors, $\gamma\in (0,1)$ is a given discount factor and $R\colon S\ra \R$ is map from S to reals. \todoc{Shoot, I wish we used $d$ in place of $n$..}
+Here, $s_t$ are \iid random variables distributed according to the law $s_t\sim \xi$ where $\xi$ is supported on $S$ and $s'_t\sim p(s_t,\cdot)$. The TD algorithm in \eqref{tdzero} can be cast in the general form as presented in \eqref{eq:lsa}, by letting $g_t=\phi(s_t)R(s_t)$ and $A_t=\phi(s_t)\phi^\top(s_t)-\gamma \phi(s_t)\phi^\top(s'_t)$.
+\fi
+\end{example}
+
+\begin{example}[Temporal Difference Learning-  (GTD)) ]
+The gradient temporal difference learning algorithm with constant stepsize $\alpha>0$ is given by
+\begin{align}
+\label{master} y_t=y_{t-1}+\alpha\, \bigl( b_t-A_t \theta_{t-1} -y_{t-1}\bigr)\\
+\label{slave} \theta_t& = \theta_{t-1}+\beta\, \bigl(A_t^\top \theta_{t-1}\bigr),
+\end{align}
+where $A_t$ and $b_t$ are same as in \cref{ex:tdzero}.
+In contrast to TD, the GTD algorithm has two recursions namely the \emph{master} that updates $y_t$ in \eqref{master} and the \emph{slave} that updates $\theta_t$ \eqref{slave}. Notice that the master-slave recursions can be written as a single recursion by lumping together the variables and properly taking care of the step sizes. This is accomplished below:
+\begin{align}
+\xi_{t}=\xi_{t-1}+\alpha (g_t -H_t),
+\end{align}
+where $g_t=\begin{bmatrix}b_t\\ 0\end{bmatix}$, and $H_t=\begin{bmatrix}-I & -A_t\\ \frac{\beta}{\alpha}A_t^\top \zero_{n\times n} \end{bmatrix}$
+In TD learning the error of a parameter $\theta$ is commonly measured using the expected squared
+prediction error $L_t(\theta) = \EE{ (\phi_t^\top \theta - \phi_t^\top \ts)^2 } = \norm{\theta - \ts}_C^2$,
+where $C = \EE{ \phi_t \phi_t^\top }$ is assumed to be PD.
+\if0
+\begin{align}\label{tdzero}
+\theta_t=&\theta_{t-1}+\alpha \big(\phi(s_t) R(s_t)\nn\\&+ (\phi(s_t)\phi^\top(s_t)-\gamma \phi(s_t)\phi^\top(s'_t))\theta_{t-1}\big),
+\end{align}
+where are $s_t,s'_t\in S$ with $S$ being a finite set, $\phi(s)\in \R^n$ are the so called \emph{feature} vectors, $\gamma\in (0,1)$ is a given discount factor and $R\colon S\ra \R$ is map from S to reals. \todoc{Shoot, I wish we used $d$ in place of $n$..}
+Here, $s_t$ are \iid random variables distributed according to the law $s_t\sim \xi$ where $\xi$ is supported on $S$ and $s'_t\sim p(s_t,\cdot)$. The TD algorithm in \eqref{tdzero} can be cast in the general form as presented in \eqref{eq:lsa}, by letting $g_t=\phi(s_t)R(s_t)$ and $H_t=\phi(s_t)\phi^\top(s_t)-\gamma \phi(s_t)\phi^\top(s'_t)$.
+\fi
+\end{example}
+
+
+\begin{comment}
+We consider the vanilla version of the linear regression problem, where `amazing' results are known. It serves us to contrast the results we obtain for general linear stochastic approximation algorithms to the results known for this setting.
+\end{comment}
+\begin{example}\label{ex:leastsquares}[Linear Regression]
+Let $(x_t,y_t)\in \R^n\times \R,\,t\geq 1$ be \iid such that $\EE{\norm{x_t}^2}$ and $\EE{y_t^2}$ are finite. Further, we assume bounded data i.e., $\norm{(x_t,y_t)}^2\leq B$ for some positive real number $B>0$. Here, $x_t,\,t\geq 1$ are the features and $y_t$ are real labels and the linear regression problem constitutes minimizing the quadratic loss function $f(\theta)=\EE{\left(\ip{x_t,\theta}-y_t\right)^2}$. The stochastic gradient descent scheme with constant step size $\alpha>0$ to minimize $f(\theta)$ can be given as below:
+\begin{align}\label{linreg}
+\theta_t=\theta_{t-1}-\alpha x_t\left(\ip{x_t,\theta_{t-1} -y_t}\right)
+\end{align}
+Here $\nabla f(\theta_{t-1})=x_t\left(\ip{x_t,\theta_{t-1} -y_t}\right)$ is the \emph{stochastic gradient} of the objective $f(\theta)$. It follows from the \iid assumption on $(x_t,y_t)$ that $A_t=x_t x_t^\top$ and $b_t=y_t x_t$ are also \iid, and with this identification one can see that \eqref{linreg} is of the form in \eqref{conststep}. In this case $A_P$ is PSD.
+In the linear regression setting, the error of a parameter $\theta$ is measured as the difference between the loss at the said parameter and the loss at the optimum, which has the following form
+\begin{align*}
+f(\theta)-f(\ts)=(\theta-\ts)^\top A_P (\theta-\ts)=\EE{\norm{\theta-\ts}^2_{A_P}}
+\end{align*}
+\end{example}
