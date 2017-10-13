@@ -251,10 +251,11 @@ by which it is clear that the product of the random matrices of the form $(I-\al
 \end{comment}
 
 \paragraph{Admissibility in RL problems:} We now state results which show that certain important class of RL problems are \emph{admissible}.
-\begin{theorem}
+\begin{theorem}\label{th:tdadmis}
+Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\max_{t\geq 0}\rho_t$. We have
 \begin{itemize}[leftmargin=*]
-\item For TD(0) in \Cref{tb:tdalgos}, the class of \emph{on-policy} ($\rho_t=1,\forall t\geq 0$) RL problems is admissible with witness $\alpha=\frac{1}{B^2 d}$
-\item For TD(0) in \Cref{tb:tdalgos}, the class of RL problems (\emph{on/off-policy}) with bounded features ($\norm{\phi}^2_2=1$) is admissible  with witness $\alpha=\frac{1}{\rho_{\max}}$.
-\item For GTD in \Cref{td:algos}, RL problems are admissible with witness $\alpha=frac{1}{B^2d\rho_{\max}}$
+\item For TD(0) in \Cref{tb:tdalgos}, the class of RL problem with $\E{\phi_t\phi_t^\top}=\E{\phi'_t{\phi'}_t^\top}$ is admissible with witness $\alpha=\frac{1}{B^2 d\rho_{\max}}$.
+\item For GTD in \Cref{tb:tdalgos}, RL problems are admissible with witness $\alpha=\frac{1}{2B^4d^2\rho_{\max}}$.
 \end{itemize}
+
 \end{theorem}

@@ -377,23 +377,55 @@ Here $(a)$ and $(b)$ follows from the \iid assumption. Note that in this example
 %\begin{align}
 %\EE{\norm{\eh_t}^2}\geq \frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
 %\end{align}
+\begin{lemma}\label{lm:matnorm}
+Let $A$ be a $\dcd$ matrix with $B\eqdef\max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x <B^2d$.
+\end{lemma}
 
+We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succ D$ if $C-D$ is positive definite.
+\begin{lemma}\label{lm:schur}
+Let $A,B,C$ $\dcd$ real matrices. Given a symmetric matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$ be a given $2d\times 2d$ matrix, it follows that $M\succ 0$ if	$A\succ$ and $C-B^\top A^{-1}B\succ 0$.
+\end{lemma}
 
+\begin{lemma}\label{lm:amat}
+Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follows that the matrix $A_\delta=\Phi^\top D_\pi(I-\delta P_\pi)\Phi$ is positive definite ($x^\top Ax>0,\forall x \in \R^d$) $\forall \delta\in(0,1)$.
+\end{lemma}
 
+\begin{theorem}
+\begin{enumerate}[leftmargin=*]
+\item For TD(0) in \Cref{tb:tdalgos}, the class of \emph{on-policy} ($\rho_t=1,\forall t\geq 0$) RL problems is admissible with witness $\alpha=\frac{1}{B^2 d}$
+\item For TD(0) in \Cref{tb:tdalgos}, the class of RL problems (\emph{on/off-policy}) with bounded features ($\norm{\phi}^2_2=1$) is admissible  with witness $\alpha=\frac{1}{\rho_{\max}}$.
+\item For GTD in \Cref{td:algos}, RL problems are admissible with witness $\alpha=frac{1}{B^2d\rho_{\max}}$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+In what follows, we need to show for the said values of $\alpha$, $\rhos>0$ which is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. We show it for all the three cases above.
+Case $1:$ \emph{on-policy} TD(0), in what follows we use the fact that for $\alpha=\frac{1}{B^2d \rho_{\max}}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$, and that $xAx>0,\forall x \in \R^{d}$ We have
+\begin{align*}
+x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x=&x^\top\big( I- 2\phi_t(\phi_t-\gamma\phi'_t)^\top +\beta\phi_t(\phi-\gamma\phi'_t)^\top-\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top \big)x\\
+<&x^\top\big( I- \phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma\phi'_t\phi^\top_t+\beta\gamma^2\phi'_t{\phi'}_t^\top \big)x\\
+=&x^\top\big( I- \phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma^2(\gamma\phi'_t\phi^\top_t- \phi'_t{\phi'}_t^\top)-\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top \big)x\\
+\end{align*}
+Taking $\E$, we have
+\begin{align*}
+\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<&_t)^\top <&x^\top\big( I- A -\beta\gamma^2(-A)-\beta\gamma(1-\gamma^2)\E{\phi'_t\phi_t^\top} \big)x
+<&x^\top\big( I- (1-\gamma^2)[A +\beta\gamma\E{\phi'_t\phi_t^\top}] \big)x
+\end{align*}
+Now we have 
+\begin{align*}
+x^\top\big(A +\beta\gamma\E{\phi'_t\phi_t^\top}\big)x=& x^\top\big(\E{\phi_t\phi_t}-\gamma\E{\phi_t\phi'_t} +\beta\gamma\E{\phi'_t\phi_t^\top}\big)x\\
+=&x^\top\big(\E{\phi_t\phi_t}-\delta\E{\phi_t\phi'_t} )x,
+\end{align*}
+where $\delta=\gamma(1-\beta)$. However it follows that $x^\top\big(\E{\phi_t\phi_t}-\delta\E{\phi_t\phi'_t} )x>0$ from \Cref{lm:amat}.
 
-\paragraph{Proof of \Cref{lm:notwad}}
-Fix an arbitrary $\alpha>0$. We show that there exists $P\in \P$ such that $\rho_\alpha(P)<0$.
-For $\epsilon \in (0,1/2)$ let $P=(P^V,P^M)$ be the distribution such that $P^M$ is supported on $\{-I,I\}$ and takes on the value of $I$ with probability $1/2+\epsilon$. Then $A_P = 2\epsilon I \succ 0$, hence $P\in \P_1$. Further, $Q_P = I$.
-Hence, $\rhos{P} = 4\epsilon-\alpha$. Hence, if $\epsilon<\alpha/4$, $\rho_\alpha(P)<0$.
+Case $2:$ The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\*(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^4 d^2 \rho_{\max}}$ is a valid witness, we need to show that  $\max_{x\in \R^d}\E{x^\top(I-\alpha H_t)^\top (I-\alpha H_t)x}<1$, which is equivalent to showing $\min_{x\in \R^d}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
 
-\paragraph{Proof of \Cref{lm:ppsdbwd}}
-Since $\P_{\text{PSD},B}$ is supported on the set of positive semi-definite matrices, we know for any $A\in \R^{\dcd}$ that is PSD, we can consider the SVD of $A$: $A = U \Lambda U^\top$ where $U$ is orthonormal and $\Lambda$ is diagonal with
-nonnegative elements. Note that $\Lambda \preceq B\, \I$ and thus $\Lambda^2 \preceq B \Lambda$.
-Then for any $x\in \R^d$, $x^\top A^\top A x = x^\top U \Lambda^2 U^\top x \le B x^\top U \Lambda U^\top x = B x^\top A x$.
-Taking expectations we find that $x^\top C_P x \le B x^\top A_P x$.
-Hence, $\rhos{P_{\text{PSD},B}} = 2 x^\top A_P x - \alpha x^\top C_P x \ge (2- \alpha B ) \,x^\top A_P x $.
-Thus, for any $\alpha<2/B$, $\rho_\alpha(P)>0$.
-
-
-\paragraph{Proof of \Cref{lm:ppsdbna}}
-Consider the case when the smallest eigenvalue of $A_P$ is $0$.
+Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) > M_t$, where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top \alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t>0$ we need to ensure 
+\begin{align}
+&\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
+=&\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
+\succ &\alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
+\succ& \frac{\alpha}{2} I,
+\end{align}
+where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}
+\end{proof}
+%\left[\begin{matrix}\end{matrix}\right]

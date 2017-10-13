@@ -1,0 +1,132 @@
+\FloatBarrier
+\begin{figure*}
+\begin{tabular}{ccc}
+\begin{minipage}{0.6\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{loglogaxis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west
+    ]
+        \addplot[only marks, mark=+] table[y ]  {est/est};
+    \addplot[only marks, mark=o] table[y ]  {pred/pred};
+        \addplot[only marks, mark=*] table[y ]  {struc/struc};
+\addlegendentry{$ee$}
+\addlegendentry{$peusc$}
+\addlegendentry{$pesc$}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{loglogaxis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+&
+\begin{minipage}{0.6\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west
+    ]
+        \addplot[only marks, mark=+] table[y ]  {baird/gtd};
+    \addplot[only marks, mark=o] table[y ]  {baird/gtd_cs};
+\addlegendentry{$\alpha=0.005,\beta=16$}
+\addlegendentry{$\alpha=\frac{1}{14},\beta=1$}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+&
+
+\begin{minipage}{0.6\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west
+    ]
+        \addplot[only marks, mark=+] table[y ]  {tdon/fouriern1};
+    \addplot[only marks, mark=o] table[y ]  {gtdon/fouriern1};
+\addlegendentry{TD(0)}
+\addlegendentry{GTD}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+
+\end{tabular}
+\label{fig:results}
+\end{figure*}
+
+
+
+\begin{comment}
+ \begin{minipage}{0.6\columnwidth}
+
+\resizebox{1\columnwidth}{!}{
+\begin{tabular}{|c||l|l|l||l|}
+  \hline
+  \multirow{2}{*}{\emph{on-policy}} 
+      & \multicolumn{2}{c|}{TD(0)} 
+          & \multicolumn{2}{c|}{GTD} \\             \cline{2-5}
+  & $2e3$ & $2e4$ & $2e3$ & $2e4$ \\  \hline
+  $Tile~1$ & $1.35e^{-1}$ & $1.23e^{-1}$ & NA & NA \\      \hline
+  $Tile~2$ & $1.27e^{-1}$ & $1.10e^{-1}$ & NA & NA \\      \hline
+  $Tile~3$ & $1.73e^{-1}$ & $1.13e^{-1}$ & NA & NA \\      \hline
+  $Tile~4$ & $1.47e^{-1}$ & $1.07e^{-1}$ & NA & NA \\      \hline
+  $FUN~1$ & $1.45e^{-1}$ & $1.10e^{-1}$ & $7.19e^{-1}$& $2.12e^{-1}$ \\      \hline
+  $FUN~2$ & $1.77e^{-1}$ & $1.05e^{-1}$ & $7.75e^{-1}$ & $2.24e^{-1}$ \\      \hline
+  $FUN~3$ & $2.42e^{-1}$ & $1.09e^{-1}$ & $8.06e^{-1}$ & $2.82e^{-1}$ \\      \hline
+  $FUN~4$ & $3.35e^{-1}$ & $1.16e^{-1}$ & $8.50e^{-1}$ & $3.39e^{-1}$ \\      \hline
+  $FN~1$ & $1.22e^{-1}$ & $1.09e^{-1}$ & $8.25e^{-1}$ & $3.40e^{-1}$ \\      \hline
+  $FN~2$ & $1.24e^{-1}$ & $1.03e^{-1}$ & $8.90e^{-1}$ & $4.33e^{-1}$ \\      \hline
+  $FN~3$ & $1.62e^{-1}$ & $1.08e^{-1}$ & $9.21e^{-1}$ & $5.43e^{-1}$ \\      \hline
+  $FN~4$ & $2.22e^{-1}$ & $1.09e^{-1}$ & $9.38e^{-1}$ & $6.25e^{-1}$ \\      \hline
+   
+\end{tabular}
+}
+
+  
+ \end{minipage}
+&
+ \begin{minipage}{0.6\columnwidth}
+ 
+
+ \resizebox{\columnwidth}{!}{
+\begin{tabular}{|c||l|l|l||l|}
+  \hline
+  \multirow{2}{*}{\emph{off-policy}} 
+      & \multicolumn{2}{c|}{TD(0)} 
+          & \multicolumn{2}{c|}{GTD} \\             \cline{2-5}
+  & $5e4$ & $5e5$ & $5e4$ & $5e5$ \\  \hline
+  $Tile~1$ & $6.48e^{-2}$ & $6.52e^{-2}$ & NA & NA \\      \hline
+  $Tile~2$ & $4.25-2$ & $2.81e^{-2}$ & NA & NA \\      \hline
+  $Tile~3$ & $8.50e^{-2}$ & $3.38e^{-2}$ & NA & NA \\      \hline
+  $Tile~4$ & $1.04e^{-1}$ & $2.70e^{-2}$ & NA & NA \\      \hline
+  $FUN~1$ & $9.59e^{-2}$ & $6.40e^{-2}$ & $7.73e^{-1}$& $3.22e^{-1}$ \\      \hline
+  $FUN~2$ & $1.53e^{-1}$ & $1.91e^{-1}$ & $8.41e^{-1}$ & $4.87e^{-1}$ \\      \hline
+  $FUN~3$ & $1.77e^{-1}$ & $1.98e^{-1}$ & $8.62e^{-1}$ & $5.41e^{-1}$ \\      \hline
+  $FUN~4$ & $3.04e^{-1}$ & $1.48e^{-1}$ & $8.87e^{-1}$ & $6.21e^{-1}$ \\      \hline
+  $FN~1$ & $1.49e^{-1}$ & $1.63e^{-2}$ & $9.33e^{-1}$ & $5.75e^{-1}$ \\      \hline
+  $FN~2$ & $1.46e^{-1}$ & $1.91e^{-1}$ & $9.71e^{-1}$ & $7.82e^{-1}$ \\      \hline
+  $FN~3$ & $1.16e^{-1}$ & $2.01e^{-1}$ & $9.78e^{-1}$ & $8.68e^{-1}$ \\      \hline
+    $FN~4$ & $1.40e^{-1}$ & $1.50e^{-1}$ & $9.88e^{-1}$ & $9.08e^{-1}$ \\      \hline
+    
+\end{tabular}
+}
+
+ 
+ \end{minipage}
+\end{comment}
