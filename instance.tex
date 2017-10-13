@@ -148,6 +148,7 @@ $\theta_t=U\gamma_t$. Of course, when the problem $P$ is positive definite, we c
 More generally, one can always take $U$ in the result that leads to the smallest bound.
 \end{comment}
 \textbf{Role of $\rhos{P}$ and $\rhod{P}$}: 
+\begin{comment}
 The core part of the proof involves analyzing what we call the error dynamics. Define $e_t\eqdef\theta_t-\ts$, then we have
 \begin{align}\label{eq:errmain}
 \begin{split}
@@ -167,7 +168,8 @@ e_t
 &  \quad \vdots \\
 &+ \alpha \zeta_t\,,
 \end{align}
-%When $P$ is positive definite, we can expand the MSE as 
+\end{comment}
+When $P$ is positive definite, we can expand the MSE as 
 We can expand the MSE as 
 \begin{align}
 \label{eq:exp}
@@ -192,7 +194,7 @@ From \eqref{errec} it is clear that the error dynamics depends on the $i)$ prope
 \end{comment}
 j%ustifying the appearance of $\rhos{P}$ and $\rhod{P}$.
 %Note that \eqref{eq:spectralrand} explicitly connects $\rhod{P}$ and $\rhos{P}$ in \Cref{def:dist} to the spectral norms matrices $H_t$ and $H_P$. 
-For the MSE to be bounded, we need the spectral norms to be less than unity, implying the conditions $\rhos{P}>0$ and $\rhod{P}>0$. When $P$ is positive definite, then from \Cref{} we can ensure $\rhos{P}>0$ and $\rhod{P}>0$. However, when $P$ is Hurwitz we cannot guarantee  $\rhos{P}>0$ and $\rhod{P}>0$.
+For the MSE to be bounded, we need the spectral norms to be less than unity, implying the conditions $\rhos{P}>0$ and $\rhod{P}>0$. 
 If $P$ is Hurwitz, we can argue on similar lines by first transforming $P$ into a positive definite problem $P_U$ and replacing $\rhos{P}$ and $\rhod{P}$ by $\rhos{P_U}$ and $\rhod{P_U}$, and introducing $\cond{U}$ to account for the forward ($\gamma=U^{-1}\theta$) and reverse ($\theta=U\gamma$) transformations using $U^{-1}$ and $U$ respectively.
 
 \textbf{Constants} {$\alpha$, $\rhos{P}$ and $\rhod{P}$} do not affect the exponents $\frac{1}{t}$ for variance and $\frac{1}{t^2}$ for bias terms. This property is not enjoyed by all step-size schemes, for instance, step-sizes that diminish at $O(\frac{c}{t})$ are known to exhibit $O(\frac{1}{t^{\mu c/2}})$ ($\mu$ is the smallest real part of eigenvalue of $A_P$), and hence the exponent of the rates are not robust to the choice of $c>0$ \cite{bach-moulines,korda-prashanth}.
@@ -250,7 +252,7 @@ e_t
 by which it is clear that the product of the random matrices of the form $(I-\alpha A_s)\ldots(I-\alpha A_1)$ (for $s=1,\ldots,t$) play a crucial role. We need to ensure that these products do not `blow up' with time which is 
 \end{comment}
 
-\paragraph{Admissibility in RL problems:} We now state results which show that certain important class of RL problems are \emph{admissible}.
+We now state results which show that certain important class of RL problems are \emph{admissible}.
 \begin{theorem}\label{th:tdadmis}
 Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\max_{t\geq 0}\rho_t$. We have
 \begin{itemize}[leftmargin=*]
@@ -259,3 +261,8 @@ Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\ma
 \end{itemize}
 
 \end{theorem}
+\paragraph{Remarks:} 
+\begin{itemize}[leftmargin=*]
+\item The condition for the constant step-size is related to the maximum possible operator norm of the random matrices $A_t$s involved. However, since $A_t$s themselves are rank-$1$ in the features, it turns out that the result in \Cref{th:tdadmis} hold for normalized features with step-size of $\alpha=1$ in the case ofTD(0) and $\alpha=\frac{1}{2}$ in the case of GTD.
+\item From \Cref{th:tdadmis} we observe that the constant step-size for GTD is \emph{squared} that of the TD(0) (sans the factor of $2$) and hence can be very conservative. This is because the GTD can be thought of the CALSA to solve the linear inverse problem $A^\top A\ts=A^\top b$, using two variables (the primal and the dual). Thus the step-size also gets \emph{squared} relative to TD(0), and is the indirect price paid for having a stable scheme irrespective of the distribution mismatch (\emph{on} versus \emph{off} policy).
+\end{itemize}

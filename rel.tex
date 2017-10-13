@@ -1,29 +1,16 @@
 \section{Related Work}\label{sec:related}
-\subsection{Other Step-Size Strategies in RL}
-It is clear that for the LSA in \eqref{eq:lsaintro} to be stable $\alpha_t$ should be non-increasing. In this paper, we showed that the constant step-size with iterate averaging is a viable step-size strategy.  This brings us to the following discussion on the two other non-increasing choices for step-size strategies namely the diminishing and adaptive strategies.
-\paragraph{Diminishing} An immediate choice is to $\alpha_t=\frac{1}{t}$. We now show that why this choice is not desirable. 
-%\begin{theorem}
-%The mean-squared error after $t$ iterations for the LSA in \eqref{eq:lsaintro} with $\alpha_t=\frac1t$ is lower bounded by $O(\frac1{t^{\lambda_\min}})$
-%\end{theorem}
-\begin{theorem}\label{th:worst}
-Let $\mu$ be the smallest real part of the eigen values of $A_P$, then for $\alpha_t=\frac1t$, the MSE is lower bounded by $O(\frac1{t^{2\mu}})$
-\end{theorem}
-While some theoretical results are available for this case of $\alpha_t=\frac1t$, given the nature of \Cref{th:worst}, it is hard to imagine that such a step-size schedule is preferred in practice. This leaves us with the choice of step-sizes of the form $\frac{c}{c+t}$, for some $c>>0$, which is also known as the \emph{search-then-converge} approach. The idea is to diminish at $O(\frac{1}t)$ and at the same time hold the step-sizes almost constant for over a considerable amount of time (depends on the choice of $t$). The issue, however is when $t<<c$, we have the step-sizes to be close to $1$ and can be a bad choice for a variety of problems (example LSA in \eqref{eq:lsaintro} in $1$-dimension, with $a_t=10,\forall t\geq 0$ and $b_t=0$). This forces us to introduce another tunable constant say $c_0$ to derive a step-size schedule such as $\alpha_t=\frac{c_0c}{c+t}$. However, in practice, we find that $c_0$ as well as $c$ have to be tuned further \cite{}.
-\paragraph{Adaptive}  \citet{dab} introduce a new adaptive step-size tuning method for TD algorithm and show that it performs better in comparison to various other adaptive approaches. The adaptive step-size rule suggested\footnote{The case when eligibility traces are not used.} is 
-\begin{align}\label{eq:dab}
-\alpha_t=\min(\alpha_{t-1},\parallel\phi^\top_t(\gamma\phi'_t-\phi_t)\parallel^{-1})
-\end{align} 
-It turns out that \eqref{eq:dab} is not completely adaptive in the sense that the $\min$ in \eqref{eq:dab} will be attained once all the states transition pairs $(s,s')$ are visited at least once, after which the step-sizes stay constant. However, it is evident that a constant step-size alone is not enough to filter the noise, and without additional averaging cannot be used to even estimate the mean of a single bounded random variable. 
-\todoch{Comment about Shane's Work}
-%\subsection{Work on TD}
-\subsection{Work on GTD} The TD(0) algorithm is the most basic of the class of TD algorithms. 
-An important shortcoming of TD(0) was its instability in the \emph{off-policy} case, which was successfully mitigated by the \emph{gradient temporal difference} learning GTD algorithm \cite{gtd2}. GTD was proposed by \citet{gtd}; its variants, namely GTD2 and TDC, were proposed later by \citet{gtd2}. 
+\paragraph{Other Step-Size Methods: }It is clear that for the LSA in \eqref{eq:lsaintro} to be stable $\alpha_t$ should be non-increasing. In this paper, we showed that results for LSA with a constant step-size and averaging of the iterates.  This brings us to a brief discussion on the other two non-increasing choices for step-size strategies namely the diminishing and adaptive strategies.
+An immediate choice could be $\alpha_t=\frac{1}{t}$, however it fails very badly even in the following simple example: Consider the LSA in $1$-dimensional given by $\theta_{t+1}=\theta_t+\alpha_t(b-a\theta_t)$, with $0<b=a<<1$. The solution to the linear inversion problem is $\ts=1$, however, one can show via elementary arguments that the MSE converges only at a rate of $O(\frac{1}{t^{2a}})$, which is very bad for small values of $a>0$. The more practical approach has been to use $\alpha_t=\frac{cc_0}{c+t}$, for some $c>>0$, so that initially for $t<<c$ there is a constant step-size of $c_0$ and later on the step-sizes diminish at a rate of $\frac{1}{t}$. Typically, both $c$ and $c_0$ are tuned and only the best values are reported (without accounting cost of searching for the useful $c$ and $c_0$). \citet{dab} introduce a new adaptive step-size tuning method for TD algorithm and show that it performs better in comparison to various other adaptive approaches. The adaptive step-size rule suggested\footnote{The case when eligibility traces are not used.} is $\alpha_t=\min(\alpha_{t-1},\parallel\phi^\top_t(\gamma\phi'_t-\phi_t)\parallel^{-1})$. It turns out that once the \emph{minimum} is attained after all the states transition pairs $(s,s')$ are visited at least once, the rule stops to adapt and stays constant. However, it is evident that a constant step-size alone is not enough to filter the noise, and without additional averaging cannot be used to even estimate the mean of a single bounded random variable. 
+\paragraph{Work on GTD} The GTD was proposed by \citet{gtd}; its variants, namely GTD2 and TDC, were proposed later by \citet{gtd2}. 
 The initial convergence analysis for GTD/GTD2/TDC was only asymptotic in nature \cite{gtd,gtd2} with diminishing step-sizes.
 In the case of GTD/GTD2 diminishing step-sizes $\alpha_t=O(\frac{1}{\sqrt{t}})$, projection of iterates and PR-averaging leads to a rate of $O(\frac{1}{\sqrt{t}})$ 
 for the prediction error $\normsm{A_P\thh_t-b_P}^2$ with high probability \cite{gtdmp}. 
 \citet{gtdmp} also suggest a new version of GTD based on stochastic mirror prox ideas, called the GTD-Mirror-Prox (GTDMP), 
 which also shown to achieve an $O(\frac{1}{\sqrt{t}})$ rate for $\normsm{A_P\thh_t-b_P}^2$ with high probability under similar step-size choice that was used by them for the GTD. 
+\paragraph{Other LSA:} Analysis of LSA with CS-PR goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we use newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Jordan decomposition and similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of 
+\citet{bach}.
 
+\begin{comment}
 \paragraph{Double Sampling} We suspect that GTD-Mirror-Prox algorithm suffers from the issue of double sampling. The updates of the GTDMP can be written as below (for simplicity we 
 \begin{align}\label{eq:gtdmp}
 \begin{split}
@@ -31,7 +18,7 @@ y_t^m=y_t+\alpha_t(b_t-A_t\theta_t- M_t y_t), \theta_t^m=\theta_t+\alpha_t A_t^\
 y_{t+1}=y_t+\alpha_t(b_t-A_t\theta_t^m- M_t y_t), \theta_{t+1}=\theta_t+\alpha_t A_t^\top y_t^m,\end{split}
 \end{align}
 where $A_t=\rho_t\phi_t(\phi_t-\gamma\phi'_t)^\top$ and $b_t=r_t\phi_t$. Expanding $\theta_{t+1}=\theta_t+\alpha_tA_t^\top\left(y_t+ \alpha_t (b_t-A_t\theta_t- M_t y_t) \right)$, we observe the occurrence of the $A^\top_tA_t$ and we suspect that for this term to be unbiased we need the $A_t$s appearing in the $(\cdot)^m_t$ update and $(\cdot)_{t+1}$ to be independent (a similar issue arises with the term $A_tA^\top_t$ in $y_{t+1}$), which means we might require twice as many samples to perform unbiased updates for GTD-MP.
-\begin{comment}
+
  Letting $x_t=(y_t,\theta_t)$, $H_t=\begin{matrix}M_t &A_t\\ -A_t^\top &\mathbf{0}_{\dcd}\end{matrix}$, and $g_t=\begin{matrix}b_t\\ 0\end{matrix}$ we re-write \eqref{eq:gtdmp} as
 \begin{align}\label{eq:gtdmpshort}
 x_t^m&=x_t+\alpha_t( g_t-H_t x_t), \\
@@ -39,7 +26,7 @@ x_{t+1}&=x_t+\alpha_t( g_t-H_t x_t^m),
 &=x_t+\alpha_t\left( (g_t-\alpha_t H_t  g_t) -(H_t -\alpha_t H_t^2 ) x_t\right),
 \end{align}
 The stationary linear system corresponding to \eqref{eq:gtdmpshort} is $\E[H_t] x=\E[g_t]-\E[H_t g_t]$
-\end{comment}
+
 In comparison to these prior works, our results show that the error in our GTD  algorithms decay at the $O(\frac{1}{t})$ rate (even without use of projection or mirror maps) instead of $O(\frac{1}{\sqrt{t}})$, a major improvement on previously published results. While the $i.i.d$ assumption is made in much of prior work \cite{gtd2,gtdmp}.
 \subsection{Work on Stochastic Variance Reduction}
 \citet{lihong} employ stochastic variance reduction methods to approximate policy evaluation. The algorithms are GTD/GTD2 updates, however, in two loops, where the outer loop has complete information of the $A=\E[A_t]$ and $b=\E[b_t]$ matrices and the inner loop makes use of noisy samples \cite{lihong}. The proofs of the results in \cite{lihong} also involves analyzing the error recursion and ensuring that the product of random matrices involved do not blow up. However, in order to ensure boundedness of the spectral norms of the matrices appearing in the analysis, \citet{lihong} need to use a step-size that depends on problem dependent constants (especially the small eigen value of $A$). This happens due to the fact that, whilst in this paper, we need the matrices to be contract over just one step, results of \citet{lihong} need this contraction over an entire epoch of the inner loop and thus arises the need to use problem dependent step-size.
@@ -47,4 +34,4 @@ In comparison to these prior works, our results show that the error in our GTD  
  Analysis of LSA with CS-PR goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we use newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Jordan decomposition and similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of 
 \citet{bach}.
 
-
+\end{comment}

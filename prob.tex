@@ -48,7 +48,7 @@ with some $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. Further, we assume $\E_P\left[M
 \end{assumption}
 %For the rest of the paper we denote the errors of the internal and the output variables of \eqref{eq:lsa} at time $t$ by $e_t\eqdef \theta_t-\ts$ and $\eh_t\eqdef \thh_t-\ts$ respectively.
 \paragraph{Performance Metric:}  
-We are interested in the behavior of the mean squared error (MSE) at time $t$ given by $\EE{\normsm{\thh_t-\ts}^2}$. {More generally, one can be interested in $\EEP{\normsm{\thh_t-\ts}_C^2}$, the MSE with respect to a PD Hermitian matrix $C$. Since in general it is not possible to exploit the presence of $C$ unless it is connected to $P$ in a special way (see \Cref{ex:linreg}),
+We are interested in the behavior of the mean squared error (MSE) at time $t$ given by $\EE{\normsm{\thh_t-\ts}^2}$. {More generally, one can be interested in $\EEP{\normsm{\thh_t-\ts}_C^2}$, the MSE with respect to a PD Hermitian matrix $C$. Since in general it is not possible to exploit the presence of $C$ unless it is connected to $P$ in a special way (see \Cref{sec:land}),
 here we restrict ourselves to $C = \I$. In what follows, for the sake of brevity, we drop the subscript $P$ in the quantities $\EEP{\cdot}$, $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$.
 %For more discussion, including the discussion of the case of SGD for linear least-squares when $C$ and $P$ are favourably connected see \Cref{sec:related}.}
 \todoc{Move up footnote. Polish..}
@@ -70,7 +70,7 @@ Consider a \emph{Markov Decision Process} given by the tuple $\langle S,A,P,R,\g
 We now briefly describe the problem of approximate policy evaluation in a batch setting with \iid resampling. The data is sampled from the stationary distribution $d_{\pi_b}$ of a behaviour policy $\pi_b$ and is presented as the sequence $(s_t,s'_t,r_t,a_t), t\geq 0$, where $s'_t\sim p_{\pi_b}(s,\cdot)$, $r_t=R(s_t)$, $a_t\sim \pi_b(\cdot | s_t)$and $s_t\sim d_{\pi_b}$. The aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts$ is a weight vector to be learnt. Typically, $\ts$ is obtained as a solution a linear inversion problem and algorithms to compute $\ts$ are known as \emph{temporal difference} learning algorithms. Two important TD algorithms that we are interested in this paper namely  TD(0) and gradient temporal difference (GTD) are given as follows:
 \FloatBarrier
 \begin{table}[H]
-\label{tb:tdalgos}
+
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|}\hline
 TD(0)& GTD\\ \hline
@@ -88,7 +88,7 @@ y_{t+1}&=y_t+\alpha\rho_t(\phi_t r_t+\Delta_t\theta_t -y_t),\\
 $ \\\hline
 \end{tabular}
 }
-
+\label{tb:tdalgos}
 \caption{Shows the TD(0) and GTD algorithms. Here $\rho_t\eqdef \frac{\pi(a_t|s_t)}{\pi_b(a_t|s)}$ is the \emph{importance sampling} ratio that corrects for the differences in the \emph{behaviour} policy $\pi_b$ and the \emph{target} policy $\pi$ whose values function $V_\pi$ is of interest. }
 \end{table}
 \end{example}
