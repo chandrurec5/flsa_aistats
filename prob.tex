@@ -1,6 +1,6 @@
 %!TEX root =  flsa.tex
 \section{Problem Setup}\label{sec:prob}
-We are interested in what we call as \emph{linear inversion} problems where the aim is to compute a $\ts\in \R^d$ such that
+A \emph{linear inversion} problem is to compute
 \begin{align}\label{eq:lininv}
 \ts=A^{-1}b,
 \end{align}
@@ -47,30 +47,29 @@ with some $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. Further, we assume $\E_P\left[M
 \end{enumerate}
 \end{assumption}
 %For the rest of the paper we denote the errors of the internal and the output variables of \eqref{eq:lsa} at time $t$ by $e_t\eqdef \theta_t-\ts$ and $\eh_t\eqdef \thh_t-\ts$ respectively.
-\paragraph{Performance Metric:}  
+\textbf{Performance Metric:}  
 We are interested in the behavior of the mean squared error (MSE) at time $t$ given by $\EE{\normsm{\thh_t-\ts}^2}$. {More generally, one can be interested in $\EEP{\normsm{\thh_t-\ts}_C^2}$, the MSE with respect to a PD Hermitian matrix $C$. Since in general it is not possible to exploit the presence of $C$ unless it is connected to $P$ in a special way (see \Cref{sec:land}),
-here we restrict ourselves to $C = \I$. In what follows, for the sake of brevity, we drop the subscript $P$ in the quantities $\EEP{\cdot}$, $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$.
+here we restrict ourselves to $C = \I$. In what follows, for the sake of brevity, whenever it is clear, we drop the subscript $P$ in the quantities $\EEP{\cdot}$, $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$.
 %For more discussion, including the discussion of the case of SGD for linear least-squares when $C$ and $P$ are favourably connected see \Cref{sec:related}.}
 \todoc{Move up footnote. Polish..}
 \begin{comment}
 \footnote{We note here that $\E[\normsm{\thh_t-\ts}_C^2]$, which measures the MSE in the quadratic norm with respect to a positive definite matrix $C\succ 0$. However, unless $C$ has some special structure, it is not possible to exploit this generality in our bounds. Further, when data is bounded $\norm{C}^2$ is also bounded and it is straightforward to see that $\EEP{\norm{\thh_t-\ts}}^2_C\leq \norm{C}^2\EEP{\norm{\thh_t-\ts}^2}$. So, for the purpose of stating our results we will not use the general quadratic norm, however, will use it when we discuss the work by \cite{bach} in LSE, where its usage is relevant.}
 \end{comment}
-
 We now present two important \emph{linear inversion} problems in machine learning.
 \begin{example}[Linear Least Squares Regression]
-Let $(x_t,y_t)\in \R^{d}\times \R, t\geq 0$ be \iid such that $\E{\norm{x_t}^2}$ and $\E[y_t^2]$ are finite. The linear least-square minimization problem is the minimization of \begin{align}\label{eq:lls}
+Let $(x_t,y_t)\in \R^{d}\times \R, t\geq 0$ be \iid such that $\E[{\norm{x_t}^2}]$ and $\E[y_t^2]$ are finite. The linear least-square minimization problem is the minimization of $
 f(\theta)=\frac{1}{2}\E{\left(\ip{x_t,\theta}-y_t\right)^2}
-\end{align}
-The solution $\ts\in \R^d$ to \eqref{eq:lls} is also the solution to the \emph{linear inversion} problem of the form in \eqref{eq:lininv} with $A=\E{x_tx_t^\top}$ and $b=\E{y_t x_t}$. 
-The stochastic gradient descent (SGD) with a constant step-size $\alpha>0$ and iterate averaging (see \citet{bach}) for solving \eqref{eq:lls} is an instance of CALSA in \\eqref{eq:lsa} with $A_t=x_tx_t^\top$, $b_t=y_t x_t$. Here, we are interested in the MSE for either \emph{estimation} or \emph{prediction} problems which are given by $\E{\norm{\thh_t-\ts}^2}$ and $\E{\norm{\thh_t-\ts}^2_A}$ respectively.
+$, whose solution $\ts\in \R^d$ is also the solution to the \emph{linear inversion} problem of the form in \eqref{eq:lininv} with $A=\E[{x_t\,x_t^\top}]$ and $b=\E[{y_t x_t}]$. 
+The stochastic gradient descent (SGD) with a constant step-size $\alpha>0$ and iterate averaging (see \citet{bach}) for minimizing $f(\theta)$ is an instance of CALSA in \eqref{eq:lsa} with $A_t=x_tx_t^\top$, $b_t=y_t x_t$. Here, we are interested in the MSE for either \emph{estimation} or \emph{prediction} problems which are given by $\E{\norm{\thh_t-\ts}^2}$ and $\E{\norm{\thh_t-\ts}^2_A}$ respectively.
 \end{example}
 \begin{example}[Approximate Policy Evaluation in Reinforcement Learning]
 Consider a \emph{Markov Decision Process} given by the tuple $\langle S,A,P,R,\gamma \rangle$, where $S$ is the state space, $A$ is the action space, $P$ is the probability transition kernel which specifies the probability $p_a(s,s')$ of transitioning from state $s\in S$ to state $s'\in S$ under an action $a\in A$, and $R=(r_a(s),a\in a,s\in S)$ specifies the reward $r_a(s)$ of performing action $a$ in state $s$. Formally, a policy is a map $\pi$ that specifies a probability distribution $\pi(\cdot | s)$ over $A$ for any given $S$. The policy evaluation problem deals with computing $V_\pi(s)=\E[\sum_{t=0}^\infty\gamma^t r_{a_t}(s_t)| s_o=s, a_t\sim\pi(\cdot|s_t), s_{t+1}\sim p_{a_t}(s_t,\cdot)]$. It is known that $V_\pi=R_\pi+\gamma P_\pi V_\pi$, where $R_\pi=(\E_\pi[r_a(s)],s\in\S)\in \R^{|\S|}$ is the reward vector and $P_\pi(s,s')=\E_\pi p_a(s,s')$ is the probability transition matrix of the Markov chain under policy $\pi$. Thus computing the value function is a \emph{linear inversion} problem i.e., $V_\pi=(I-\gamma P_\pi)^{-1} R_\pi$.
 
-We now briefly describe the problem of approximate policy evaluation in a batch setting with \iid resampling. The data is sampled from the stationary distribution $d_{\pi_b}$ of a behaviour policy $\pi_b$ and is presented as the sequence $(s_t,s'_t,r_t,a_t), t\geq 0$, where $s'_t\sim p_{\pi_b}(s,\cdot)$, $r_t=R(s_t)$, $a_t\sim \pi_b(\cdot | s_t)$and $s_t\sim d_{\pi_b}$. The aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts$ is a weight vector to be learnt. Typically, $\ts$ is obtained as a solution a linear inversion problem and algorithms to compute $\ts$ are known as \emph{temporal difference} learning algorithms. Two important TD algorithms that we are interested in this paper namely  TD(0) and gradient temporal difference (GTD) are given as follows:
+We now briefly describe the problem of approximate policy evaluation in a batch setting with \iid resampling. The data is sampled from the stationary distribution $d_{\pi_b}$ of a behaviour policy $\pi_b$ and is presented as the sequence $(s_t,s'_t,r_t,a_t), t\geq 0$, where $s'_t\sim p_{\pi_b}(s,\cdot)$, $r_t=R(s_t)$, $a_t\sim \pi_b(\cdot | s_t)$and $s_t\sim d_{\pi_b}$. The aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts$ is a weight vector to be learnt. Typically, $\ts$ is obtained as a solution a linear inversion problem and algorithms to compute $\ts$ are known as \emph{temporal difference} learning algorithms. Two important TD algorithms that we are interested in this paper namely  TD(0) and gradient temporal difference (GTD) are given as follows in \Cref{tb:tdalgos}, where $\rho_t\eqdef \frac{\pi(a_t|s_t)}{\pi_b(a_t|s)}$ is the \emph{importance sampling} ratio that corrects for the differences in the \emph{behaviour} policy $\pi_b$ and the \emph{target} policy $\pi$ whose values function $V_\pi$ is of interest. Usually, two different step-sizes $\alpha,\beta$ are used in GTD, however, in this paper, we let $\beta=\alpha$.
 \FloatBarrier
 \begin{table}[H]
-
+\caption{Shows the TD(0) and GTD algorithms.}
+\label{tb:tdalgos}
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|}\hline
 TD(0)& GTD\\ \hline
@@ -81,15 +80,13 @@ $\begin{aligned}\label{eq:td}
 \end{aligned}
 $ & $\begin{aligned}\label{eq:gtd}
 \quad\Delta_t&=\phi_t(\gamma \phi'_t-\phi_t)^\top,\\
-y_{t+1}&=y_t+\alpha\rho_t(\phi_t r_t+\Delta_t\theta_t -y_t),\\
+y_{t+1}&=y_t+\beta\rho_t(\phi_t r_t+\Delta_t\theta_t -y_t),\\
 \theta_{t+1}&=\theta_t+\alpha\Delta_t^\top y_{t+1}\\
 \thh_{t}&=\frac{1}{t+1}\sum_{s=0}^t \theta_s, \hat{y}_{t}=\frac{1}{t+1}\sum_{s=0}^t y_s, 
 \end{aligned}
 $ \\\hline
 \end{tabular}
 }
-\label{tb:tdalgos}
-\caption{Shows the TD(0) and GTD algorithms. Here $\rho_t\eqdef \frac{\pi(a_t|s_t)}{\pi_b(a_t|s)}$ is the \emph{importance sampling} ratio that corrects for the differences in the \emph{behaviour} policy $\pi_b$ and the \emph{target} policy $\pi$ whose values function $V_\pi$ is of interest. }
 \end{table}
 \end{example}
 %We wish to understand how the MSE is affected by the choice of $\alpha$ and the spectral properties of $A_P$. Another aspect of interest is to understand the contribution of the \emph{bias} (caused by the initial condition $\theta_0$) and the \emph{variance} (caused by $\sigma^2_P,\sigma^2_b$) to the MSE.\par

@@ -2,7 +2,7 @@
 \section{Instance Dependent Bounds}\label{sec:mainresults}
 We break the question of achieving a uniformly fast asymptotic rate of $O(\frac{1}{t})$ into two parts $i)$ showing that an instance dependent rate of $O(\frac{1}{t})$ exists for any problem $P$, and $ii)$ showing that for specific problem classes a universal step-size choice can be made. 
 
-In this section, we derive instance dependent bounds that are valid for a given problem $P$ (satisfying \Cref{assmp:lsa}). Here, we only present the main results followed by a discussion. The detailed proofs can be found in \Cref{sec:proofs}. 
+In this section, we derive instance dependent bounds that are valid for a given problem $P$ (satisfying \Cref{assmp:lsa}). Here, we only present the main results followed by a discussion. 
 \todoc{Usually it is expected that one gives an outline of the proof technique. Especially in a theory paper. At least verbally we could explain the tools used, how the proof is similar and/or different to previous proofs.}
  \todoc{I dropped $P$ from $\EEP{\cdot}$ before. Either put there back, or remove $\EEP{\cdot}$ from here.}
 %\begin{lemma}\label{lm:simtran}[Similarity Transformation]
@@ -170,13 +170,8 @@ e_t
 \end{align}
 \end{comment}
 When $P$ is positive definite, we can expand the MSE as 
-We can expand the MSE as 
-\begin{align}
-\label{eq:exp}
-	\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,
-\end{align} 
-where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$.
-The inner product in \eqref{eq:exp} is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. The growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $H_t=I-\alpha A_t$ and that of the deterministic matrix $H_P=I-\alpha A_P$, respectively. %These are given by
+We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
+where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. The growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $H_t=I-\alpha A_t$ and that of the deterministic matrix $H_P=I-\alpha A_P$, respectively. %These are given by
 \begin{comment}
 The output $\thh_t$ of the algorithm \eqref{eq:lsa} is the average of the internal states at times $s=0,\ldots,t-1$. The error dynamics of the internal states by looking at the behavior of $e_t\eqdef \theta_t-\ts$.
 \begin{align}\label{eq:errec}
@@ -192,7 +187,7 @@ From \eqref{errec} it is clear that the error dynamics depends on the $i)$ prope
 \EE{\norm{I-\alpha A_t}^2}=1-\alpha \rhos{P}, \quad  {\norm{I-\alpha A_P}^2}=1-\alpha \rhod{P}\,,
 \end{align}
 \end{comment}
-j%ustifying the appearance of $\rhos{P}$ and $\rhod{P}$.
+%ustifying the appearance of $\rhos{P}$ and $\rhod{P}$.
 %Note that \eqref{eq:spectralrand} explicitly connects $\rhod{P}$ and $\rhos{P}$ in \Cref{def:dist} to the spectral norms matrices $H_t$ and $H_P$. 
 For the MSE to be bounded, we need the spectral norms to be less than unity, implying the conditions $\rhos{P}>0$ and $\rhod{P}>0$. 
 If $P$ is Hurwitz, we can argue on similar lines by first transforming $P$ into a positive definite problem $P_U$ and replacing $\rhos{P}$ and $\rhod{P}$ by $\rhos{P_U}$ and $\rhod{P_U}$, and introducing $\cond{U}$ to account for the forward ($\gamma=U^{-1}\theta$) and reverse ($\theta=U\gamma$) transformations using $U^{-1}$ and $U$ respectively.
@@ -254,15 +249,12 @@ by which it is clear that the product of the random matrices of the form $(I-\al
 
 We now state results which show that certain important class of RL problems are \emph{admissible}.
 \begin{theorem}\label{th:tdadmis}
-Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\max_{t\geq 0}\rho_t$. We have
-\begin{itemize}[leftmargin=*]
-\item For TD(0) in \Cref{tb:tdalgos}, the class of RL problem with $\E{\phi_t\phi_t^\top}=\E{\phi'_t{\phi'}_t^\top}$ is admissible with witness $\alpha=\frac{1}{B^2 d\rho_{\max}}$.
-\item For GTD in \Cref{tb:tdalgos}, RL problems are admissible with witness $\alpha=\frac{1}{2B^4d^2\rho_{\max}}$.
-\end{itemize}
+Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\max_{t\geq 0}\rho_t$. We have (w.r.t \Cref{tb:tdalgos})
 
+$i)$ For TD(0), the class of problems with $\E[{\phi_t\phi_t^\top}]=\E[{\phi'_t{\phi'}_t^\top}]$ are admissible with witness $\alpha=\frac{1}{B^2 d\rho_{\max}}$.
+
+$ii)$ For GTD all problems are admissible with witness $\alpha=\frac{1}{2B^4d^2\rho_{\max}}$.
 \end{theorem}
-\paragraph{Remarks:} 
-\begin{itemize}[leftmargin=*]
-\item The condition for the constant step-size is related to the maximum possible operator norm of the random matrices $A_t$s involved. However, since $A_t$s themselves are rank-$1$ in the features, it turns out that the result in \Cref{th:tdadmis} hold for normalized features with step-size of $\alpha=1$ in the case ofTD(0) and $\alpha=\frac{1}{2}$ in the case of GTD.
-\item From \Cref{th:tdadmis} we observe that the constant step-size for GTD is \emph{squared} that of the TD(0) (sans the factor of $2$) and hence can be very conservative. This is because the GTD can be thought of the CALSA to solve the linear inverse problem $A^\top A\ts=A^\top b$, using two variables (the primal and the dual). Thus the step-size also gets \emph{squared} relative to TD(0), and is the indirect price paid for having a stable scheme irrespective of the distribution mismatch (\emph{on} versus \emph{off} policy).
-\end{itemize}
+\textbf{Remarks:}  The condition for the constant step-size is related to the maximum possible operator norm of the random matrices $A_t$s involved. However, since $A_t$s themselves are rank-$1$ in the features, it turns out that the result in \Cref{th:tdadmis} hold for normalized features with step-size of $\alpha=1$ in the case ofTD(0) and $\alpha=\frac{1}{2}$ in the case of GTD.
+
+From \Cref{th:tdadmis} we observe that the constant step-size for GTD is \emph{squared} that of the TD(0) (sans the factor of $2$) and hence can be very conservative. This is because the GTD can be thought of the CALSA to solve the linear inverse problem $A^\top A\ts=A^\top b$, using two variables (the primal and the dual). Thus the step-size also gets \emph{squared} relative to TD(0), and is the indirect price paid for having a stable scheme irrespective of the distribution mismatch (\emph{on} versus \emph{off} policy).
