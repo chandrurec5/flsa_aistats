@@ -1,5 +1,5 @@
 \documentclass[twoside]{article}
-\usepackage{aistats2018}
+\usepackage[accepted]{aistats2018}
 % If your paper is accepted, change the options for the package
 % aistats2018 as follows:
 %  
@@ -11,7 +11,7 @@
 
 % my packages
 \usepackage[numbers]{natbib}
-\usepackage{cleveref}
+\usepackage[capitalize]{cleveref}
 \crefname{assumption}{Assumption}{Assumption}
 \input{pack}
 \author{
@@ -23,24 +23,21 @@ University of Alberta\\
 \begin{document}
 
 \twocolumn[
-
 \aistatstitle{Linear Stochastic Approximation: Constant Step-Size and Iterate Averaging}
-
-%\aistatsauthor{ Chandrashekar Lakshminarayanan \And Csaba Szepesva\'ri }
-
-%\aistatsaddress{ Google Deepmind} 
+\aistatsauthor{ Chandrashekar Lakshminarayanan \And Csaba Szepesv\'ari }
+\aistatsaddress{DeepMind} 
 ]
-
 \input{abstract}
 \input{intro}
 \input{not}
 \input{prob}
-\input{landscape}
 \input{instance}
+\input{landscape}
+\input{rl}
 \input{rel}
 \input{exp}
 \input{concl}
-%\input{plts}
+
 
 \bibliographystyle{apalike}
 \bibliography{ref}

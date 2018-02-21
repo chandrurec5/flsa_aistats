@@ -1,60 +1,28 @@
 %!TEX root =  flsa.tex
 \section{Instance Dependent Bounds}\label{sec:mainresults}
-We break the question of achieving a uniformly fast asymptotic rate of $O(\frac{1}{t})$ into two parts $i)$ showing that an instance dependent rate of $O(\frac{1}{t})$ exists for any problem $P$, and $ii)$ showing that for specific problem classes a universal step-size choice can be made. 
-
-In this section, we derive instance dependent bounds that are valid for a given problem $P$ (satisfying \Cref{assmp:lsa}). Here, we only present the main results followed by a discussion. 
-\todoc{Usually it is expected that one gives an outline of the proof technique. Especially in a theory paper. At least verbally we could explain the tools used, how the proof is similar and/or different to previous proofs.}
- \todoc{I dropped $P$ from $\EEP{\cdot}$ before. Either put there back, or remove $\EEP{\cdot}$ from here.}
-%\begin{lemma}\label{lm:simtran}[Similarity Transformation]
-%Let $P$ be Hurwitz, then there exists a $U\in \gln$ such that $P_U$ is positive definite.
-%\end{lemma}
-We start with a lemma, which is needed to meaningfully state our main result:
-\begin{lemma}\label{lm:hur}
-Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \cref{assmp:lsa}. \todoc{Is it important that the distribution is over real-valued stuff? Would the results work for complexed-valued data? I would think so.}
-Then there exists an $\alpha_{P_U}>0$ and $U\in \gln$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0$
-holds for all $\alpha \in (0,\alpha_{P_U})$. 
-\end{lemma}
-\begin{comment}
-\begin{proof}
+We first show that any  CALSA scheme satisfying \Cref{assmp:lsa} achieves an asymptotic rate of $O(\frac{1}{t})$ with a instance dependent step-size (see \Cref{th:rate}). In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
+As a first step, we need show that there exists an instance dependent step-size such that the iterates are stable. To this end, it is useful to look at the error (of un-averaged iterates) $e_t\eqdef\theta_t-\ts$ given as below:
+\begin{align}\label{eq:errrecmain}
+e_t&={\prod_{s=1}^t (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\prod_{s=j+1}^t (I-\alpha A_s)\zeta_i}
+\end{align}
+It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.
+\begin{definition}\label{def:spect}
+Let $A_t$ be as in \Cref{assmp:lsa}, and $U\in\C^{\dcd}$ be any invertible matrix. Now define $\Lambda_t\eqdef U^{-1}A_t U$, $\Lambda\eqdef \EE{U^{-1}A U}$,
 \begin{align*}
-\rhos{P}&=\inf_{x:\norm{x}=1}x^* (A_P+A_P^*)x -\alpha x^*\EE{A_t^* A_t} x\\
-&=\inf_{x:\norm{x}=1}x^* (A_P+A_P^*)x -\alpha x^* A^*_P A_P -\alpha x^* \EE{M_t^* M_t} x\\
-&\geq \lambda_{\min}(A^*_P+A_P)-\alpha \norm{A_P}^2-\sigma^2_P
+&\rhos{P_U}\eqdef \lmin{\EE{\ip{x,\left((\Lambda+\Lambda^*)-\alpha \Lambda_t^*\Lambda_t\right)x}}\,\\
+& \rhod{P_U}\eqdef \lmin{(\Lambda+\Lambda^*)-\alpha \Lambda^* \Lambda},
 \end{align*}
-The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^*_P+A_P)}{\norm{A_P}^2+\sigma^2_P}$
-\end{proof}
-\end{comment}
+\end{definition}
+where in $\rhod{P_U}$ and $\rhos{P_U}$, the subscripts $d$ and $s$ stands for \emph{deterministic} and \emph{stochastic} respectively. Also, note that $\rhos{P_U}<\rhod{P_U}$ holds from simple expectation algebra.
+\begin{restatable}{lemma}{lmhur}\label{lm:hur}
+Under \Cref{assmp:lsa} there exists an $\alpha_{P_U}>0$ and an invertible $U\in \C^{\dcd}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0$ holds for all $\alpha \in (0,\alpha_{P_U})$. 
+\end{restatable}
+In \Cref{lm:hur}, $U$ is a change of basis matrix, and by defining a transformed iterate $\gamma_t\eqdef U^{-1}\theta_t$, we have $\gamma_t=(I-\alpha \Lambda_t) \gamma_t +\alpha U^{-1}b_t$. Then the stability of $\gamma_t$ implies stability of $\theta_t$; the former can be ensured if products $\Pi_{s=t'}^t (I-\alpha \Lambda_s),\,t'=1,\ldots,t-1$ don't blow up. Note that $\EE{\norm{I-\alpha \Lambda_t}^2}=1-\alpha \rhos{P_U}$, and thus \Cref{lm:hur} implies that $\EE{\norm{I-\alpha \Lambda_t}^2}<1,\,\forall \alpha\in (0,\alpha_{P_U})$. Here, $U$ transform helps to convert the given \emph{Hurwitz} matrix into a suitably scaled Jordan form, which is simpler to handle (see \Cref{sec:appendix} for more details).
 
-
-\begin{comment}
-\begin{theorem}\label{th:pdrate}
-Let $P^A$ in \Cref{assmp:lsa}-~\ref{dist} be a positive definite distribution over $\C^{\dcd}$. Then
-\begin{align*}
-\EE{\norm{\thh_t-\ts}^2}
-\leq
-\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}}
-\left(\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{\theta_0-\ts}}{t+1} \right)\,.
-%\left(\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2+\alpha \norm{\theta_0-\ts})}{t+1} \right)\,.
-\end{align*}
-\end{theorem}
-
-\begin{theorem}\label{thm:simtran}[Change of Basis]
-Let $P$ in \Cref{assmp:lsa}-~\ref{dist} be AS. Define $\gamma_t\eqdef U^{-1}\theta_t,\,,\gamma^*\eqdef U^{-1}\ts$, and suppose if $P_U$ is positive definite, then
-\begin{align*}
-\EE{\norm{\gh_t-\gamma^*}^2}
-\leq
-\left(1+\frac2{\alpha\rhod{P_U}}\right)\frac{\norm{U^{-1}}^2}{\alpha \rhos{P_U}}
-\left(\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{\theta_0-\ts}}{t+1} \right)\,.
-%\left(\frac{\norm{\gamma_0-\gamma^*}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{\gamma_0-\gamma^*}}{t+1} \right)\,.
-%\left(\frac{\norm{\gamma_0-\gamma^*}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2+\alpha \norm{\gamma_0-\gamma^*})}{t+1} \right)\,,
-\end{align*}
-where $\gh_t=\frac{1}{t+1}\sum_{s=0}^t \gamma_s$.
-\end{theorem}
-\end{comment}
-
-\begin{theorem}\label{th:rate}
+Now, we present the result that shows that CALSA procedure achieves an instance dependent $O(\frac{1}{t})$ asymptotic rate.
+\begin{restatable}{theorem}{thrate}\label{th:rate}
 Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}.
-Then, for  $U\in\gln$ and $\alpha_{P_U}>0$ as in \cref{lm:hur},
+Then, for  $U\in\C^{\dcd}$ and $\alpha_{P_U}>0$ as in \Cref{lm:hur},
 \todoc{Why not use $\alpha_P$? $U$ is dependent on $P$. If $\alpha_{P_U}$ does not have a specific definition, there is no point to denote this dependence on $U$. It just adds to the clutter.}
 for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
 \begin{align*}
@@ -63,198 +31,37 @@ for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
 \nu\,
 \left\{\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{v^2}{t+1} \right\}\,,
 \end{align*}
-where $\nu = \left(1+\tfrac2{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \rhos{P_U}}$ and
+where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \rhos{P_U}}$ and
 $v^2 = 
-\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}$.
-\end{theorem}
+\alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)+\alpha (\sigma_{A_P}^2\norm{\ts})\norm{\theta_0-\ts}$.
+\end{restatable}
 Note that $\nu$ depends on $P_U$ and $\alpha$, while $v^2$ in addition also depends on $\theta_0$. The dependence,  when it is essential, will be shown as a subscript.
-\begin{comment}
 
-Consider the LSA with $b_t=0$, and $P^0$ has all the mass concentrated on $A_{P^0}=\begin{bmatrix} \lambda_{\min} &0\\ 0& \lambda_{\max}\end{bmatrix}$, for some $\lambda_{\max}>\lambda_{\min}>0$. Note that in this example $\ts=0$.
-By choosing $\alpha<\frac2{\lambda_{\max}}$, in this case it is straightforward to write the expression for $\eh_t$ explicitly as below:
-\begin{align*}
-\eh_t&=\frac{1}{t+1}\sum_{s=0}^t e_t = \frac{1}{t+1}\sum_{s=0}^t (I-\alpha A_P)^{t-s} e_0\\
-&=\frac{1}{t+1}(\alpha A)^{-1}\left(I-(I-\alpha A)^{t+1}\right)e_0
-\end{align*}
 
-\begin{align*}
-\norm{\eh_t}^2&=\frac{1}{(t+1)^2}\norm{(\alpha A_P)^{-1}\left(I-(I-\alpha A_P)^{t+1}\right)e_0}^2
-&\leq\frac{1}{(t+1)^2}\alpha^2\norm{A_P^{-1}}^2\norm{e_0}^2
-\end{align*}
-
-\begin{align*}
-\norm{\eh_t}^2\geq \eh^2_t(1)=\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
-\end{align*}
-Note that in this example, $\rhos{P^0}=\rhod{P^0}=\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(1-\alpha \lambda_{\min})$. Sandwiching the error between the lower and upper bounds we have
-\begin{align}
-\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)\leq \norm{\eh_t}^2\leq
-\frac{1}{(t+1)^2} \left(\alpha^{-1}\rhos{P^0}+\alpha^{-2}\rhos{P^0}^2\right)\norm{\theta_0}^2
-\end{align}
-\end{comment}
-
-\begin{theorem}[Lower Bound]\label{th:lb}
+\begin{restatable}{theorem}{thlb}[Lower Bound]\label{th:lb}
 There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, such that
 there exists $\alpha_P>0$ so that $\rhos{P}>0$ and $\rhod{P}>0$ hold for all $\alpha\in (0,\alpha_P)$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
 + \frac{v^2\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
-\begin{comment}
-\begin{align*}
-\EE{\normsm{\thh_t-\ts}^2} 
-&\geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
-+ \frac{v^2\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,
-%&\geq \frac{1}{(t+1)^2}(\alpha)^{-2}(\rhod{P}\rhos{P})^{-1}\Big\{ \big(1-(1-\alpha \rhos{P})^t\big) \norm{\theta_0-\ts}^2 \\
-%&+ \sum_{s=1}^t \big(1-(1-\alpha \rhos{P})^{(t-s)}\big) \big(\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}\big) \Big\}\,.
-\end{align*}
-\end{comment}
-where $\beta_{t} =  \big(1-(1-\alpha \rhos{P})^t\big)$ and $v^2$ is as in \cref{th:rate}.
-\begin{comment}
-\begin{align}
-\frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)\leq \norm{\eh_t}^2\leq
-\frac{1}{(t+1)^2} \left(\alpha^{-1}\rhos{P^0}+\alpha^{-2}\rhos{P^0}^2\right)\norm{\theta_0}^2
-\end{align}
-\end{comment}
-\end{theorem}
+where $\beta_{t} =  \big(1-(1-\alpha \rhos{P})^t\big)$ and $v^2$ is as in \Cref{th:rate}.
+\end{restatable}
 Note that $\beta_t \to 1$ as $t\to\infty$. Hence, the lower bound essentially matches the upper bound.
 %\subsection{Discussion}
-In what follows, we discuss the specific details of these results. 
-%\vspace*{0.5em}
-%\subsection{Result Discussion}
-%\begin{itemize}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
+In what follows, we discuss in brief the results in \Cref{th:rate,th:lb}. 
+\textbf{Bias and Variance}: The MSE at time $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\B=\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term is given by $\V=\nu\, \frac{v^2}{t+1} $ and captures the rate at which noise is rejected. 
 
-\textbf{Role of $U$}: $U$ is helpful in transforming the recursion in $\theta_t$ to $\gamma_t=U^{-1}\theta_t$, which helps in ensuring $\rhos{P_U}>0$. Such similarity transformation have also been considered in analysis of RL algorithms \cite{lihong}.
-%The condition number $\cond{U}$ appears in our bound because $\theta_t$ is recovered from $\gamma_t$ using $\theta_t=U\gamma_t$. Of course, when the problem $P$ is positive definite, we can let $U=\I$ in \Cref{th:rate}.
-More generally, one can always take $U$ in the result that leads to the smallest bound.\par
-\begin{comment}
-\textbf{Role of $U$}: When the given problem $P$ is positive definite, it is straightforward to produce an $\alpha_P>0$ such that $\rhos{P}>0$ and $\rhod{P}>0,\,\forall \alpha\in(0,\alpha_P)$ by considering the definitions of $\rhos{P}$ and $\rhod{P}$.
-However, the problem $P$ being Hurwitz does not guarantee positive definiteness. % (see \Cref{ex:pdas}). 
-\todoc{I commented out the examples.}
-Following  \cite{lihong}, we remedy this 
-by applying a similarity transformation using an appropriate $U$ that transforms a Hurwitz problem $P$ to a positive definite problem $P_U$. This can be done because any Hurwitz matrix is similar to a PD matrix. 
-Taking $U$ to be this similarity matrix, we transform  \eqref{conststep} by pre-multiplying it by $U^{-1}$ and introducing a new variable $\gamma_t\eqdef U^{-1 }\theta_t$.
-\if0
-To see how this works, let $\gamma_t\eqdef U^{-1 }\theta_t$. Pre-multiplying 
- \eqref{conststep} by $U^{-1}$ and plugging in $\gamma_t$, we get
-\begin{align*}
-%U^{-1}\theta_t&=U^{-1}\theta_{t-1}+\alpha(U^{-1} b_t- U^{-1}A_t U U^{-1}\theta_{t-1}),\\
-\gamma_t&=\gamma_{t-1}+\alpha(U^{-1} b_t- J_t\gamma_{t-1}),
-\end{align*}
-where $J_t = U^{-1}A_t U$.
-Now, since any Hurwitz matrix is similar to a PD matrix with an appropriate similarity transformation $U$, choosing $U$ this way we get that $\E[J_t]$ is PD, hence $P_U$ is PD.
-\fi
-%This completes the transformation of a Hurwitz problem $P$ to a positive definite problem $P_U$. 
-The condition number $\cond{U}$ appears in our bound because $\theta_t$ is recovered from $\gamma_t$ using
-$\theta_t=U\gamma_t$. Of course, when the problem $P$ is positive definite, we can let $U=\I$ in \Cref{th:rate}. 
-More generally, one can always take $U$ in the result that leads to the smallest bound.
-\end{comment}
-\textbf{Role of $\rhos{P}$ and $\rhod{P}$}: 
-\begin{comment}
-The core part of the proof involves analyzing what we call the error dynamics. Define $e_t\eqdef\theta_t-\ts$, then we have
-\begin{align}\label{eq:errmain}
-\begin{split}
-\theta_t&=\theta_{t-1}+\alpha\big(b_t-A_t\theta_{t-1}\big)\\
-\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\big(b_t-A_t(\theta_{t-1}-\ts+\ts)\big), \\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha(b_t -b -(A_t-A)\ts)\\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t,
-\end{split}
-\end{align}
-where $\zeta_t\eqdef(b_t -b -(A_t-A)\ts)$. A way to look at \eqref{eq:errmain} it that at each time $t$, the error $e_t$ is multiplied by the random matrix $(I-\alpha A_t)$ and is added by a zero mean noise. Intuitively speaking, the noise part is taken care of by the PR average, and what remains to be investigated is behaviour of the random matrix. In fact, the recursion \eqref{eq:errmain} can be unfurled as below
-\begin{align}\label{eq:unfold}
-e_t
-& = (I-\alpha A_t) (I-\alpha A_{t-1}) e_{t-2}\\ &+ \alpha (I-\alpha A_t) \zeta_{t-1} +\alpha \zeta_t \\
-& \quad \vdots\\
-& = (I-\alpha A_t) \cdots (I-\alpha A_1) e_0\\ &+ \alpha (I-\alpha A_t) \cdots (I-\alpha A_2) \zeta_1 \\
-& + \alpha (I-\alpha A_t) \cdots (I-\alpha A_3) \zeta_2\\
-&  \quad \vdots \\
-&+ \alpha \zeta_t\,,
-\end{align}
-\end{comment}
-When $P$ is positive definite, we can expand the MSE as 
-We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
-where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. The growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $H_t=I-\alpha A_t$ and that of the deterministic matrix $H_P=I-\alpha A_P$, respectively. %These are given by
-\begin{comment}
-The output $\thh_t$ of the algorithm \eqref{eq:lsa} is the average of the internal states at times $s=0,\ldots,t-1$. The error dynamics of the internal states by looking at the behavior of $e_t\eqdef \theta_t-\ts$.
-\begin{align}\label{eq:errec}
-\theta_t&=\theta_{t-1}+\alpha(b_t-A_t\theta_{t-1})\nn\\
-\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\left(b_t-A_t(\theta_{t-1}-\ts+\ts)\right)\nn\\
-e_t&=e_{t-1}+\alpha(b_t-A_t e_t -A_t\ts)\nn\\
-e_t&=\underbrace{((I-\alpha A_t))}_{\text{Random-Matrix}} e_{t-1}+\underbrace{\alpha(N_t -(M_t)\ts)}_{\text{Noise}}
-\end{align}
-From \eqref{errec} it is clear that the error dynamics depends on the $i)$ properties of the random matrix, $ii)$ properties of the noise. In the absence of the noise term in \eqref{eq:errec}, we have $e_t=(I-\alpha A_t) e_{t-1}=\Pi_{s=1}(I-\alpha A_s) e_0$, i.e., the initial error is get multiplied by a product of random matrices. In such a scenario, we can guess that whether or not the algorithm forgets the bias $\norm{\theta_0-\ts}$, depends on whether the matrix product is contracting. One way to characterize this contracting property is to look at the spectral radius of the random matrix, which is given by $\EE{\norm{I-\alpha A_t}^2}=1-\alpha \rhos{P},  {\norm{I-\alpha A_P}^2}=1-\alpha \rhod{P}\,,$
-\end{comment}
-\begin{comment}
-\begin{align}\label{eq:spectralrand}
-\EE{\norm{I-\alpha A_t}^2}=1-\alpha \rhos{P}, \quad  {\norm{I-\alpha A_P}^2}=1-\alpha \rhod{P}\,,
-\end{align}
-\end{comment}
-%ustifying the appearance of $\rhos{P}$ and $\rhod{P}$.
-%Note that \eqref{eq:spectralrand} explicitly connects $\rhod{P}$ and $\rhos{P}$ in \Cref{def:dist} to the spectral norms matrices $H_t$ and $H_P$. 
-For the MSE to be bounded, we need the spectral norms to be less than unity, implying the conditions $\rhos{P}>0$ and $\rhod{P}>0$. 
-If $P$ is Hurwitz, we can argue on similar lines by first transforming $P$ into a positive definite problem $P_U$ and replacing $\rhos{P}$ and $\rhod{P}$ by $\rhos{P_U}$ and $\rhod{P_U}$, and introducing $\cond{U}$ to account for the forward ($\gamma=U^{-1}\theta$) and reverse ($\theta=U\gamma$) transformations using $U^{-1}$ and $U$ respectively.
+\textbf{Behavior for extreme values of $\alpha$}: As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb}) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. For larger values of $\alpha$ with $\alpha_{P_U}$ chosen so that $\rhos{P_U}\ra 0$ as $\alpha\ra \alpha_{P_U}$ the bounds blow up again. 
+Use of such similarity transformation have also been considered in analysis of RL algorithms \cite{lihong}. More generally, one can always take $U$ in the result that leads to the smallest bound.
 
-\textbf{Constants} {$\alpha$, $\rhos{P}$ and $\rhod{P}$} do not affect the exponents $\frac{1}{t}$ for variance and $\frac{1}{t^2}$ for bias terms. This property is not enjoyed by all step-size schemes, for instance, step-sizes that diminish at $O(\frac{c}{t})$ are known to exhibit $O(\frac{1}{t^{\mu c/2}})$ ($\mu$ is the smallest real part of eigenvalue of $A_P$), and hence the exponent of the rates are not robust to the choice of $c>0$ \cite{bach-moulines,korda-prashanth}.
-\todoc{Why is this a great thing? Refer to other works etc.}
+\textbf{Proof Sketch:} We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
+where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. Since, we also use a basis transformation via $U$, the growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $I-\alpha \Lambda_t$ and that of the deterministic matrix $I-\alpha \Lambda$, respectively. This explains the reason as to why $\rhos{P_U}$ and $\rhod{P_U} $ appear in the bounds.
 
-\textbf{Bias and Variance}: The MSE at time $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\B=\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. 
-The second \emph{variance} term is  given by $\V=\nu\, \frac{v^2}{t+1} $ and captures the rate at which noise is rejected.
-
-\textbf{Behaviour for extreme values of $\alpha$}: 
-As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb}) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha$ is seen to multiply the variances $\sigma^2_A$ and $\sigma^2_b$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. 
-For larger values of $\alpha$ with $\alpha_P$ chosen so that $\rhos{P}\ra 0$ as $\alpha\ra \alpha_{P}$  (or $\alpha_{P_U}$ as the case may be), the bounds blow up again.
-
-\textbf{The lower bound} of \Cref{th:lb} shows that the upper bound of \cref{th:rate} is tight in a number of ways.
-In particular, the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ are essentially matched.
-Further, we also see that the $(\rhos{P}\rhod{P})^{-1}$ appearing in $\nu = \nu_{P_u,\alpha}$ cannot be removed from the upper bound. 
+\textbf{The lower bound} of \Cref{th:lb} shows that the upper bound of \Cref{th:rate} is tight in a number of ways.
+In particular, the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ are essentially matched (here $U=I$).
+Further, we also see that the $(\rhos{P_U}\rhod{P_U})^{-1}$ appearing in $\nu = \nu_{P_U,\alpha}$ cannot be removed from the upper bound. 
 Note however that there are specific examples, such as SGD for linear least-squares,
 where this latter factor can in fact be avoided (for further remarks see \Cref{sec:related}).
-\begin{comment}
-\subsection{The additive noise case and the deterministic case}
-We end the section by presenting a result for the additive noise and deterministic case.
-\begin{theorem}\label{th:add}
-Let $P=(P^V,P^M)$ as in \Cref{def:dist} with $P^M$ being a point-mass distribution concentrated on $A\in \R^{\dcd}$. For $\alpha>0$ such that $\Lambda(I-\alpha A)<1$, we have
-$\EE{\normsm{\thh_t-\ts}^2} = \frac{1}{(t+1)^2}\big((I-F_{t+1})(\theta_t-\ts)+\sum_{s=1}^t (I-F_{t+1-s})\zeta_{s}\big)^\top(\alpha A^{-1})^\top(\alpha A^{-1})\big((I-F_{t+1})(\theta_t-\ts)+\sum_{s=1}^t (I-F_{t+1-s})\zeta_{s}\big)
-$
-where $F_t\eqdef (I-\alpha A)^t$ is a deterministic matrix.
-\end{theorem}
-\begin{lemma}\label{th:det}
-Let $P$ as in \Cref{def:dist} be a point-mass distribution with $P^M$ and $P^V$ concentrated on $A\in \R^{\dcd}$ and $b\in \R^{\dcd}$ respectively. Then, 
-\begin{align*}
-\normsm{\theta_t-\ts}^2=(\theta_t-\ts)^\top F^\top_t F_t (\theta_t-\ts)
-\end{align*}
- \end{lemma} 
- \end{comment}
-\begin{comment}
-\subsection{Proof Sketch}
-The core part of the proof involves analyzing what we call the error dynamics
-\begin{align}\label{eq:errmain}
-\begin{split}
-\theta_t&=\theta_{t-1}+\alpha\big(b_t-A_t\theta_{t-1}\big)\\
-\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\big(b_t-A_t(\theta_{t-1}-\ts+\ts)\big), (\text{letting} e_t\eqdef\theta_t-\ts) \\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha(b_t -b -(A_t-A)\ts)\\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t,
-\end{split}
-\end{align}
-where $\zeta_t\eqdef(b_t -b -(A_t-A)\ts)$. A way to look at \eqref{eq:errmain} it that at each time $t$, the error $e_t$ is multiplied by the random matrix $(I-\alpha A_t)$ and is added by a zero mean noise. Intuitively speaking, the noise part is taken care of by the PR average, and what remains to be investigated is behaviour of the random matrix. In fact, the recursion \eqref{eq:errmain} can be unfurled as below
-\begin{align*}
-e_t
-& = (I-\alpha A_t) (I-\alpha A_{t-1}) e_{t-2}\\ &+ \alpha (I-\alpha A_t) \zeta_{t-1} +\alpha \zeta_t \\
-& \quad \vdots\\
-& = (I-\alpha A_t) \cdots (I-\alpha A_1) e_0\\ &+ \alpha (I-\alpha A_t) \cdots (I-\alpha A_2) \zeta_1 \\
-& + \alpha (I-\alpha A_t) \cdots (I-\alpha A_3) \zeta_2\\
-&  \quad \vdots \\
-&+ \alpha \zeta_t\,,
-\end{align*}
-by which it is clear that the product of the random matrices of the form $(I-\alpha A_s)\ldots(I-\alpha A_1)$ (for $s=1,\ldots,t$) play a crucial role. We need to ensure that these products do not `blow up' with time which is 
-\end{comment}
 
-We now state results which show that certain important class of RL problems are \emph{admissible}.
-\begin{theorem}\label{th:tdadmis}
-Define constants $B\eqdef\max_{ij}\left|A_{ij}\right|$ and $\rho_{\max}\eqdef\max_{t\geq 0}\rho_t$. We have (w.r.t \Cref{tb:tdalgos})
+%\textbf{Goal:} In \Cref{th:rate} we have established the fact that under \Cref{assmp:lsa} CALSA achieves an \emph{asymptotic} rate of $O(\frac{1}{t})$ for the MSE with an instance dependent step-size range of $(0,\alpha_{P_U})$, and the  constant $\nu$ has instance dependent terms. In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
 
-$i)$ For TD(0), the class of problems with $\E[{\phi_t\phi_t^\top}]=\E[{\phi'_t{\phi'}_t^\top}]$ are admissible with witness $\alpha=\frac{1}{B^2 d\rho_{\max}}$.
-
-$ii)$ For GTD all problems are admissible with witness $\alpha=\frac{1}{2B^4d^2\rho_{\max}}$.
-\end{theorem}
-\textbf{Remarks:}  The condition for the constant step-size is related to the maximum possible operator norm of the random matrices $A_t$s involved. However, since $A_t$s themselves are rank-$1$ in the features, it turns out that the result in \Cref{th:tdadmis} hold for normalized features with step-size of $\alpha=1$ in the case ofTD(0) and $\alpha=\frac{1}{2}$ in the case of GTD.
-
-From \Cref{th:tdadmis} we observe that the constant step-size for GTD is \emph{squared} that of the TD(0) (sans the factor of $2$) and hence can be very conservative. This is because the GTD can be thought of the CALSA to solve the linear inverse problem $A^\top A\ts=A^\top b$, using two variables (the primal and the dual). Thus the step-size also gets \emph{squared} relative to TD(0), and is the indirect price paid for having a stable scheme irrespective of the distribution mismatch (\emph{on} versus \emph{off} policy).

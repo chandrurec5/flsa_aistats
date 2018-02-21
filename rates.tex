@@ -25,6 +25,26 @@
  \end{tikzpicture}
   }
  \end{minipage}
+&
+\begin{minipage}{0.6\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west
+    ]
+        \addplot[only marks, mark=+] table[y error index=2]  {tdon/fouriern1};
+    \addplot[only marks, mark=o] table[y error index =2]  {gtdon/fouriern1};
+\addlegendentry{TD(0)}
+\addlegendentry{GTD}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
 
 &
 \begin{minipage}{0.6\columnwidth}
@@ -46,27 +66,9 @@
  \end{tikzpicture}
   }
  \end{minipage}
-&
 
-\begin{minipage}{0.6\columnwidth}
- \resizebox{1\columnwidth}{!}{
-\begin{tikzpicture} 
-\begin{axis}
-    [
-      error bars/y dir      = both,
-      error bars/y explicit = true,
-      legend pos=north west
-    ]
-        \addplot[only marks, mark=+] table[y ]  {tdon/fouriern1};
-    \addplot[only marks, mark=o] table[y ]  {gtdon/fouriern1};
-\addlegendentry{TD(0)}
-\addlegendentry{GTD}
-%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
 
-\end{axis}
- \end{tikzpicture}
-  }
- \end{minipage}
+
 \end{tabular}
 \end{figure*}
 

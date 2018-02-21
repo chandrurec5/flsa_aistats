@@ -1,0 +1,15 @@
+I think most points made here are valid, and I prefer to arrange them in the following order.
+My proposal: Creativity = Originality + Correctness + Resourcefulness
+1) Original: The output should be one's own. If it is not, then it is somebody else's and hence not novel and hence not creative. In learning lingo, if the output is not mine, then it is just training data.
+2) Correctness: If the output is not correct/legible/fidel, then it is not even worthy of consideration. So, any `random' blabbering while novel is not creative. In learning lingo, this is noise vs bias.
+3) Resources: To produce correct result on training data, we need  computational  resources.
+What is not creativity? 
+Pure memorization is not. 
+Given training data one can optimize to well on the training data. This is related to correctness in two fundamental ways i) correctness of output (defined as recalling/reproducing training data on our own) ii) correctness of optimization procedure: to produce correct output, the optimization procedure should also be correct. If the optimization procedure is flawed it shows up in the output, because, convergence usually happens in the limit time goes to infinity and we only have finite time. So, patantharam is critical.
+What is basic skill?
+I believe there is an advanced level. So, I define Basic Skill = Resource + Correct Optimization algorithm (of the teacher/Guru)  
+What is internalization?
+In learning lingo, this is internal representation. Given that basic skill gives zero training error, different internal representations could have zero training error. Each representation is unique by definition, and hence original. 
+When does originality + correctness + resourcefulness = creativity?
+Well, this is a life time evolution. 
+Each creator first starts with developing basic skill = resources + a correct optimization algorithm, and learns a first internal representation. Now, he is good on prior training data, and his own/original internal representation. So, just after his gurukulam is over or whenever he decides to he tries to pull out the first original outputs from his original representation. Now, this first set of outputs are novel, but no one knows whether they are useful or correct, because, its a new animal of its kind. So, some aesthetics need to be evolve around this new animal, which happens when 

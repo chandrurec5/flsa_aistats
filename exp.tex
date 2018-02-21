@@ -1,93 +1,22 @@
 \section{Numerical Experiments}\label{sec:exp}
-\input{rates}
-\textbf{Finite-Time Rates:} We first present results that support the arguments made in \Cref{sec:land}. To this end, we consider two problem classes $\P_{usc}$, $\P_{sc}$ described as follows: Let $d=2$, for any $P\in \P_{usc}$, $A_P=\left[\begin{matrix}1 &0\\ 0 & a_p\end{matrix}\right]$, for some $a_p>0$, let $b_P=\left[\begin{matrix}0\\0\end{matrix}\right]$, $A_t=A_P,\forall t\geq 0$and $N_t=\left[\begin{matrix}\zeta(1)_t\\ \zeta(2)_t\end{matrix}\right]$, where $\zeta(i)_t, i=1,2$ are \iid uniform random variables taking values in $[-1,1]$. $\P_{sc}$ is the same as $\P_{usc}$ except that, in $\P_{sc}$ the noise $N_t=A_P \left[\begin{matrix}\zeta(1)_t\\ \zeta(2)_t\end{matrix}\right]$, i.e., the noise scales with $A_P$.
 
-Notice that the classes $\P_{usc}$ and $\P_{sc}$ have only additive noise, and are symmetric positive definite. Further,  both $\P_{usc}$ and $\P_{sc}$ are admissible with any $\alpha\in(0,1)$ as a witness. The \Cref{fig:results} (left most plot) shows $ee=\E{\norm{\thh_t-\ts}^2}$ (estimation error) and $peusc=\E{\norm{\thh_t-\ts}^2}_{A_P}$ (prediction error without scaled noise) measured for the class $\P_{usc}$,  and $pesc=\E{\norm{\thh_t-\ts}^2}_{A_P}$ ( prediction error with scaled noise)  measured for the class $\P_{sc}$. for $t=\{10,20,50,100,200,1000\}$ and \emph{adversarial} choices of $A_P$ form the class, i.e., each point in any of the three curves ($ee/peusc/pesc$) corresponds to an appropriate adversarial choice of $A_P$. 
+\textbf{Universal Rates:} Let $d=2$, for any $P\in \P_{UNS}$, $A_P=\left[\begin{matrix}1 &0\\ 0 & a_P\end{matrix}\right]$, for some $a_P\in (0,1)$, let $b_P=\left[\begin{matrix}0\\0\end{matrix}\right]$, $A_t=A_P,\forall t\geq 0$and $N_t=\left[\begin{matrix}\zeta(1)_t\\ \zeta(2)_t\end{matrix}\right]$, where $\zeta(i)_t, i=1,2$ are \iid uniform random variables taking values in $[-1,1]$. $\P_{SN}$ is the same as $\P_{UNS}$ except that, in $\P_{SN}$ the noise $N_t=A_P \left[\begin{matrix}\zeta(1)_t\\ \zeta(2)_t\end{matrix}\right]$, i.e., the noise scales with $A_P$. Note that $\P_{SN}\subset \P_{SPDSN}$ and $\P_{USN}\subset \P_{SPD}$, and the subscripts $SC$ and $USN$ stand for \emph{scaled} and \emph{unscaled} noise respectively. 
+The \Cref{fig:results} (left most plot) shows $EE=\E{\norm{\thh_t-\ts}^2}$ (estimation error) and $PE_{USN}=\E{\norm{\thh_t-\ts}^2}_{A_P}$ (prediction error without scaled noise) measured for the class $\P_{USN}$,  and $PE_{SN}=\E{\norm{\thh_t-\ts}^2}_{A_P}$ ( prediction error with scaled noise)  measured for the class $\P_{SN}$. Thus $EE, PE_{USN}$ and $PE_{SC}$ respectively illustrate cases $(i)$, $(ii)$ and $(iii)$ of \Cref{th:pspd}. To obtain $EE$, we let $\alpha=0.9$, $a_P=\frac{1}{t}$. We observe that $EE$ increases $O(t)$. To obtain $PE_{USN}$, the adversarial choice $a_P=\frac{1}{\sqrt{t}}$ was chosen for a given $t$ and $\alpha=\frac{1}{\sqrt{t}}$ was chosen. We observe that $PE_{USN}$ decreases only at $O(\frac{1}{\sqrt{t}})$ as remarked in \Cref{sec:land}. To obtain $PE_{SN}$, we chose $\alpha=0.9$ and $a_P=\frac{1}{t}$, and it obeys the $O(\frac{1}{t})$ rate.
 
-In all the plots, $ee/peusc/pesc$ in addition to adversarial choice of $A_P$, the condition $\Lambda(\alpha A_P t )<1$ as in \Cref{prop:erradd} was also ensured. 
-To obtain $ee$, we let $\alpha=0.9$, $a_P=\frac{1}{t}$. We observe that $ee$ increases $O(t)$. To obtain $peusc$, the adversarial choice $A_P=\frac{1}{\sqrt{t}}$ was chosen for a given $t$ and $\alpha=\frac{1}{\sqrt{t}}$ was chosen. We observe that $peusc$ decreases only at $O(\frac{1}{\sqrt{t}})$ as remarked in \Cref{sec:land}. To obtain $pesc$, we chose $\alpha=0.9$ and $A_P=\frac{1}{t}$, and it obeys the $O(\frac{1}{t})$ rate.
+\textbf{Mountain Car (setup):}  The mountain car is a widely used domain for policy improvement tasks, however, here, we use the domain for approximate policy evaluation. The domain consists of an under powered car, that needs to swing from the bottom of the valley to the top by performing either one of the three possible actions: \emph{forward, reverse, no} throttle. Since the car is under-powered, it cannot directly accelerate to the top from the bottom and needs to swing back and forth to reach the top. The state of the system is described the position $p$ and the velocity $v$ of the car at a given time. For the purpose of \emph{on-policy} evaluation, we sample from the policy $\pi$ that accelerates in the direction of the velocity with probability $\frac{298}{300}$ and the other two actions with probability $\frac{2}{300}$. Since, we are also interested in the \emph{off-policy} case, we sampled using a behavior policy  $\pi_b$ that accelerates in the direction of the velocity with probability $\frac{8}{10}$ and chooses the other two actions with probability $\frac{2}{10}$. We used \emph{tile coding} and \emph{Fourier} basis (un-normalized and normalized). We used $4$ different tiling ($4\times 4$ and $7\times 7$ gird for the two state variables permuted with $5$ and $10$ tiles), and we also tried $4$ different $n^{th}$ Fourier basis function ($n=3,5,7,9$), with $d=(n+1)^2$. For a given state $s=(p,v)$\footnote{We scale the states by subtracting the minimum value and dividing it by its range, so that $p,v\in(0,1)$ after scaling}, the Fourier feature is given by $\phi(p,v)=\big(cos(\pi [c_1p+c_2 v],c_1,c_2=0,1,\ldots,n)\big) \in \R^{d}$ (where $d=(n+1)^2$). The normalized features were obtained by letting $\norm{\phi(s)}^2_2=1$. We generated $100$ trajectories for the \emph{on/off}-policies, and the discount factor we used was $\gamma=0.999$. 
 
-\textbf{Mountain Car}   
-The mountain car is a widely used domain for policy improvement tasks, however, here, we use the domain for approximate policy evaluation. The domain consists of an under-powerd car, that needs to swing from the bottom of the valley to the top by performing either one of the three possible actions: \emph{forward, reverse, no} throttle. Since the car is under-powered, it cannot directly accelerate to the top from the bottom and needs to swing back and forth to reach the top. The state of the system is described the position $p$ and the velocity $v$ of the car at a given time. For the purpose of \emph{on-policy} evaluation, we sample from the policy $\pi$ that accelerates in the direction of the velocity with probability $\frac{298}{300}$ and the other two actions with probability $\frac{2}{300}$. Since, we are also interested in the \emph{off-policy} case, we sampled using a behaviour policy  $\pi_b$ that accelerates in the direction of the velocity with probability $\frac{8}{10}$ and chooses the other two actions with probability $\frac{2}{10}$. Thus the importance sampling ratio can be as high as $\rho_{\max}=30$. 
- We used \emph{Tile coding} and \emph{Fourier} basis (un-normalized and normalized). We used $4$ different tiling ($4\times 4$ and $7\times 7$ gird for the two state variables permuted with $5$ and $10$ tiles), and we also tried $4$ different $n^{th}$ fourier basis function ($n=3,5,7,9$), with $d=(n+1)^2$. For a given state $s=(p,v)$\footnote{We scale the states by subtracting the minimum value and dividing it by its range, so that $p,v\in(0,1)$ after scaling}, the Fourier feature is given by $\phi(p,v)=\big(cos(\pi [c_1p+c_2 v],c_1,c_2=0,1,\ldots,n)\big) \in \R^{d}$ (where $d=(n+1)^2$). The normalized features were obtained by letting $\norm{\phi(s)}^2_2=1$. We generated $100$ trajectories for the \emph{on/off}-policies, and the discount factor we used was $\gamma=0.999$. Further, we also calculated the true value function at a fixed (but randomly chosen) set of $40$ states from the trajectories by separately simulating trajectories starting from those states and computing the discounted sum (for each such state we averaged over $100$ runs).
- We would like to mention some important observations. The step-size choices for the various experiments can be found in the \Cref{tab:step-size}, and follows directly from \Cref{th:tdadmis}. Firstly, in the cases TD(0)/GTD \emph{on/off}-policy there was no divergence or instability, which reassures that across the $48$ different settings there was no instability issue by choosing step-size recommended by \Cref{th:tdadmis}. We compared the squared error between the approximate value function and the correct value function at $40$ randomly chosen points from the trajectory, and normalized the values with respect to the norm of the true value function (i.e., the norm of the $40$-dimensional vector). 
- 
- \textbf{Slowness of GTD:}  GTD was slower with tile coding and unnormalized Fourier basis in the \emph{on/off}-policy settings. This might be due to the relatively smaller step-size for GTD in comparison to TD(0). However, with normalized features it was comparable to TD(0) (however GTD was slower even in this case). The speed issue can be related to the fact that spectrum of GTD involves eigenvalues of the $A^\top A$  and hence any small eigenvalue of $A$ matrix gets squared results in a degradation of speed in comparison to TD(0). Also, the \emph{off}-policy case took $10$ times more iterations to converge. However, all the experimental results in this domain were stable and followed a similar trend as the representative plot (see middle plot in \Cref{fig:results}).
-\begin{table}
-\caption{step-size choices for the \emph{on/off}-policy settings in the mountain car experiment. The same step-size rule was followed for TD as well as GTD. Notice that these step-size choices directly follow from the results in \Cref{th:tdadmis} without any further tuning.}
-\label{tab:step-size}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|}\hline
-\backslashbox{Policy}{Basis} & Tile& \makecell{Fourier\\ Un-normalized} &\makecell{Fourier \\ Normalized}\\ \hline
-	TD(0)\emph{on}& $\frac1k$	&$\frac1d$ & $1$\\ \hline
-	TD(0)\emph{off}& $\frac1{\rho_{\max}k}$	& $\frac1{\rho_{\max}d}$ & $\frac1{\rho_{\max}}$\\\hline			
-	GTD\emph{on}& $\frac1{2k^2}$	&$\frac1{2d^2}$ & $\frac{1}{2}$\\ \hline
-	GTD\emph{off}& $\frac1{2\rho_{\max}k^2}$	& $\frac1{2\rho_{\max}d^2}$ & $\frac1{2\rho_{\max}}$\\\hline			
+Before discussing the observations, we digress, to mention two important aspects related to LSA algorithms, which, while being out of the scope of this paper, nevertheless are important in practice.
 
-\end{tabular}
-}
-\end{table}
-%\input{plts}
+\textbf{Singularity:} In \Cref{assmp:lsa} we assumed that the matrix $A_P$ is Hurwitz and hence invertible. When the underlying matrix is singular, there could be two scenarios, first,  $A_P\theta=b_P$ has infinitely many solutions, second, $A_P\theta=b_P$ has no solution. In the former scenario, and under a further assumption that the null-space is diagonalizable (see \cite{bertstab}), the null space can be discarded after applying an appropriate linear transformation $U$ (as in \Cref{th:rate}) to a obtain a reduced linear system $\tilde{A}_P\tilde{\theta}=\tilde{b}_P$. This reduced linear system has a unique solution and then the results of \Cref{th:rate} can be applied.
 
-\textbf{Baird} In this domain there are $S=\{s_1,\ldots,s_7\}$ states and $A=\{a_1,a_2\}$ actions. Under, $a_1$ we have $p_{a_1}(s,s_1)=1, \forall s\in S$ and under $a_2$ we have $p_{a_2}(s,s')=\frac{1}{6}, \forall s\in S, s'=2,\ldots,7$. The samples are collected using a behaviour policy $\pi_b$ that performs action $a_2$ with probability $\frac{6}{7}$ and action $a_1$ with probability $\frac17$, and the target policy that we are interested is $\pi$ which performs action $a_1$ in all the states. This example is a case where $\E[{\phi_t\phi_t}]\neq\E[{\phi'_t{\phi'_t}^\top}]$ and hence the result for TD(0) in \Cref{th:tdadmis} does not hold. The feature vector we chose was: $\phi(s_1)=[\frac{1}{2}\,0\,0\,0\,0\,0\,0\,\mu]$, $\phi(s_i)=e_i+[0\,0\,0\,0\,0\,0\,0\,\frac{1}{2}], i=2,\ldots,7$, where $e_i$ is the standard basis with $i^{th}$ co-ordinate $1$ and rest of the co-ordinates $0$. It is well known that for $\mu=1$, TD(0) diverges in the \emph{off-}policy setting in this domain. We have the following interesting observations in this domain:
-$i)$For $\mu=\frac{1}{2}$ we observed that $TD(0)$ does not diverge even though we know $\E{\phi_t\phi_t}=\E{\phi'_t{\phi'_t}^\top}$ is not met (this means this condition in \Cref{th:tdadmis}is not \emph{necessary} for \emph{off-}policy divergence). However the error did not converge to $0$ because we found that for this of $\mu$, the underlying $A$ matrix has an eigenvalue very close to $0^+$ and the corresponding sub-space remains as a residual error due to lack of contraction.
-$ii)$ \citet{gtdmp} mention that\footnote{We believe that this choice in fact comes from \cite{dann} (see Figure $23$d) } for the BAIRD domain $\alpha=0.005$ (and $\beta=16$ which is the ratio of the step-sizes between primal and dual variable)is the optimal step-size. We compared the performance of GTD with $\alpha=0.005$ (and $\beta=16$) with the choice of $\alpha=\frac{1}{7\times 2}$ ($7$ is $\rho_{\max}$ and $2$ is because the chosen feature has only $2$ co-ordinates non-zero for any given state) and initial condition $\theta_0=[1\, 1\, 1\, 1\, 1\, 1\, 10\, 1]$. We found that our step-size choice is better than the suggest choice of $\alpha=0.005$ and $\beta=16$.
+\textbf{Design of Updates:} Note that the CATD(0) and CAGTD have different underlying linear systems. This is evident by writing down $(b_P,A_P)$ for TD(0) and GTD respectively. Let $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$, $b_t=r_t \phi_t$ , then for CATD(0), $A_{TD}=\EE{A_t}$ and $b_{TD}=\EE{b_t}$.  For CAGTD we have $A_{GTD}=\left[\begin{matrix}I & A_{TD} \\ -(1-\alpha )A_{TD}^\top &\alpha A_{TD}^\top A_{TD}\end{matrix}\right]$ and $b_{GTD}=[b_{TD}^\top,\alpha b_{TD}^\top A_{TD}]^\top$. The eigenvalues in the case of  CAGTD, involves $A_{TD}^\top A_{TD}$, i.e., a small eigenvalue of $A_{TD}$ gets squared, consequently CAGTD is poorly conditioned in comparison to CATD(0).
+\input{fig}
+\begin{itemize}[leftmargin=*]
+\item \textbf{Stability:} For CATD(0), we ran  \emph{on-policy} with all the three features and \emph{off-policy} with normalized features. For CAGTD, we ran with all the features and both \emph{on/off-policy}. In all the experiments, we chose step-size dictated by \Cref{th:tdadmis}, and all the experiments were stable (bottom two rows of \Cref{fig:results}).The values are averaged over $10$ runs and since the variance was not significant, the error bars are not given.
+\item \textbf{Near Singularity: } We observed in the case of tile coding and normalized Fourier basis functions the underling $A_{TD}$ matrices were nearly singular, i.e., small eigenvalues with positive real-parts close $0$. However, we observed that the error $\EE{\norm{A_{TD}\thh_t -b_{TD}}^2}$ converges to $0$ (left plot in the second row of \Cref{fig:results}). We also observed that $\EE{\norm{A_{GTD}\hat{z}_t-b_{GTD}}^2}$ converges to $0$ (right plot in the second row of \Cref{fig:results}), where $\hat{z}_t=[\hat{y}_t^\top,\thh_t^\top]^\top$. Here, $\thh_t$ is the primal variable and $\hat{y}_t$ is the dual variable. However, $\EE{\norm{A_{TD}\thh_t-b_{TD}}^2}$ does not always converge to $0$ (tile coding in right plot in the third row of \Cref{fig:results}). This might be due to the fact that linear systems underlying CATD(0) and CAGTD are different. 
+\item \textbf{Slowness of GTD:} Unnormalized Fourier basis were better conditioned in comparison to the other basis choices. In this case, for CATD(0) and CAGTD $\EE{\norm{A_{TD}\thh_t -b_{TD}}^2}$ converges to $0$. However, the CAGTD is slower in comparison to CATD(0) (left plot in the third row of \Cref{fig:results}), due to the fact that $A^\top_{TD}A_{TD}$ matrix is involved in the spectrum of CAGTD, leading to the squaring of small eigenvalues.
+\end{itemize}
 
-%is an example domain where $\E{\phi_t\phi_t^\top}\neq \E{\phi_t{\phi'}_t^\top}$, and hence the result for TD(0) in \Cref{th:tdadmis} does not hold. 
+\textbf{BAIRD:} In this domain there are $S=\{s_1,\ldots,s_7\}$ states and $A=\{a_1,a_2\}$ actions. Under, $a_1$ we have $p_{a_1}(s,s_1)=1, \forall s\in S$ and under $a_2$ we have $p_{a_2}(s,s')=\frac{1}{6}, \forall s\in S, s'=2,\ldots,7$. The samples are collected using a behaviour policy $\pi_b$ that performs action $a_2$ with probability $\frac{6}{7}$ and action $a_1$ with probability $\frac17$, and the target policy that we are interested is $\pi$ which performs action $a_1$ in all the states. The feature vector we chose was: $\phi(s_1)=[\frac{1}{2}\,0\,0\,0\,0\,0\,0\,1]$, $\phi(s_i)=e_i+[0\,0\,0\,0\,0\,0\,0\,\frac{1}{2}], i=2,\ldots,7$, where $e_i$ is the standard basis with $i^{th}$ co-ordinate $1$ and rest of the co-ordinates $0$. Since $\phi'_t$ always corresponds to state $1$ and is different from $\phi_t$, in this example $\E[{\phi_t\phi_t}]\neq\E[{\phi'_t{\phi'_t}^\top}]$.
+We compared the performance of GTD with $\alpha=0.005$ (and $\beta=16$, see \cite{gtdmp}) with the choice of $\alpha=\frac{1}{2\times 2}$ ($2$ is to normalize the features) and initial condition $\theta_0=[1\, 1\, 1\, 1\, 1\, 1\, 10\, 1]$. The identical step-size of $\frac{1}{4}$ performed better than choosing different step-sizes for the primal and dual variables. Please refer to the top right plot of \Cref{fig:results}.
 
-
-\begin{comment}
-\begin{table}
-\begin{tabular}{|c||l|l|l||l|}
-  \hline
-  \multirow{2}{*}{\emph{on-policy}} 
-      & \multicolumn{2}{c|}{TD(0)} 
-          & \multicolumn{2}{c|}{GTD} \\             \cline{2-5}
-  & $2e3$ & $2e4$ & $2e3$ & $2e4$ \\  \hline
-  $Tile~1$ & $1.35e-1$ & $1.23e-1$ & NA & NA \\      \hline
-  $Tile~2$ & $1.27e-1$ & $1.10e-1$ & NA & NA \\      \hline
-  $Tile~3$ & $1.73e-1$ & $1.13e-1$ & NA & NA \\      \hline
-  $Tile~4$ & $1.47e-1$ & $1.07e-1$ & NA & NA \\      \hline
-  $FUN~1$ & $1.45e-1$ & $1.10e-1$ & $7.19e-1$& $2.12e-1$ \\      \hline
-  $FUN~2$ & $1.77e-1$ & $1.05e-1$ & $7.75e-1$ & $2.24e-1$ \\      \hline
-  $FUN~3$ & $2.42e-1$ & $1.09e-1$ & $8.06e-1$ & $2.82e-1$ \\      \hline
-  $FUN~4$ & $3.35e-1$ & $1.16e-1$ & $8.50e-1$ & $3.39e-1$ \\      \hline
-  $FN~1$ & $1.22e-1$ & $1.09e-1$ & $8.25e-1$ & $3.40e-1$ \\      \hline
-  $FN~2$ & $1.24e-1$ & $1.03e-1$ & $8.90e-1$ & $4.33e-1$ \\      \hline
-  $FN~3$ & $1.62e-1$ & $1.08e-1$ & $9.21e-1$ & $5.43e-1$ \\      \hline
-  $FN~4$ & $2.22e-1$ & $1.09e-1$ & $9.38e-1$ & $6.25e-1$ \\      \hline
-    
-\end{tabular}
-\end{table}
-
-
-
-
-
-\begin{table}
-\begin{tabular}{|c||l|l|l||l|}
-  \hline
-  \multirow{2}{*}{\emph{on-policy}} 
-      & \multicolumn{2}{c|}{TD(0)} 
-          & \multicolumn{2}{c|}{GTD} \\             \cline{2-5}
-  & $5e4$ & $5e5$ & $5e4$ & $5e5$ \\  \hline
-  $Tile~1$ & $6.48e-2$ & $6.52e-2$ & NA & NA \\      \hline
-  $Tile~2$ & $4.25-2$ & $2.81e-2$ & NA & NA \\      \hline
-  $Tile~3$ & $8.50e-2$ & $3.38e-2$ & NA & NA \\      \hline
-  $Tile~4$ & $1.04e-1$ & $2.70e-2$ & NA & NA \\      \hline
-  $FUN~1$ & $9.59e-2$ & $6.40e-2$ & $7.73e-1$& $3.22e-1$ \\      \hline
-  $FUN~2$ & $1.53e-1$ & $1.91e-1$ & $8.41e-1$ & $4.87e-1$ \\      \hline
-  $FUN~3$ & $1.77e-1$ & $1.98e-1$ & $8.62e-1$ & $5.41e-1$ \\      \hline
-  $FUN~4$ & $3.04e-1$ & $1.48e-1$ & $8.87e-1$ & $6.21e-1$ \\      \hline
-  $FN~1$ & $1.49e-1$ & $1.63e-2$ & $9.33e-1$ & $5.75e-1$ \\      \hline
-  $FN~2$ & $1.46e-1$ & $1.91e-1$ & $9.71e-1$ & $7.82e-1$ \\      \hline
-  $FN~3$ & $1.16e-1$ & $2.01e-1$ & $9.78e-1$ & $8.68e-1$ \\      \hline
-    $FN~4$ & $1.40e-1$ & $1.50e-1$ & $9.88e-1$ & $9.08e-1$ \\      \hline
-    
-\end{tabular}
-\end{table}
-
- \textbf{Issue of Ill-Conditioning:} In the case of \emph{tile} coding the matrix $\E{\phi{\phi'}^\top}$ has a lot of eigenvalues which are either $0$ or have very small magnitude, due to which we could not invert the $A$ matrix and $\ts$ is not available. The effect was these small/$0$ eigenvalues were reflected in the convergence as well. In both TD(0) and GTD, while the iterates did not blow exponentially (as it is in the case of instability) they kept drifting away from the origin, and, in the case of TD(0) the estimation error reduced, and with GTD the estimation error in certain cases did not reduce less than $0.5$ and  hence not reported as $NA$ the \Cref{fig:results}. 
- 
- \textbf{Behaviour when conditioning is good:} However, in the case of Fourier basis functions (normalized/un-normalized) both TD(0)/GTD performed well in \emph{on/off}-policy settings. In general, we observe that the GTD is slower than TD and the \emph{off}-policy was slower than \emph{on}-policy. These can be seen by the fact that we need around $2e4$ for \emph{on}-policy and $5e5$ for \emph{off}-policy and in the case of GTD in \emph{off}-policy we observed that complete convergence happens only after $5e6$ iterations (the tables in \Cref{fig:results} report only $5e5$ so that GTD and TD(0) can be compared). 
-\end{comment}

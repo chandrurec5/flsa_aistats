@@ -1,0 +1,160 @@
+\begin{figure}
+\begin{tabular}{cc}
+\begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{loglogaxis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+      xlabel=iters,
+      ylabel=$\log( MSE)$
+    ]
+        \addplot[only marks, mark=+] table[y ]  {est/est};
+    \addplot[only marks, mark=o] table[y ]  {pred/pred};
+        \addplot[only marks, mark=*] table[y ]  {struc/struc};
+\addlegendentry{$EE$}
+\addlegendentry{$PE_{USN}$}
+\addlegendentry{$PE_{SN}$}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{loglogaxis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+&
+
+
+\begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+      xlabel=iters,
+      ylabel=$\EE{\norm{\thh_t}^2}$
+    ]
+        \addplot[only marks, mark=+] table[y ]  {baird/gtd};
+    \addplot[only marks, mark=o] table[y ]  {baird/gtd_cs};
+\addlegendentry{$\alpha=0.005,\beta=16$}
+\addlegendentry{$\alpha=\frac{1}{4},\beta=1$}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+\\
+
+\begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+      xlabel=iters $\times 2e^2$,
+      ylabel=$\EE{\norm{A_{TD}\thh_t-b_{TD}}^2}$
+    ]
+        \addplot[smooth, dotted] file  {exp_camera/tdon/tdtile};
+    \addplot[smooth, dashed] file  {exp_camera/tdon/tdfouriern1};
+        \addplot[smooth] file{exp_camera/tdon/tdfourierun1};
+\addlegendentry{T}
+\addlegendentry{FN}
+\addlegendentry{FUN}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+&
+\begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+      xlabel=iters $\times 2e^2$,
+      ylabel=$\EE{\norm{A_{GTD}\hat{z}_t-b_{GTD}}^2}$
+    ]
+        \addplot[smooth, dotted] file  {exp_camera/gtdon/gtdtile_gh};
+    \addplot[smooth, dashed] file  {exp_camera/gtdon/gtdfouriern1_gh};
+        \addplot[smooth]	 file	{exp_camera/gtdon/gtdfourierun1_gh};
+\addlegendentry{T}
+\addlegendentry{FN}
+\addlegendentry{FUN}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+ 
+ \\
+ 
+ 
+ \begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+      xlabel=iters$\times 2e^2$ for CATD(0) (iters $\times 2e^3$ for CAGTD),
+      ylabel=$\EE{\norm{A_{TD}\thh_t-b_{TD}}^2}$
+    ]
+
+        \addplot[smooth,dashed] file{exp_camera/gtdon/fourierun1_errlin};
+         \addplot[smooth] file{exp_camera/tdon/tdfourierun1};
+
+\addlegendentry{CATD(0)}
+\addlegendentry{CAGTD}
+
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+&
+\begin{minipage}{0.45\columnwidth}
+ \resizebox{1\columnwidth}{!}{
+\begin{tikzpicture} 
+\begin{axis}
+    [
+      error bars/y dir      = both,
+      error bars/y explicit = true,
+      legend pos=north west,
+       xlabel=iters$\times 2e^2$,
+      ylabel=$\EE{\norm{A_{TD}\thh_t-b_{TD}}^2}$
+    ]
+        \addplot[smooth,dotted] file{exp_camera/gtdon/tile1_errlin};
+                    \addplot[smooth,dashed] file{exp_camera/gtdon/fouriern1_errlin};
+            \addplot[smooth] file{exp_camera/gtdon/fourierun1_errlin};
+
+\addlegendentry{T}
+\addlegendentry{FN}
+\addlegendentry{FUN}
+%\addplot[smooth] table[y error index = 2]  {tdon/tile1};    
+\end{axis}
+ \end{tikzpicture}
+  }
+ \end{minipage}
+
+\end{tabular}
+%\caption{Summary of experiments. The top left plot is the experiment that illustrates \Cref{th:pspd} on uniform rates. The top right plot is the result for BAIRD domain. The rest of the plots are correspond to experiments in CATD($0$) and CAGTD, here, T, FUN, FN stand for tile coding, Fourier un-normalized and normalized respectively. The plots in the second row show the MSE in the case of CATD($0$) and CAGTD, where $\hat{z}_t=[\hat{y}_t^\top, \thh_t^\top]^\top \in \R^{2d}$ contains both dual and primal variables of the CAGTD algorithm. The left most plot in the third row shows TD error for CATD(0) and CAGTD algorithms, note that only the primal variable $\thh_t$ of CAGTD enters the error term $\norm{A_{TD}\thh_t-b_{TD}}$. The right plot in the third row shows the convergence of the TD error in the case of CAGTD algorithm for the three types of basis. In the plots in the second and the third row, the $x$-axis is number of iterations, with $2e^4$ as the maximum. However, the CAGTD curve in the bottom left has been made $10\times$ faster, i.e., the maximum number of iterations is $2e^5$.} 
+\caption{\small Summary of experiments. T, FUN, FN stand for tile coding, Fourier un-normalized and normalized respectively.  In the bottom left plot, the CAGTD curve has been made $10\times$ faster, i.e., the $x$-axis runs till $2e^5$ iterations and for CATD(0) the $x$-axis runs till $2e^4$ iterations.} 
+\label{fig:results}
+\end{figure}
+
+
+

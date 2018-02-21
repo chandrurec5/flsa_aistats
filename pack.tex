@@ -13,7 +13,7 @@
 \usepackage{enumitem}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-%\usepackage{pifont}
+\usepackage{pifont}
 \usepackage{makecell}
 \usepackage{slashbox}
 %!TEX encoding = UTF-8 Unicode\usepackage[numbers, sort, comma, square]{natbib}
@@ -22,6 +22,7 @@
 \newcommand{\ip}[1]{\langle#1\rangle}
 \newcommand{\norm}[1]{\left\| #1\right\|}
 \newcommand{\normsm}[1]{\| #1\|}
+\newcommand{\lmin}[1]{\lambda_{min}\left(#1\right)}
 \newcommand{\eqdef}{\stackrel{\cdot}{=}}
 \setlength{\marginparwidth}{13ex}
 \newcommand{\todoc}[2][]{\todo[size=\scriptsize,color=blue!20!white,#1]{Csaba: #2}}
@@ -31,7 +32,7 @@
 \usepackage{placeins}
 \usepackage{xspace}
 
-
+\newcommand{\vh}{\hat{V}_\pi}
 \newcommand{\snorm}[1]{\left\|#1\right\|}
 \newcommand{\dcd}{d \times d}
 \newcommand{\err}{\emph{err}}
@@ -54,6 +55,7 @@
 \newcommand{\T}{\mathcal{T}}
 \newcommand{\EE}[1]{\mathbf{E}\left[#1\right]}
 \newcommand{\EEP}[1]{\mathbf{E}_P\left[#1\right]}
+\newcommand{\eep}[2]{\mathbf{E}_{#2}\left[#1\right]}
 \newcommand{\gln}{\mathrm{GL}(d)}
 \newcommand{\gld}{\mathrm{GL}(d)}
 \newcommand{\ncn}{n\times n}
@@ -83,7 +85,7 @@
 \newcommand{\M}{\mathcal{M}}
 \renewcommand{\P}{\mathcal{P}}
 \renewcommand{\S}{\mathcal{S}}
-\renewcommand{\R}{\mathcal{R}}
+%\renewcommand{\R}{\mathcal{R}}
 \newcommand{\A}{\mathcal{A}}
 
 %Theorem Definition
@@ -93,9 +95,54 @@
 \newtheorem{remark}{Remark}
 \newtheorem{domain}{Domain}
 \newtheorem{condition}{Condition}
-\newtheorem{definition}{Definition}
+%\newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{lemma}{Lemma}
 \newtheorem{proposition}{Proposition}
 %\theoremstyle{assumption}
-\newtheorem{assumption}{Assumption}
+%\newtheorem{assumption}{Assumption}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Theorem environments and cleveref
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newtheorem{assumption}{Assumption}
+%\usepackage[capitalize]{cleveref}
+\crefname{assumption}{Assumption}{Assumption}
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\let\lemma\relax
+\declaretheorem[name=Lemma,refname={Lemma,Lemmas},Refname={Lemma,Lemmas},sibling=theorem]{lemma}
+
+\let\corollary\relax\declaretheorem[name=Corollary,refname={Corollary,Corollaries},Refname={Corollary,Corollaries},sibling=theorem]{corollary}
+
+\declaretheorem[name=Assumption,refname={Assumption,Assumptions},Refname={Assumption,Assumptions}]{assumption}
+
+\let\proposition\relax\declaretheorem[name=Proposition,refname={Proposition,Propositions},Refname={Proposition,Propositions},sibling=theorem]{proposition}
+
+\let\definition\relax
+\declaretheorem[name=Definition,refname={Definition,Definitions},Refname={Definition,Definitions}]{definition}
+
+% \crefname{question}{question}{questions}
+\Crefname{question}{Question}{Questions}
+\creflabelformat{question}{(#2#1#3)}
+
+% \crefname{problem}{problem}{problems}
+\Crefname{problem}{Problem}{Problems}
+\creflabelformat{problem}{(#2#1#3)}
+
+% \crefname{equation}{equation}{equations}
+\Crefname{equation}{Equation}{Equations}
+\creflabelformat{equation}{(#2#1#3)}
+
+%\crefname{iCondition}{\ccap{c}ondition}{\ccap{c}onditions}
+\crefname{iCondition}{Condition}{Conditions}
+\creflabelformat{iCondition}{(#2#1#3)}
+\crefrangelabelformat{iCondition}{(#3#1#4) to (#5#2#6)}
+
+\Crefname{item}{}{}
+\creflabelformat{item}{(#2#1#3)}
+\crefrangelabelformat{item}{(#3#1#4) to (#5#2#6)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
