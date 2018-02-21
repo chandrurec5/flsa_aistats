@@ -9,7 +9,7 @@ It is clear that for the iterates to be stable a necessary condition is that the
 \begin{definition}\label{def:spect}
 Let $A_t$ be as in \Cref{assmp:lsa}, and $U\in\C^{\dcd}$ be any invertible matrix. Now define $\Lambda_t\eqdef U^{-1}A_t U$, $\Lambda\eqdef \EE{U^{-1}A U}$,
 \begin{align*}
-&\rhos{P_U}\eqdef \lmin{\EE{\ip{x,\left((\Lambda+\Lambda^*)-\alpha \Lambda_t^*\Lambda_t\right)x}}\,\\
+&\rhos{P_U}\eqdef \lmin{\Lambda+\Lambda^*-\alpha \EE{\Lambda_t^*\Lambda_t}}\,\\
 & \rhod{P_U}\eqdef \lmin{(\Lambda+\Lambda^*)-\alpha \Lambda^* \Lambda},
 \end{align*}
 \end{definition}
