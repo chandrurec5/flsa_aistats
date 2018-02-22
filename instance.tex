@@ -40,16 +40,16 @@ I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
 we see that the eigenvalues of this matrix are of the form $1-\alpha \lambda$,
 where $\lambda$ is an eigenvalue of the symmetric matrix 
 $S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
-Hence, if all eigenvalues of $S$ lie in the interval $(0,2)$, we have
+Hence, if all eigenvalues of $S$ lie in the interval $(0,2/\alpha)$, we have
 $\phi<1$. Now since $\EE{A_1^\top A_1}$ is a positive semidefinite matrix,
-$\lambda_{\max}(S) \le \lambda_{\max}(A+A^\top)-\alpha \lambda_{\min}(\EE{A_1^\top A_1})\le \lambda_{\max}(A+A^\top)$, this $\lambda_{\max}(S)<2$ holds if 
-$\lambda_{\max}(A+A^\top)<2$.
+$\lambda_{\max}(S) \le \lambda_{\max}(A+A^\top)-\alpha \lambda_{\min}(\EE{A_1^\top A_1})\le \lambda_{\max}(A+A^\top)$, this $\lambda_{\max}(S)<2/\alpha$ holds if 
+$\lambda_{\max}(A+A^\top)<2/\alpha$.
 On the other hand, $\lambda_{\min}(S)>0$ holds
 provided
 \begin{align*}
 \rho_s(\alpha,P) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0.
 \end{align*}
-Now, $\rho_s(\alpha,P) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$, for $\alpha>0$ small enough, it follows that $\rho_s(\alpha,P)>0$. Note that there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$. However, one can show (cf. \cref{lem:xxx} of \cref{sec:xxx}) that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD. 
+Now, $\rho_s(\alpha,P) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$, for $\alpha>0$ small enough, it follows that $\rho_s(\alpha,P)>0$. Note that there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$. However, one can show  that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (for details, see \cref{sec:hurpd}).
 
 
 It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.

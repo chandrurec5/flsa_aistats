@@ -2,6 +2,8 @@
 \appendix
 
 \section{Proofs for \cref{sec:mainresults}}
+\subsection{Hurwitz matrices and positive definiteness}
+\label{sec:hurpd}
 \iffalse
 \section{Linear Algebra Preliminaries}\label{sec:appendix}
 \subsection{Additional Notations}\label{sec:addnot}
@@ -71,8 +73,31 @@ B+B^\top
 which is positive definite, hence finishing the proof.
 \end{proof}
 
-In what follows, we first show \Cref{th:pdrate}, which is a restricted case of \Cref{th:rate} when $A_P$ is a positive definite matrix. Using \Cref{lm:simtran}, one can then apply an appropriate similarity transformation to convert any \emph{Hurwitz} matrix into a positive definite matrix. Thus, \Cref{lm:simtran} together with \Cref{th:pdrate} together will imply \Cref{th:rate}.
+Now we show a Hurwitz matrix $A$ such that $A+A^\top$ is not positive definite.
+In fact, the matrix 
+\begin{align*}
+A = 
+\begin{pmatrix}
+1 & -10 \\
+0 & 1
+\end{pmatrix}
+\end{align*}
+has these properties. Indeed, the only eigenvalue of $A$ is $1$, which is positive.
+On the other hand,
+\begin{align*}
+A + A^\top = 
+\begin{pmatrix}
+2 & -10 \\
+-10 & 2
+\end{pmatrix}\,.
+\end{align*}
+Any eigenvalue $\lambda$ of this matrix solves $(2-\lambda)^2 - 100=0$, whose solutions 
+are $\lambda = 12$ and $\lambda = -8$.
+
 \subsection{CALSA where $A_P$ is positive definite}
+In what follows, we first show \Cref{th:pdrate}, which is a restricted case of \Cref{th:rate} when $A_P$ is a positive definite matrix. Using \Cref{lm:simtran}, one can then apply an appropriate similarity transformation to convert any \emph{Hurwitz} matrix into a positive definite matrix. Thus, \Cref{lm:simtran} together with \Cref{th:pdrate} together will imply \Cref{th:rate}.
+
+
 %In this subsection, we assume that $P$ satisfies the assumptions in \Cref{assmp:lsa} and in addition $P$ is \emph{positive definite}.
 In this subsection, we re-write \eqref{eq:lsa} and \Cref{assmp:lsa} to accommodate complex number computations and in addition assume that $P$ is \emph{positive definite}. This allowance for complex numbers will enable us to use the similarity transformation `trick' of \Cref{lm:simtran}, where the matrix $U$ was an invertible $\dcd$ matrix with complex entries. To this end,
 \begin{subequations}\label{eq:lsacmplx}
