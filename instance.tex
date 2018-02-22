@@ -1,10 +1,57 @@
 %!TEX root =  flsa.tex
 \section{Instance Dependent Bounds}\label{sec:mainresults}
-We first show that any  CALSA scheme satisfying \Cref{assmp:lsa} achieves an asymptotic rate of $O(\frac{1}{t})$ with a instance dependent step-size (see \Cref{th:rate}). In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
+Let $\hat e_t = \hat \theta_t - \ts$ be the error of estimating $\ts$.
+In this section we consider instance dependent bounds on the expected squared parameter estimation error $\E[ \norm{\hat e_t}^2 ]$. 
+The consideration of weighted norms is postponed until the next section;
+our interest in the instance dependent analysis stems from that it 
+provides the foundation for the analysis coming in the next sections. 
+While the results presented here may not have appeared in exactly the form presented here in the literature,
+the analysis follows standard ideas. \todoc{Add bunch of relevant references..}
+\iffalse
+The core question is how the error depends on various instance-dependent quantities (variance of noise, spectral properties of matrices involved, the size of the initial error, etc.), how fast the error decreased over time.
+As we shall see, if the constant step-size belongs to a small enough neighborhood of zero (the size of which depends on the instance), the error decreases at a rate of $O(1/t)$ and both too small and too large step-sizes are undesirable. The main result, \Cref{th:rate}, which bounds the error from above, is corroborated with a lower bound which shows that the upper bound is tight.
+While the results of this section may not have appeared in this form in the literature, the steps of the analysis are quite standard. \todoc{I think we should say who we are building on.}
+\fi
+
+\iffalse
+We first show that any  CALSA scheme  achieves an error of size$O(\frac{1}{t})$ with instance dependent constants and
+step-size (see \Cref{th:rate}). In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
 As a first step, we need show that there exists an instance dependent step-size such that the iterates are stable. To this end, it is useful to look at the error (of un-averaged iterates) $e_t\eqdef\theta_t-\ts$ given as below:
-\begin{align}\label{eq:errrecmain}
-e_t&={\prod_{s=1}^t (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\prod_{s=j+1}^t (I-\alpha A_s)\zeta_i}
+\fi
+Fix an instance $P$. Thus, $(A_t,b_t)\sim P$. To minimize clutter, dropping the subindex $P$ from $A_P$ and $b_P$, we let $A = \EE{A_t}$ and $b = \EE{b_t}$.
+Straightforward calculation gives that $\hat e_t = \frac1{t+1} \sum_{s=0}^t e_s$, where
+ $e_s\eqdef\theta_s-\ts$ is the error of the $s$th un-averaged iterate. Further calculation shows that \begin{align}\label{eq:errrecmain}
+e_t&={\prod_{s=1}^t (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\prod_{s=j+1}^t (I-\alpha A_s)\zeta_i}\,,
 \end{align}
+where $\zeta_i = b_i-b - (A_i -A)\ts$ is the ``noise'' component in $(A_i,b_i)$.
+
+From \eqref{eq:errrecmain}, it is clear that the magnitude of $\hat e_t$ is governed by the behavior
+of the products $\Pi_{s=j+1}^{t}(I-\alpha A_s)$, $j=0,\dots,t$. 
+Here, we will perform some crude upper bounding and derive simple sufficient conditions that guarantee that on expectation these product matrices are ``small''. However, we will show that the error bounds derived are tight in a worst-case sense.
+
+To motivate the next results, note that repeated conditioning shows that
+$\phi \defeq \norm{ \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} }<1$ is sufficient 
+ to guarantee that the expectation of the squared norm of the
+ first term in \eqref{eq:errrecmain} vanishes with growing $t$.
+Here, we can use $A_1$, because $(A_t)_t$ is i.i.d.
+Now, thanks to
+$\EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} = 
+I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
+we see that the eigenvalues of this matrix are of the form $1-\alpha \lambda$,
+where $\lambda$ is an eigenvalue of the symmetric matrix 
+$S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
+Hence, if all eigenvalues of $S$ lie in the interval $(0,2)$, we have
+$\phi<1$. Now since $\EE{A_1^\top A_1}$ is a positive semidefinite matrix,
+$\lambda_{\max}(S) \le \lambda_{\max}(A+A^\top)-\alpha \lambda_{\min}(\EE{A_1^\top A_1})\le \lambda_{\max}(A+A^\top)$, this $\lambda_{\max}(S)<2$ holds if 
+$\lambda_{\max}(A+A^\top)<2$.
+On the other hand, $\lambda_{\min}(S)>0$ holds
+provided
+\begin{align*}
+\rho_s(\alpha,P) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0.
+\end{align*}
+Now, $\rho_s(\alpha,P) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$, for $\alpha>0$ small enough, it follows that $\rho_s(\alpha,P)>0$. Note that there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$. However, one can show (cf. \cref{lem:xxx} of \cref{sec:xxx}) that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD. 
+
+
 It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.
 \begin{definition}\label{def:spect}
 Let $A_t$ be as in \Cref{assmp:lsa}, and $U\in\C^{\dcd}$ be any invertible matrix. Now define $\Lambda_t\eqdef U^{-1}A_t U$, $\Lambda\eqdef \EE{U^{-1}A U}$,

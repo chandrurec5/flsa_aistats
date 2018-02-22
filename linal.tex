@@ -1,5 +1,8 @@
 %!TEX root =  flsa.tex
 \appendix
+
+\section{Proofs for \cref{sec:mainresults}}
+\iffalse
 \section{Linear Algebra Preliminaries}\label{sec:appendix}
 \subsection{Additional Notations}\label{sec:addnot}
 For $x=a+i b\in \C$, we denote its real and imaginary parts by $\re{x}=a$ and $\im{x}=b$ respectively. Given a $x\in \C^d$, for $1\leq i \leq d$, $x_i$ denotes the $i^{th}$ component of $x$.
@@ -43,6 +46,29 @@ x^* \frac{(\Lambda^{i*}_j+\Lambda^i_j)}{2} x &=\re{\lambda_i} \left(\sum_{i=1}^{
 &>\frac{\re{\lambda_i}}{2}\left(\sum_{i=1}^{d^i_j} \md{x_i+x_{i+1}}^2 +\md{x_1}^2+\md{x_{d^i_j}}^2\right) \\
 &> 0
 \end{align*}
+\end{proof}
+\fi
+The following lemma, which is often used in the control literature, states that Hurwitz and symmetric positive definite (SPD) matrices are closely related. 
+For the lemma recall that the symmetric part of a matrix is $A$ is $(A+A^\top)/2$.
+\begin{lemma}\label{lm:simtran}
+Any Hurwitz matrix is similar to a real matrix whose symmetric part is positive definite
+via a similarity transformation that is a symmetric and positive definite matrix.  \todoc{The reverse is also true, right..?}
+\end{lemma}
+\begin{proof}
+Recall that if $A\in \R^{d\times d}$ is Hurwitz, then there exist a unique SPD matrix $P$ such that the Lyapunov equation
+\begin{align*}
+A^\top P + P A = I
+\end{align*}
+is satisfied (e.g., Lemma A.23 of \citet{french2003}).
+Take $U = P^{1/2}$. Clearly, $U$ is positive definite and symmetric.
+Let $B = U^{-1} A U$. 
+Twice the symmetric part of $B$ is 
+\begin{align*}
+B+B^\top 
+ = P^{-1/2} A P^{1/2} + P^{1/2} A^\top P^{-1/2} 
+ = P^{-1/2} ( A P +  P A^\top ) P^{-1/2} = P^{-1}\,,
+\end{align*}
+which is positive definite, hence finishing the proof.
 \end{proof}
 
 In what follows, we first show \Cref{th:pdrate}, which is a restricted case of \Cref{th:rate} when $A_P$ is a positive definite matrix. Using \Cref{lm:simtran}, one can then apply an appropriate similarity transformation to convert any \emph{Hurwitz} matrix into a positive definite matrix. Thus, \Cref{lm:simtran} together with \Cref{th:pdrate} together will imply \Cref{th:rate}.
