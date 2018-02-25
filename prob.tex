@@ -1,33 +1,64 @@
 %!TEX root =  flsa.tex
 \section{Problem Setup}\label{sec:prob}
-In this section we introduce the \emph{constant step-size averaged linear stochastic approximation} (CALSA) algorithm, state and discuss the assumptions under which we study CALSA and then present two instance of learning problems where CALSA is applied. A  CALSA algorithm is given by:
+In this section we introduce the \emph{constant stepsize averaged linear stochastic approximation} (CALSA) algorithm, state and discuss the assumptions under which we study CALSA and then present two instance of learning problems where CALSA is applied. A CALSA algorithm sequentially processes the data $\{(A_t,b_t)\}_{t\ge 1}$ 
+where $A_t\in \R^{\dcd}$ and $b_t\in \R^d$ to produce the parameter vectors 
+$\theta_t,\thh_t\in \R^{d}$ in round $t$ using 
 \begin{subequations}\label{eq:lsa}
 \begin{align}
 \label{conststep}&\text{LSA:} &\theta_t&=\theta_{t-1}+\alpha(b_t-A_t\theta_{t-1})\,,\\
 \label{iteravg}&\text{Average:} &\thh_t&=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s\,.
 \end{align}
 \end{subequations}
-The algorithm updates a pair of parameters $\theta_t,\thh_t\in \R^{d}$ incrementally, in discrete time steps $t=1,2,\dots$
-based on data $(b_t,A_t)\in \R^d\times\R^{\dcd}$. Here $\alpha>0$ is a positive step-size parameter; an input to the algorithm besides the
-initial value $\theta_0$. The iterate $\theta_t$ is treated as an internal state of the algorithm, while $\thh_t$ is the output at time step $t$. The update of $\theta_t$ alone is considered a form of constant step-size LSA.
+Here, $\theta_0\in \R^d$ and the stepsize $\alpha>0$ are user-chosen parameters of the algorithm. 
+The iterate $\theta_t$ is treated as an internal state of the algorithm, while $\thh_t$ is the output at time step $t$. The update of $\theta_t$ alone is considered a form of constant stepsize LSA.
 
+\if0
 \textbf{Applications of CALSA:} In certain interesting cases, $A_t$ will have a special form (such as a rank-$1$ structure) and then the matrix-vector product $A_t \theta_{t-1}$ can also be computed in $O(d)$ time, a scenario common in reinforcement learning \cite{sutton,konda-tsitsiklis,gtd,gtd2,gtdmp}, see also \Cref{ex:linpred,ex:ape}. This makes the algorithm particularly attractive in large-scale computations when $d$ is in the range of thousands, or millions, or more, as may be required by modern applications (e.g., \citep{LiMaTaBo16}). 
+\fi
 
-We are interested in the mean squared error (MSE) at time $t$ given by $\EE{\normsm{\thh_t-\ts}^2_M}$ (where $M$ is a user chosen positive definite matrix) under the following assumptions:
+The data $\{(A_t,b_t)\}_{t\ge 1}$ is assumed to be random, i.i.d. sequence with common distribution $P$. 
+Throughout the paper we will use
+$\cF_t = \sigma(A_1,b_1,\dots,A_t,b_t)$ to denote the $\sigma$-algebra summarizing the history up to and
+including time step $t\ge 1$ and we let $\cF_0$ denote the trivial $\sigma$-algebra. We will also assume
+that $A_P \defeq \EE{A_t}$ is nonsingular and let $\ts = A_P^{-1} b_P$ where $b_P \defeq \EE{b_t}$.
+
+We are interested in the mean squared error (MSE) at time $t$ given by $\E[\normsm{\thh_t-\ts}^2_M]$ 
+for some SPD matrix $M$. Our assumptions concerning $\{(A_t,b_t)\}_{t\ge 1}$ are as follows:
 \begin{assumption}\label{assmp:lsa}
 \begin{enumerate}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
-\item \label{dist} $(b_t, A_t)$, $t\geq 0$ is an \iid sequence with common as $P$. Let $A_P\eqdef\EE{A_t}$ and $b_P\eqdef\EE{b_t}$, and we assume that $A_P$ is \emph{Hurwitz} (a matrix whose eigenvalues have positive real parts).  
+\item \label{dist} $\{(A_t, b_t)\}_{t\ge 1}$ is an \iid sequence with common distribution $P$. 
+We further assume that $A_P = \EE{A_t}$ is \emph{Hurwitz}.  
 %\item $A_P$ is invertible and thus the vector $\ts=A^{-1}_Pb_P$ is well-defined.
-\item \label{matvar}  The martingale difference sequences $M_t\eqdef A_t-A_{P}$ and $N_t\eqdef b_t-b_{P}$ satisfy the following 
-$\EE{\norm{M_t}^2\mid\F_{t-1}}\leq \sigma^2_{A_P}\,, \EE{\norm{N_t}^2\mid\F_{t-1}} \leq\sigma^2_{b_P}\,, \EE{M_tN_t}=0$,
-where $\F_t$ is an increasing sequence of $\sigma$-fields defined $\forall t > 1$ as: $\F_{t-1}\eqdef\sigma\{\theta_0,A_1,\ldots, A_{t-1}, b_1,\ldots, b_{t-1}\}$; $\F_{0}$ is the trivial $\sigma$ algebra with some $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. 
+\item \label{matvar}  
+The ``noise sequences'' $\{M_t\}_{t\ge 1}$, $\{N_t\}_{t\ge 1}$,
+where  $M_t= A_t-A_{P}$ \todoc{Clashes with $\norm{\cdot}_M$!!!}
+ and $N_t= b_t-b_{P}$,
+have uniformly bounded second conditional moments:
+For some $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$ constants,
+$\E[\norm{M_t}^2\mid\F_{t-1}]\leq \sigma^2_{A_P}$,
+$\E[\norm{N_t}^2\mid\F_{t-1}] \leq\sigma^2_{b_P}$.
 \end{enumerate}
 \end{assumption}
+Note that $\EE{M_t|\cF_{t-1}}=0$ and $\EE{N_t|\cF_{t-1}}=0$, i.e., $\{M_t\}_{t\ge 1}$
+and $\{N_t\}_{t\ge 1}$ are $(\cF_t)_{t\ge 0}$-adapted martingale difference sequences. \todoc{Direct the reader to background on this and RL.. perhaps in the intro.}
+In fact, this property could replace
+the assumption that $\{(A_t,b_t)\}_{t\ge 1}$ is an i.i.d. sequence without harming our results with the exception of the results on RL where some additional assumptions would also be necessary was the i.i.d. assumption removed. We stick to the i.i.d. assumption for the sake of simplicity.
+
+Since a Hurwitz matrix is necessarily nonsingular, $A_P$ is nonsingular as promised.
+Note that the assumption that $A_P$ is Hurwitz is necessary for the boundedness of
+of the iterates $\{\theta_t\}_{t\ge 1}$ in any reasonable sense (e.g., in the sense that 
+ $\EE{\norm{\theta_t}^2}$ is bounded).
+
+\if0
 Here we consider the \emph{multiplicative noise} case, where the noise in $A_t$ multiplies with the iterates $\theta_{t-1}$. In RL applications typically $A_P$ is known to be \emph{Hurwitz} and hence invertible (Hurwtiz matrices is a superset of real symmetric positive definite matrices). Note that `Hurwitz'-ness is necessary; it is trivial to construct examples where $A_P$ has negative eigenvalues and the iterates blow to infinity (i.e., $\norm{\theta_t}\ra\infty$ as $t\ra\infty$). Alos, it is in general not possible to exploit the presence of $M$ unless it is connected to $A_P$ in a special way (see \Cref{sec:land}), so in most results we let $M = \I$, i.e., $\EE{\normsm{\thh_t-\ts}^2_M}\leq \normsm{M}^2\EE{\normsm{\thh_t-\ts}^2}$. 
 %However, invertibility might not hold in cases such as \cite{bertstab}, and is not within the scope of this paper. 
-And finally, the boundedness of the variances has also been assumed. In what follows, we let $\ts\eqdef A_P^{-1}b_P$.
-\begin{example}\label{ex:linpred}[Linear prediction with bounded data]
-Let $(x_t,y_t)\in \R^{d}\times \R, t\geq 0$ be $\iid \sim P_{LP}$ and for some $B>0$, let $\P_{LP}(B)=\{  P_{LP}: \norm{x_t}\leq B, \md{y_t}\leq B \}$ be a class of distributions. The linear prediction problem is to predict/approximate unseen $y_t$ as $y_t\approx \ip{x_t,\theta}$, where $\theta\in\R^d$ and the aim is to compute a $\ts=\arg\min_{\theta\in\R^d} \EE{\norm{y_t-\ip{x_t,\theta}}^2}$. The constant step-size stochastic gradient descent (CASGD) algorithm for this problem is given by: $
+And finally, the boundedness of the variances has also been assumed. 
+\fi
+
+
+\begin{example}[Linear prediction with bounded data]
+\label{ex:linpred}
+Let $(x_t,y_t)\in \R^{d}\times \R, t\geq 0$ be $\iid \sim P_{LP}$ and for some $B>0$, let $\P_{LP}(B)=\{  P_{LP}: \norm{x_t}\leq B, \md{y_t}\leq B \}$ be a class of distributions. The linear prediction problem is to predict/approximate unseen $y_t$ as $y_t\approx \ip{x_t,\theta}$, where $\theta\in\R^d$ and the aim is to compute a $\ts=\arg\min_{\theta\in\R^d} \EE{\norm{y_t-\ip{x_t,\theta}}^2}$. The constant stepsize stochastic gradient descent (CASGD) algorithm for this problem is given by: $
 \theta_t=\theta_{t-1}+\alpha(x_t y_t-x_tx_t^\top\theta_{t-1}), \thh_t=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s$. The mean square prediction error of CASGD is given by $\EE{\normsm{\thh_t-\ts}^2_A}$ (where $A=\EE{A_t}=\EE{x_tx_t^\top}$). Here, $\P_{LPB}$ is the class of linear prediction problems with bounded data.
 \end{example}
 \begin{comment}
@@ -108,9 +139,9 @@ In this paper, we consider an important problem namely approximate policy evalua
 \end{example}
 %We wish to understand how the MSE is affected by the choice of $\alpha$ and the spectral properties of $A_P$. Another aspect of interest is to understand the contribution of the \emph{bias} (caused by the initial condition $\theta_0$) and the \emph{variance} (caused by $\sigma^2_P,\sigma^2_b$) to the MSE.\par
 \todoch{Mention importance of forgetting the bias etc. Mention that we really don't have control over $\norm{U}$}
-%\textbf{Goal and message:} We are interested in designing TD algorithms for the class $\P_{APE}$ of APE problems in a problem independent manner, by which we mean a \emph{universal} constant step-size that can be chosen for the class. We also want to understand the behavior of the algorithms across the class. We are motivated by the recent results by \citet{bach} who showed that CASGD with a universal step-size achieves uniform $O(\frac{C}{t})$ rate for the mean squared prediction error for the class $\P_{LPB}$. Hhere $C>0$ does not depend on the problem instance. In the case of TD algorithms for $\P_{APE}$ there exists universal constant step-size that achieves a $\frac{C_P}{t}$ rate of convergence for the mean squared error, where $C_P>0$ is a problem dependent constance. We also show by arguments in \Cref{sec:landscape} that this problem dependent constant in the convergence rate can be eliminated only under specific structure (such as those used by \citet{bach}).
+%\textbf{Goal and message:} We are interested in designing TD algorithms for the class $\P_{APE}$ of APE problems in a problem independent manner, by which we mean a \emph{universal} constant stepsize that can be chosen for the class. We also want to understand the behavior of the algorithms across the class. We are motivated by the recent results by \citet{bach} who showed that CASGD with a universal stepsize achieves uniform $O(\frac{C}{t})$ rate for the mean squared prediction error for the class $\P_{LPB}$. Hhere $C>0$ does not depend on the problem instance. In the case of TD algorithms for $\P_{APE}$ there exists universal constant stepsize that achieves a $\frac{C_P}{t}$ rate of convergence for the mean squared error, where $C_P>0$ is a problem dependent constance. We also show by arguments in \Cref{sec:landscape} that this problem dependent constant in the convergence rate can be eliminated only under specific structure (such as those used by \citet{bach}).
 \begin{comment}
 However, before we proceed on to the main goals, we first try our luck with simpler problem classes to investigate.
 We are interested in the behavior of CALSA on a single problem instance as well as class of problems. However, before
- Thus, first we show (in \Cref{th:rate} ) that under \Cref{assmp:lsa} there is a problem dependent constant step-size $\alpha_P$ with which the CALSA in \eqref{eq:lsa} achieve a rate of $O(\frac{C_P}{t})$,  where $C_P>0$ is a problem dependent constant. We then understand conditions under which this problem dependence in the step-size $\alpha_P$ and in the constant $C_P$ in the rate can be removed.
+ Thus, first we show (in \Cref{th:rate} ) that under \Cref{assmp:lsa} there is a problem dependent constant stepsize $\alpha_P$ with which the CALSA in \eqref{eq:lsa} achieve a rate of $O(\frac{C_P}{t})$,  where $C_P>0$ is a problem dependent constant. We then understand conditions under which this problem dependence in the stepsize $\alpha_P$ and in the constant $C_P$ in the rate can be removed.
 \end{comment}
