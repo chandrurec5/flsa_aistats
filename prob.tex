@@ -47,19 +47,28 @@ the assumption that $\{(A_t,b_t)\}_{t\ge 1}$ is an i.i.d. sequence without harmi
 Since a Hurwitz matrix is necessarily nonsingular, $A_P$ is nonsingular as promised.
 Note that the assumption that $A_P$ is Hurwitz is necessary for the boundedness of
 of the iterates $\{\theta_t\}_{t\ge 1}$ in any reasonable sense (e.g., in the sense that 
- $\EE{\norm{\theta_t}^2}$ is bounded).
+ $\E[\normsm{\theta_t}^2]$ is bounded).
+ In general, $M$ is allowed to be dependent on the instance $P$. In particular, 
+ this is the case in linear regression, which we consider next.
 
 \if0
-Here we consider the \emph{multiplicative noise} case, where the noise in $A_t$ multiplies with the iterates $\theta_{t-1}$. In RL applications typically $A_P$ is known to be \emph{Hurwitz} and hence invertible (Hurwtiz matrices is a superset of real symmetric positive definite matrices). Note that `Hurwitz'-ness is necessary; it is trivial to construct examples where $A_P$ has negative eigenvalues and the iterates blow to infinity (i.e., $\norm{\theta_t}\ra\infty$ as $t\ra\infty$). Alos, it is in general not possible to exploit the presence of $M$ unless it is connected to $A_P$ in a special way (see \Cref{sec:land}), so in most results we let $M = \I$, i.e., $\EE{\normsm{\thh_t-\ts}^2_M}\leq \normsm{M}^2\EE{\normsm{\thh_t-\ts}^2}$. 
+Here we consider the \emph{multiplicative noise} case, where the noise in $A_t$ multiplies with the iterates $\theta_{t-1}$. In RL applications typically $A_P$ is known to be \emph{Hurwitz} and hence invertible (Hurwtiz matrices is a superset of real symmetric positive definite matrices). Note that `Hurwitz'-ness is necessary; it is trivial to construct examples where $A_P$ has negative eigenvalues and the iterates blow to infinity (i.e., $\norm{\theta_t}\ra\infty$ as $t\ra\infty$). Alos, it is in general not possible to exploit the presence of $M$ unless it is connected to $A_P$ in a special way (see \Cref{sec:land}), so in most results we let $M = \I$, i.e., $\EE{\normsm{\thh_t-\ts}^2_M}\leq \normsm{M}^2\E[\normsm{\thh_t-\ts}^2]$. 
 %However, invertibility might not hold in cases such as \cite{bertstab}, and is not within the scope of this paper. 
 And finally, the boundedness of the variances has also been assumed. 
 \fi
 
 
-\begin{example}[Linear prediction with bounded data]
+\begin{example}[Linear regression under squared loss and bounded data (LS)]
 \label{ex:linpred}
-Let $(x_t,y_t)\in \R^{d}\times \R, t\geq 0$ be $\iid \sim P_{LP}$ and for some $B>0$, let $\P_{LP}(B)=\{  P_{LP}: \norm{x_t}\leq B, \md{y_t}\leq B \}$ be a class of distributions. The linear prediction problem is to predict/approximate unseen $y_t$ as $y_t\approx \ip{x_t,\theta}$, where $\theta\in\R^d$ and the aim is to compute a $\ts=\arg\min_{\theta\in\R^d} \EE{\norm{y_t-\ip{x_t,\theta}}^2}$. The constant stepsize stochastic gradient descent (CASGD) algorithm for this problem is given by: $
-\theta_t=\theta_{t-1}+\alpha(x_t y_t-x_tx_t^\top\theta_{t-1}), \thh_t=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s$. The mean square prediction error of CASGD is given by $\EE{\normsm{\thh_t-\ts}^2_A}$ (where $A=\EE{A_t}=\EE{x_tx_t^\top}$). Here, $\P_{LPB}$ is the class of linear prediction problems with bounded data.
+Let $\{(x_t,y_t)\}_{t\ge 1}$ be an $\R^{d}\times \R$-valued i.i.d. sequence so that $\norm{x_t},|y_t|\le B$ with some $B>0$ that is given to the algorithm designer.
+In linear prediction under the squared loss criterion the problem is to find $\ts\in \R^d$ such that 
+$\ts = \arg\min_{\theta\in \R^d} L(\theta)$ with $L(\theta)= \EE{ (\ip{x_t,\theta}-y_t)^2 } =c + \norm{\theta-\ts}_{A}^2$, where $A = \EE{x_t x_t^\top}$, where $c$ is a constant independent of $\theta$ (but $c$ can depend on the joint distribution of $(x_t,y_t)$).
+The \emph{constant stepsize averaged least-mean square} (CALMS) algorithm for this problem is given by 
+$\theta_t=\theta_{t-1}+\alpha(x_t y_t-x_tx_t^\top\theta_{t-1})$,
+$\thh_t=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s$. 
+\if0
+The mean square prediction error of CASGD is given by $\EE{\normsm{\thh_t-\ts}^2_A}$ (where $A=\EE{A_t}=\EE{x_tx_t^\top}$). Here, $\P_{LPB}$ is the class of linear prediction problems with bounded data.
+\fi
 \end{example}
 \begin{comment}
 \begin{table}[H]
@@ -86,26 +95,6 @@ $ \\\hline
 \end{table}
 \end{comment}
 
-\begin{table}[H]
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|}\hline
-TD(0)& GTD\\ \hline
-$\begin{aligned}\label{eq:td}
-\quad\theta_{t}&= \theta_{t-1}+\alpha(b_t-A_t\theta_{t-1}),\\
-\quad\thh_{t} &= \frac{1}{t+1}\sum_{s=0}^t \theta_s
-\end{aligned}
-$ & $\begin{aligned}\label{eq:gtd}
-y_{t}&=y_t+\beta(b_t +A_t\theta_{t-1} -y_{t-1}),\\
-\theta_{t}&=\theta_{t-1}+\alpha A_t^\top y_{t}\\
-\thh_{t}&=\frac{1}{t+1}\sum_{s=0}^t \theta_s, \hat{y}_{t}=\frac{1}{t+1}\sum_{s=0}^t y_s, 
-\end{aligned}
-$ \\\hline
-\end{tabular}
-}
-\caption{Here $A_t=\phi_t(\phi_t-\gamma \phi'_t)^\top$, and $b_t=\phi_t r_t$. Shows the TD(0) and GTD algorithms. In this paper, we let $\beta=\alpha$ in GTD. It is straightforward to write the algorithms in the form given in \eqref{eq:lsa}, and we leave it as an exercise.
-}
-\label{tb:tdalgos}
-\end{table}
 
 
 
@@ -132,11 +121,60 @@ $ \\\hline
 \end{table}
 \end{comment}
 
-\begin{example}\label{ex:ape}[Approximate policy evaluation (APE)]
+\begin{example}[Linear value-function estimation (LVE)]
+\label{ex:ape}
+The reader interested in the background of these methods can consult, e.g., \cite{sutton,Sze10}.
+In discounted LVE the algorithm designer is given a so-called discount factor
+ $\gamma\in (0,1)$, while the data is an i.i.d. sequence $\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}$ where
+$\phi_t,\phi_t'\in \R^d$ and $r_t\in \R$ and the goal is to find a solution $\ts$ to the equation $A \theta = b$
+where $A = \phi_t(\phi_t - \gamma \phi_t')^\top$ and $b = \phi_t r_t$.
+Note that when $\gamma=0$, the equation defining $\ts$ is the same as $\nabla L(\theta)=0$ in LS. 
+Hence, in this sense LVE generalizes LS.
+Again, it is customary to assume that the data is bounded: 
+$\norm{\phi_t},\norm{\phi_t'},|r_t|\le B$ with some known 
+constant $B>0$. 
+Commonly, the loss of a parameter vector $\theta\in \R^d$ is either measured using $\norm{\theta-\ts}_{\EE{\phi_t \phi_t^\top}}^2$, which can be thought of as a generalization of $L(\theta)$, or simply it is measured by 
+the unweighted $2$-norm, $\norm{\theta-\ts}^2$. 
+While it is not the purpose of this article to discuss these choices, we note in passing that these losses
+are nowhere near as natural as the squared loss in LS.
+\todoc{We could/should? consider
+$\EE{ (r_t - \theta^\top x_t)^2 }$ with $x_t =\phi_t - \gamma\EE{ \phi_t'|\phi_t}$.}
+\if0
 Consider a \emph{Markov Decision Process} given by the tuple $\langle S,A,P,R,\gamma \rangle$, where $S$ is the state space, $A$ is the action space, $P$ is the probability transition kernel which specifies the probability $p_a(s,s')$ of transitioning from state $s\in S$ to state $s'\in S$ under an action $a\in A$, and $R=(r_a(s),a\in a,s\in S)$ specifies the reward $r_a(s)$ of performing action $a$ in state $s$. A policy is a map $\pi$ that specifies a probability distribution $\pi(\cdot | s)$ over $A$ for any given $s \in S$. The policy evaluation problem deals with computing $V_\pi=R_\pi+\gamma P_\pi$, where $R_\pi(s)=\E_{a\sim \pi(\cdot|s)}[r_a(s)]$ and $P_\pi$ is the probability transition matrix under policy $\pi$. Note that $V_\pi,R_\pi \in \R^{|S|}$ and $P_\pi\in\R^{|S|\times|S|}$. 
-In this paper, we consider an important problem namely approximate policy evaluation (APE) in an $\iid$ sampling setting, where the data is given by the sequence  $D_t=(s_t,s'_t,r_t,a_t),t\geq 0$ with $s_t\sim \mu$,  $s'_t\sim p(s_t,\cdot)$, $a_t\sim\pi_b(s_t)$ and $r_t=r_{a_t}(s_t)$. Here, based on $\mu$ we have two different settings namely, the \emph{on-policy} setting where $\mu=d_{\pi}$ is the stationary distribution of  the \emph{target} policy and the \emph{off-policy} setting where $\mu$ is any arbitrary distribution. In the problem of APE, the aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts\in\R^d$ is a weight vector to be learnt. Two important TD algorithms that we are interested in this paper namely  TD(0) and gradient temporal difference (GTD) are given as follows in \Cref{tb:tdalgos}.
+In this paper, we consider an important problem namely approximate policy evaluation (APE) in an $\iid$ sampling setting, where the data is given by the sequence  $D_t=(s_t,s'_t,r_t,a_t),t\geq 0$ with $s_t\sim \mu$,  $s'_t\sim p(s_t,\cdot)$, $a_t\sim\pi_b(s_t)$ and $r_t=r_{a_t}(s_t)$. Here, based on $\mu$ we have two different settings namely, the \emph{on-policy} setting where $\mu=d_{\pi}$ is the stationary distribution of  the \emph{target} policy and the \emph{off-policy} setting where $\mu$ is any arbitrary distribution. In the problem of APE, the aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts\in\R^d$ is a weight vector to be learnt.
+\fi
+In this paper we consider the constant stepsize version of
+\citeauthor{sut95}'s TD(0) \cite{sut95}, and a constant stepsize version of a novel variant of the so-called
+GTD algorithm \cite{gtd,gtd2}. The novelty of this variant is that it updates the parameter vector $\theta_t$ using
+the updates auxiliary parameter $y_t$, rather than using $y_{t-1}$ as in the original version. This small change will be instrumental for our results in \cref{sec:rl}. The algorithms are summarized in \Cref{tb:tdalgos}.
 %One can define $\P_{APE}$ to be the class of all APE problems with fixed $|S|$ and $|A|$ restricting to those policies that give rise to an irreducible Markov chains and restricting the entires of $\Phi$ to be bounded.
 \end{example}
+\begin{table}[H]
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{|c|c|}\hline
+CATD(0)& CAGTD\\ \hline
+$\begin{aligned}\label{eq:td}
+\quad\theta_{t}&= \theta_{t-1}+\alpha(b_t-A_t\theta_{t-1}),\\
+\quad\thh_{t} &= \frac{1}{t+1}\sum_{s=0}^t \theta_s
+\end{aligned}
+$ & $\begin{aligned}\label{eq:gtd}
+y_{t}&=y_t+\beta(b_t +A_t\theta_{t-1} -y_{t-1}),\\
+\theta_{t}&=\theta_{t-1}+\alpha A_t^\top y_{t}\\
+\thh_{t}&=\frac{1}{t+1}\sum_{s=0}^t \theta_s, \hat{y}_{t}=\frac{1}{t+1}\sum_{s=0}^t y_s, 
+\end{aligned}
+$ \\\hline
+\end{tabular}
+}
+\caption{In the table $A_t=\phi_t(\phi_t-\gamma \phi'_t)^\top$, and $b_t=\phi_t r_t$. 
+The left column shows the updates of CATD($0$), the constant stepsize averaged TD($0$) algorithm,
+while the right column shows the updates of CAGTD, 
+our variant of GTD that is combined with constant stepsizes and averaging.
+In this paper, we let $\beta=\alpha$ in CAGTD. 
+It is straightforward to write the algorithms in the form given in \eqref{eq:lsa}.
+Both updates can be implemented in $O(d)$ time and space.
+}
+\label{tb:tdalgos}
+\end{table}
 %We wish to understand how the MSE is affected by the choice of $\alpha$ and the spectral properties of $A_P$. Another aspect of interest is to understand the contribution of the \emph{bias} (caused by the initial condition $\theta_0$) and the \emph{variance} (caused by $\sigma^2_P,\sigma^2_b$) to the MSE.\par
 \todoch{Mention importance of forgetting the bias etc. Mention that we really don't have control over $\norm{U}$}
 %\textbf{Goal and message:} We are interested in designing TD algorithms for the class $\P_{APE}$ of APE problems in a problem independent manner, by which we mean a \emph{universal} constant stepsize that can be chosen for the class. We also want to understand the behavior of the algorithms across the class. We are motivated by the recent results by \citet{bach} who showed that CASGD with a universal stepsize achieves uniform $O(\frac{C}{t})$ rate for the mean squared prediction error for the class $\P_{LPB}$. Hhere $C>0$ does not depend on the problem instance. In the case of TD algorithms for $\P_{APE}$ there exists universal constant stepsize that achieves a $\frac{C_P}{t}$ rate of convergence for the mean squared error, where $C_P>0$ is a problem dependent constance. We also show by arguments in \Cref{sec:landscape} that this problem dependent constant in the convergence rate can be eliminated only under specific structure (such as those used by \citet{bach}).

@@ -28,7 +28,7 @@ Assuming sufficient regularity of $\{(A_t,b_t)\}_{t\ge 1}$, e.g., independence, 
 convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. \todoc{cite some papers that do this..}
 In applications, one often starts from some additional broad properties of the common distribution
 $P$ underlying $\{(A_t,b_t)\}$, i.e., $P\in \cP$ for a known family of instances $\cP$.
-For example, in \emph{linear regression under the squared loss criterion} (LR), 
+For example, in \emph{linear regression under the squared loss criterion} (LS), 
 $A= \EE{A_t}$ is symmetric and positive definite and $\EE{\normsm{b_t}^2}$, 
 $\EE{\normsm{A_t}^2}\le B$ with $B$ known.
 The goal then is not only to guarantee asymptotic convergence on a per-instance basis, 
@@ -62,7 +62,7 @@ Our interest stems from the desire to repeat this result for
 linear value-function estimation (LVE) in reinforcement learning (RL) where
 multiple members of the
 \emph{temporal-difference (TD) family of algorithms} 
-(cf. \cite{sutton,gtd,gtd2,gtdmp} and \cref{sec:td})
+(cf. \cite{sutton,gtd,gtd2,gtdmp} and \cref{sec:rl})
 have been proposed as an analog of the ``LMS algorithm'' available for LS.
 % that are meant to be an efficient way of estimating value functions
 %in reinforcement learning \cite[e.g.,][]{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
