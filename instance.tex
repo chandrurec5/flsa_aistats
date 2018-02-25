@@ -41,7 +41,7 @@ Let $R \defeq \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)}$.
 From the definition of $P$ we see that, on the one hand, it is positive
 definite, while, on the other hand,
 $R= I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
-hence the eigenvalues of $P$ are all real, nonnegative
+hence the eigenvalues of $R$ are all real, nonnegative
 and are of the form $1-\alpha \lambda$,
 where $\lambda$ is an eigenvalue of the symmetric matrix 
 $S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
@@ -53,7 +53,7 @@ Let $P_A$ denote the distribution of $A_1$ and note that $\lambda_{\min}(S)>0$ i
 \end{align*}
 Now,
 $\rho_s(\alpha,P_A) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$ then for $\alpha>0$ small enough, $\rho_s(\alpha,P_A)>0$ is guaranteed to hold. While there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$, one can show that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (cf. \cref{sec:hurpd}). Now, if $U$ is the underlying similarity transformation, so that $B=U^{-1} A U$, one can check that $z_t = U^{-1} e_t$ satisfies \eqref{eq:errrecmain} with $A_s$ replaced by $B_s \defeq U^{-1} A_s U$ and $\zeta_i$ replaced by $U^{-1} \zeta_i$. Let $P_U$ to denote the common distribution of $(B_s)_s$.
-Thanks to $\EE{B_s} = B$, the expected squared norm of the first term in the analog of  \eqref{eq:errrecmain} can be shown to be bounded by $(1-\alpha \rhos(P_U))^r \norm{e_0}^2$, \todoc{$\theta_0$ is NOT random then!}
+Thanks to $\EE{B_s} = B$, the expected squared norm of the first term in the analog of  \eqref{eq:errrecmain} can be shown to be bounded by $(1-\alpha \rhos{P_U})^t\norm{e_0}^2$, \todoc{$\theta_0$ is NOT random then!}
 while the expected squared norm of the second term can be shown to be bounded by $c \alpha /\rhos{P_U}$ with some $P$-dependent constant $c>0$. One can also show that $\EE{\norm{\hat e_t}^2}\le (1+4/\alpha \rhod{P_U}) \sum_{i=0}^t \EE{ \norm{e_i}^2 }$, where $\rhod{P_U} \defeq \lmin{B+B^\top - \alpha B^\top B}>\rhos{P_U}$. Putting things together, we get the following result:
 \iffalse
 It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.
@@ -87,9 +87,9 @@ for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
 \end{align*}
 where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \rhos{P_U}}$ and
 $v^2 = 
-\alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)+\alpha (\sigma_{A_P}^2\norm{\ts})\norm{\theta_0-\ts}$.
+\alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 \end{restatable}
-Note that $\nu$ depends on $P_U$ and $\alpha$, while $v^2$ in addition also depends on $\theta_0$. The dependence,  when it is essential, will be shown as a subscript.
+Note that $\nu$ depends on $P_U$ and $\alpha$.
 
 
 \begin{restatable}{theorem}{thlb}[Lower Bound]\label{th:lb}
@@ -97,12 +97,11 @@ There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{ass
 there exists $\alpha_P>0$ so that $\rhos{P}>0$ and $\rhod{P}>0$ hold for all $\alpha\in (0,\alpha_P)$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
-+ \frac{v^2\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
-where $\beta_{t} =  \big(1-(1-\alpha \rhos{P})^t\big)$ and $v^2$ is as in \Cref{th:rate}.
++ \frac{\sigma^2_{b_P}\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
+where $\beta_{t} =  \big(1-(1-\alpha \rhos{P})^t\big)$.
 \end{restatable}
-Note that $\beta_t \to 1$ as $t\to\infty$. Hence, the lower bound essentially matches the upper bound.
-%\subsection{Discussion}
-In what follows, we discuss in brief the results in \Cref{th:rate,th:lb}. 
+Note that $\beta_t \to 1$ as $t\to\infty$. Hence, the lower bound essentially matches the upper bound (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}). In what follows, we discuss in brief the results in \Cref{th:rate,th:lb}. 
+
 \textbf{Bias and Variance}: The MSE at time $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\B=\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term is given by $\V=\nu\, \frac{v^2}{t+1} $ and captures the rate at which noise is rejected. 
 
 \textbf{Behavior for extreme values of $\alpha$}: As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb}) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. For larger values of $\alpha$ with $\alpha_{P_U}$ chosen so that $\rhos{P_U}\ra 0$ as $\alpha\ra \alpha_{P_U}$ the bounds blow up again. 
