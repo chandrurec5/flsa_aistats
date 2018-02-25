@@ -100,21 +100,23 @@ for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2}
 + \frac{\sigma^2_{b_P}\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
 where $\beta_{t} =  \big(1-(1-\alpha \rhos{P})^t\big)$.
 \end{restatable}
-Note that $\beta_t \to 1$ as $t\to\infty$. Hence, the lower bound essentially matches the upper bound (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}). In what follows, we discuss in brief the results in \Cref{th:rate,th:lb}. 
+Note that $\beta_t \to 1$ as $t\to\infty$. 
+%Hence, the lower bound essentially matches the upper bound (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}). %In what follows, we discuss in brief the results in \cref{th:rate,th:lb}. 
 
 \textbf{Bias and Variance}: The MSE at time $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\B=\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term is given by $\V=\nu\, \frac{v^2}{t+1} $ and captures the rate at which noise is rejected. 
 
 \textbf{Behavior for extreme values of $\alpha$}: As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb}) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. For larger values of $\alpha$ with $\alpha_{P_U}$ chosen so that $\rhos{P_U}\ra 0$ as $\alpha\ra \alpha_{P_U}$ the bounds blow up again. 
 Use of such similarity transformation have also been considered in analysis of RL algorithms \cite{lihong}. More generally, one can always take $U$ in the result that leads to the smallest bound.
-
+\begin{comment}
 \textbf{Proof Sketch:} We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
 where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. Since, we also use a basis transformation via $U$, the growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $I-\alpha \Lambda_t$ and that of the deterministic matrix $I-\alpha \Lambda$, respectively. This explains the reason as to why $\rhos{P_U}$ and $\rhod{P_U} $ appear in the bounds.
-
-\textbf{The lower bound} of \Cref{th:lb} shows that the upper bound of \Cref{th:rate} is tight in a number of ways.
+\end{comment}
+\textbf{The lower bound} of \Cref{th:lb} shows that the upper bound of \Cref{th:rate} is tight in a number of ways (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}).
 In particular, the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ are essentially matched (here $U=I$).
 Further, we also see that the $(\rhos{P_U}\rhod{P_U})^{-1}$ appearing in $\nu = \nu_{P_U,\alpha}$ cannot be removed from the upper bound. 
 Note however that there are specific examples, such as SGD for linear least-squares,
 where this latter factor can in fact be avoided (for further remarks see \Cref{sec:related}).
+
 
 %\textbf{Goal:} In \Cref{th:rate} we have established the fact that under \Cref{assmp:lsa} CALSA achieves an \emph{asymptotic} rate of $O(\frac{1}{t})$ for the MSE with an instance dependent step-size range of $(0,\alpha_{P_U})$, and the  constant $\nu$ has instance dependent terms. In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
 
