@@ -1,8 +1,7 @@
 %!TEX root =  flsa.tex
 \appendix
 
-\section{Proofs for XX}
-{\cref{sec:mainresults}}
+\section{Proofs for \cref{sec:mainresults}}
 \subsection{Hurwitz matrices and positive definiteness}
 \label{sec:hurpd}
 The symmetric part of a real-valued matrix $A$ is $(A+A^\top)/2$.
@@ -421,7 +420,7 @@ Starting from \eqref{eq:intererr}, we have
 which completes the upper bound part for this case.
 
 \textbf{$(ii)$ Lower Bound:}
-For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
+For sufficiently large $t$, and any step-size $\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2}_{\lambda}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}

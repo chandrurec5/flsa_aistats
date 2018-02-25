@@ -1,14 +1,26 @@
 %!TEX root =  flsa.tex
-\textbf{Notation:} We denote the sets of real and complex numbers by $\R$ and $\C$, respectively. For $x\in \C$ we denote its modulus and complex conjugate by $\md{x}$ and $\bar{x}$, respectively. We denote the $d$-dimensional vector spaces over $\R$ and $\C$ by $\R^{d}$ and $\C^{d}$, respectively, and use $\R^{\dcd}$ and $\C^{\dcd}$ to denote $\dcd$ matrices with real and complex entries, respectively. We denote the transpose of $C$ by $C^\top$ and the conjugate transpose by $C^*={\bar{C}}^\top$ (and of course the same notation applies to vectors, as well). We will use $\ip{\cdot,\cdot}$ to denote inner products: $\ip{x,y}=x^* y$. \todoc{Usually, people define this as $y^* x \ne x^* y$. It does not make a difference in terms of the math, but there could be slight differences. And we will need to be consistent.}
-We use $\norm{x} = \ip{x,x}^{1/2}$ to denote the $2$-norm.
-For $x\in\C^d$, we denote the general quadratic norm with respect to a positive definite (see below) Hermitian matrix $C$ (i.e., $C=C^*$) by $\norm{x}^2_C\eqdef x^*\, C \,x$.
-The norm of the matrix $A$ is given by $\norm{A}\eqdef \sup_{x\in \C^d:\norm{x}=1} \norm{Ax}$.  We use $\cond{A}=\normsm{A}\normsm{A^{-1}}$ to denote the condition number of a non-singular matrix $A$. We use $\lmin{A}$ to denote the minimum eigenvalue of a hermitian matrix.
-%We denote the spectral radius of a matrix $A$ by $\Lambda(A)=\{\max_i \left|\lambda_i\right|: \lambda_i ~\text{is an eigenvalue of}~A\}$.
-We denote the identity matrix in $\C^{\dcd}$ by $\I$ and the set of invertible $\dcd$ complex matrices by $\gld$.
-For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \C^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \C^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\C^d$ and $\C^{d\times d}$, respectively, of radius $B$. We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$; $\E$ denotes mathematical expectation. We call a matrix $A\in \C^{\dcd}$  \emph{Hurwitz} (H) if all eigenvalues of $A$ have strictly positive real parts. We call a matrix $A\in \C^{\dcd}$ \emph{positive definite} (PD) if $\ip{x,Ax} >0,\,\forall x \in \C^{d}\setminus\{\mathbf{0}\}$.  
+\textbf{Notation:} We denote the sets of reals by $\R$. 
+%For $x\in \C$ we denote its modulus and complex conjugate by $\md{x}$ and $\bar{x}$, respectively. 
+We denote the $d$-dimensional vector spaces over $\R$ by $\R^{d}$
+and use $\R^{\dcd}$  to denote $\dcd$ matrices with real. 
+We denote the transpose of a matrix $C$ by $C^\top$  
+(and of course the same notation applies to vectors, as well). 
+We will use $\ip{\cdot,\cdot}$ to denote inner products: $\ip{x,y}=x^\top y$
+and use $\norm{x} = \ip{x,x}^{1/2}$ to denote the $2$-norm.
+We call a matrix $A\in \R^{\dcd}$  \emph{Hurwitz} (H) if all eigenvalues of $A$ have strictly positive real parts. 
+We call a matrix $A\in \R^{\dcd}$ \emph{positive definite} (PD) if $\ip{x,Ax} >0$ for all nonzero $x \in \R^{d}$.
 If $\inf_x \ip{x,Ax}\ge 0$ then $A$ is \emph{positive semi-definite} (PSD).
-\todoc{I think usually this is defined as $\ip{Ax,x}>0$. Same issue as with $\ip{\cdot,\cdot}$.}
-We call a matrix $A\in \R^{\dcd}$ to be \emph{symmetric positive definite} (SPD) is it is symmetric i.e., $A^\top=A$ and PD. \todoc{Add note that SPD implies real.}
+We call a matrix $A\in \R^{\dcd}$ to be \emph{symmetric positive definite} (SPD) if 
+it is symmetric i.e., $A^\top=A$ and PD. 
+For $C\in \R^{\dcd}$ SPD and $x\in \R^d$, we let $\norm{x}^2_C\eqdef x^*\, C \,x$.
+The spectral norm of the matrix $A$ is given by $\norm{A}\eqdef \sup_{x\in \R^d:\norm{x}=1} \norm{Ax}$.  
+The spectral radius of $A$ is $\rho(A)\defeq \max\{ |\lambda|\,:\, \lambda \in \Lambda(A) \}$ where $\Lambda(A)$ is the set of (complex) eigenvalues of $A$. 
+We use $\cond{A}=\normsm{A}\normsm{A^{-1}}$ to denote the condition number of a non-singular matrix $A$. 
+We use $\lmin{A}$ to denote the minimum eigenvalue of a symmetric matrix.
+%We denote the spectral radius of a matrix $A$ by $\Lambda(A)=\{\max_i \left|\lambda_i\right|: \lambda_i ~\text{is an eigenvalue of}~A\}$.
+We denote the identity matrix in $\R^{\dcd}$ by $\I$ and the set of invertible $\dcd$ complex matrices by $\gld$.
+For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \R^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \R^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\R^d$ and $\R^{d\times d}$, respectively, of radius $B$.  \todoc{Is this used?!}
+We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$; $\E$ denotes mathematical expectation. 
 \begin{comment}
 Let us now state some definitions that will be useful for presenting our main results. \todoc{Actually, we should remove all definitions not needed by the main body.}
 \begin{definition}\label{def:dist}

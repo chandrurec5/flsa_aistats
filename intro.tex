@@ -9,7 +9,7 @@ and the expectation $\EE{A_t}$ of the matrix $A_t$ is non-singular \citep[e.g.,]
 sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
 Oftentimes, the matrices $A_t$ are rank-1, $\EE{A_t}$ is Hurwitz (its eigenvalues have positive real parts)
 and the dimensionality $d$ is large.
-Then, for any positive-valued, user-chosen step-size sequence $\{\alpha_t\}_{t\ge 1}$, the updates
+Then, for any positive-valued, user-chosen stepsize sequence $\{\alpha_t\}_{t\ge 1}$, the updates
 \begin{align}\label{eq:lsaintro}
 \theta_t=\theta_{t-1}+\alpha_t (b_t-A_t \theta_{t-1})
 \end{align}
@@ -24,7 +24,7 @@ independent and identically distributed according to $P$ (a distribution with bo
 \fi
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
 
-Assuming sufficient regularity of $\{(A_t,b_t)\}_{t\ge 1}$, e.g., independence, or mixing, in addition to bounded moments, if the step-size sequence converges to zero at an appropriate rate,
+Assuming sufficient regularity of $\{(A_t,b_t)\}_{t\ge 1}$, e.g., independence, or mixing, in addition to bounded moments, if the stepsize sequence converges to zero at an appropriate rate,
 convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. \todoc{cite some papers that do this..}
 In applications, one often starts from some additional broad properties of the common distribution
 $P$ underlying $\{(A_t,b_t)\}$, i.e., $P\in \cP$ for a known family of instances $\cP$.
@@ -36,7 +36,7 @@ but also to choose $\{\alpha_t\}_{t\ge 1}$ based on the knowledge of $\cP$ only,
 so that the worst-case error is  ``small'' 
 over the whole class $\cP$ and for any  $t\ge 1$.
 
-To overcome the difficulty of choosing such a ``universally good'' step-size sequence,
+To overcome the difficulty of choosing such a ``universally good'' stepsize sequence,
 following the ideas of \citet{ruppert} and \citet{polyak-judisky},
 in the context of linear regression with the squared loss (LS),
 \citet{bach-moulines} suggested that
@@ -44,13 +44,13 @@ in the context of linear regression with the squared loss (LS),
 with some $\alpha>0$ to be chosen based on $\cP$, 
 and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. 
 \todoc{I think there is also an impossibility result for choosing $\{\alpha_t\}_{t\ge 1}$,
-at least for LS problems. Namely, no universal step-size sequence achieves the optimal bound.}
+at least for LS problems. Namely, no universal stepsize sequence achieves the optimal bound.}
 The main result of 
 \citet{bach-moulines}, 
 %which is further improved by  \citet{bach}, 
 is that for the LS problem, 
 under the assumption that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent sequence, 
-the constant step-size $\alpha$ can be chosen solely based on the above-mentioned 
+the constant stepsize $\alpha$ can be chosen solely based on the above-mentioned 
 upper bound $B$ to guarantee that for some universal constant $C>0$
 the expected squared prediction error of using $\thh_t$ is at most $C B/t$ for any $t\ge 1$,
 which, up to constant factors, is information-theoretically optimal. \todoc{This needs a reference.}
@@ -76,28 +76,69 @@ In particular,  in LVE
 this is not the case in TD.
 Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an i.i.d. sequence. For our results that have a negative character these is no loss of generality
 making this assumption. 
-The question as to what extend our other results can be extended to the Markov noise
+The question as to what extent our other results can be extended to the Markov noise
 case remains for future work. \todoc{I don't have high hopes.}
 
-
+\iffalse
 \if0
-In particular, the convergence rates can degrade, or they may depend on potentially unbounded problem dependent constants \cite{bach-moulines}. Diminishing step-sizes such as $\alpha_t=\frac{c_0}{t+c}$, with problem instance specific tuning of the constants $c>0,c_0>0$ have been used in practice \cite{gtd2,gtdmp,konda-tsitsiklis}. 
-An alternate idea, which we call the constant step-size averaged LSA (CALSA) is to run \eqref{eq:lsaintro} by choosing $\alpha_t=\alpha>0$ $\forall t> 0$ with some $\alpha>0$, and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. Thus, in CALSA, $\theta_t$ is an internal variable and $\thh_t$ is the output of the algorithm. The idea is that the constant step-size leads to faster forgetting of initial conditions, while the averaging on the top reduces noise. This idea goes back to  \citet{ruppert} and \citet{polyak-judisky} who proposed it in the context of stochastic approximation that LSA is a special case of.   
+In particular, the convergence rates can degrade, or they may depend on potentially unbounded problem dependent constants \cite{bach-moulines}. Diminishing stepsizes such as $\alpha_t=\frac{c_0}{t+c}$, with problem instance specific tuning of the constants $c>0,c_0>0$ have been used in practice \cite{gtd2,gtdmp,konda-tsitsiklis}. 
+An alternate idea, which we call the constant stepsize averaged LSA (CALSA) is to run \eqref{eq:lsaintro} by choosing $\alpha_t=\alpha>0$ $\forall t> 0$ with some $\alpha>0$, and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. Thus, in CALSA, $\theta_t$ is an internal variable and $\thh_t$ is the output of the algorithm. The idea is that the constant stepsize leads to faster forgetting of initial conditions, while the averaging on the top reduces noise. This idea goes back to  \citet{ruppert} and \citet{polyak-judisky} who proposed it in the context of stochastic approximation that LSA is a special case of.   
 \fi
 
-\textbf{Design Questions:} A useful design criterion for CALSA algorithms would be to require them to work in a problem instance independent manner for a given class of  problems. We break down this design criterion into the following two question: $(i)$ whether there exists a \emph{universal} constant step-size, and $(ii)$ whether the behavior of the algorithm is \emph{uniform} across all the problem instances of the class. The idea is that the universal step-size can be used across all the instances thereby alleviating the need for an instance dependent tuning of the step-sizes. In this paper, we measure the performance of the algorithm by the mean squared error $\E[\normsm{\thh_t-\ts}^2_M]$, where $M$ is a positive definite matrix (whose choice plays a critical role). Here, we look at algorithm behavior in the finite-time, as well as asymptotic (a weaker condition) sense. By uniform finite-time behavior, we mean a convergence rate of $\frac{C}{t}$ for the MSE, where the constant $C>0$ is independent of the problem instance. And asymptotic fast convergence rate of $O(\frac{1}{t})$ means the constant in the rate expression can be problem instance dependent.
+\textbf{Design Questions:} A useful design criterion for CALSA algorithms would be to require them to work in a problem instance independent manner for a given class of  problems. We break down this design criterion into the following two question: $(i)$ whether there exists a \emph{universal} constant stepsize, and $(ii)$ whether the behavior of the algorithm is \emph{uniform} across all the problem instances of the class. The idea is that the universal stepsize can be used across all the instances thereby alleviating the need for an instance dependent tuning of the stepsizes. In this paper, we measure the performance of the algorithm by the mean squared error $\E[\normsm{\thh_t-\ts}^2_M]$, where $M$ is a positive definite matrix (whose choice plays a critical role). Here, we look at algorithm behavior in the finite-time, as well as asymptotic (a weaker condition) sense. By uniform finite-time behavior, we mean a convergence rate of $\frac{C}{t}$ for the MSE, where the constant $C>0$ is independent of the problem instance. And asymptotic fast convergence rate of $O(\frac{1}{t})$ means the constant in the rate expression can be problem instance dependent.
 
-\textbf{Motivation:} Recently, \citet{bach} considered, what we call a constant step-size averaged stochastic gradient descent (CASGD) 
- algorithm for the linear least squares prediction problem (with \iid sampling) and showed that there exists both universal step-size and a uniform convergence rate of $\frac{C}{t}$ for the mean squared prediction error.
+\textbf{Motivation:} Recently, \citet{bach} considered, what we call a constant stepsize averaged stochastic gradient descent (CASGD) 
+ algorithm for the linear least squares prediction problem (with \iid sampling) and showed that there exists both universal stepsize and a uniform convergence rate of $\frac{C}{t}$ for the mean squared prediction error.
 
-\textbf{Focus:} We are interested in the TD class of algorithms that are also LSA algorithms. Specifically, we look at CATD(0) and CAGTD algorithms, which are TD(0) and GTD algorithms with constant step-size and iterate averaging. Here, we want to repeat the feat of \cite{bach}, i.e., we want to find out whether the CATD(0) and CAGTD achieve a uniform convergence rate with a universal step-size for useful classes of approximate policy evaluation problems. We answer these question in the following manner:
-\begin{enumerate}[leftmargin=*]
-\item \textbf{Finite-time Instance Dependent Bounds} ( \Cref{sec:mainresults}) : When $\EE{A_t}$ is \emph{Hurwitz}\footnote{All eigenvalues of a  \emph{Hurwitz} matrix have positive real parts.}, we show that (under our stated assumptions) there exists a constant $\alpha_P>0$\footnote{$P$ stands for problem, typically characterized by the underlying distribution.} such that for any $\alpha\in (0,\alpha_P)$,
-the MSE, $\EE{\normsm{\thh_t-\ts}^2}$
-is at most $\frac{C_{P,\alpha}}{t}+\frac{C_{P',\alpha}}{t^2}$ with some positive constants $C_{P,\alpha},C_{P',\alpha}$ that we explicitly compute from $P$.
-Our result here, is an extension of the result by \citet{polyak-judisky} who proved this result for $A_t=A$.
-\item \textbf{Negative Results} (\Cref{sec:land}): We present examples of simple yet insightful problem classes to show that $i)$ \emph{universal} constant step-size do not exist always, and $ii)$ \emph{uniform} finite time rate of $O(\frac{1}{t})$ cannot be achieved for all problem classes.
-\item \textbf{Reinforcement Learning} (\Cref{sec:mainresults}): We define APE problem classes namely $\P_{TDON}$, $\P_{TDOFF}$ and $\P_{GTD}$. We show that CATD(0) and CAGTD achieve an asymptotic fast rate of $O(\frac{1}{t})$ for these classes with respective universal constant step-sizes. In simpler terms, as a consequence of our results, a constant step-size can be chosen in TD(0) and CAGTD (\emph{on} as well as \emph{off} policy settings) without requiring any additional problem dependent step-size tuning . This result is novel in RL.
+\textbf{Focus:} We are interested in the TD class of algorithms that are also LSA algorithms. Specifically, we look at CATD(0) and CAGTD algorithms, which are TD(0) and GTD algorithms with constant stepsize and iterate averaging. Here, we want to repeat the feat of \cite{bach}, i.e., we want to find out whether the CATD(0) and CAGTD achieve a uniform convergence rate with a universal stepsize for useful classes of approximate policy evaluation problems. 
+\fi
+We answer these question in the following manner:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{enumerate}[topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt,label=\emph{\arabic*}.]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \textbf{Finite-time Instance Dependent Bounds} (\Cref{sec:mainresults}): 
+When $\EE{A_t}$ is Hurwitz, we show that under additional mild regularity assumptions 
+there exists a constant $\alpha_P>0$ such that for any $\alpha\in (0,\alpha_P)$,
+the mean-squared error (MSE), $\EE{\normsm{\thh_t-\ts}^2}$
+is at most $\frac{C}{t}+\frac{C'}{t^2}$ 
+with some positive constants $C,C'$ that we explicitly compute from $P$ and $\alpha$
+(\cref{th:rate}).
+Our result is an extension of the result by \citet{polyak-judisky} who proved a similar result
+for $A_t=A$. We also show that our upper bound is essentially tight up to a universal constant
+factor (\cref{th:lb}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \textbf{Problem Landscape} (\Cref{sec:land}): 
+By means of a simple example we establish that 
+Hurwitzness and uniformly bounded moments
+alone are insufficient for the existence of a single \emph{universal} stepsize (\cref{prop:unistep}).
+Here, a universal stepsize would guarantee that the worst-case expected squared 
+error over the chosen class is controlled, an in particular converges to zero.
+We also present a number of simple problem classes, closely related to the LS problem,
+that are used to highlight the significance of various properties of LS problems,
+such as the positive definiteness of $A$, that the error is measured in norm $\norm{\cdot}_A$,
+and the so-called ``structured noise'' property (\cref{th:pspd}).
+The strength of our results are that they give the exact behavior of the worst-case error (i.e.,
+matching lower and upper bounds).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \textbf{Reinforcement Learning} (\Cref{sec:rl}): 
+In the context of reinforcement learning we establish that the constant stepsize averaged TD($0$) 
+and a novel version of GTD assume universal stepsizes in a number of cases 
+for various problem classes with bounded data (\cref{th:tdadmis}).
+In particular, the result is shown for averaged TD($0$) for the ``on-policy case'', which we define
+slightly differently from its standard formulation, which is necessary given that we consider the i.i.d. case. We also show that a universal stepsize exist for averaged TD($0$) 
+even for the general (non-on-policy case) provided that 
+the features are normalized and the data is ``stationary''. 
+Finally, we establish that even the normalization condition can be dropped for the novel version of GTD. The strength of these results is that they free the user 
+concerned with achieving the $O(1/t)$ problem-dependent rate from the burden of 
+designing stepsize tuning methods.
+In \cref{sec:exp} we illustrate these theoretical results by means of simulated computer
+experiments.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{enumerate}%In the main body of the paper we present the results and the proofs are presented in the supplementary material. 
-We wish to mention that other computationally cheap methods such as those based on matrix sketching idea, could be a viable alternative to  CALSA. However, especially in RL, LSA has been at the heart of the widely used TD algorithms for more than a decade, and our work contributes to the understanding of the limitations and benefits of such algorithms. Also, we believe understanding CALSA is foundational in the sense that in most cases of general incremental algorithms our understanding is based on their ``linearized'' versions. We now present some basic notations followed throughout the paper.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+After our results, we briefly discuss related work in \cref{sec:related}.
+In connection to this, we also wish to mention
+that other computationally cheap methods such as those based on matrix sketching idea, could be a viable alternative to  CALSA. \todoc{Add some ref! Book..? Widgerson?}
+However, especially in RL, LSA has been at the heart of the widely used TD algorithms for more than a decade, and our work contributes to the understanding of the limitations and benefits of such algorithms. Also, we believe understanding CALSA is foundational in the sense that in most cases of general incremental algorithms our understanding is based on their ``linearized'' versions. We now present some basic notations followed throughout the paper.
 
