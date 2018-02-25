@@ -1,4 +1,5 @@
 %!TEX root =  flsa.tex
+%!TEX encoding = UTF-8 Unicode
 %Packages
 \usepackage{amsmath}
 \usepackage{amsthm,amssymb}
@@ -16,13 +17,14 @@
 \usepackage{pifont}
 \usepackage{makecell}
 \usepackage{slashbox}
-%!TEX encoding = UTF-8 Unicode\usepackage[numbers, sort, comma, square]{natbib}
+%\usepackage[numbers, sort, comma, square]{natbib}
 %New Commands
 \DeclareMathOperator{\supp}{supp}
 \newcommand{\ip}[1]{\langle#1\rangle}
 \newcommand{\norm}[1]{\left\| #1\right\|}
 \newcommand{\normsm}[1]{\| #1\|}
-\newcommand{\lmin}[1]{\lambda_{min}\left(#1\right)}
+\newcommand{\lmin}[1]{\lambda_{\min}\left(#1\right)}
+\newcommand{\lmax}[1]{\lambda_{\max}\left(#1\right)}
 \newcommand{\eqdef}{\stackrel{\cdot}{=}}
 \setlength{\marginparwidth}{13ex}
 \newcommand{\todoc}[2][]{\todo[size=\scriptsize,color=blue!20!white,#1]{Csaba: #2}}
@@ -146,4 +148,3 @@
 \crefrangelabelformat{item}{(#3#1#4) to (#5#2#6)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-

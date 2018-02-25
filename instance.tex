@@ -5,8 +5,7 @@ In this section we consider instance dependent bounds on the expected squared pa
 The consideration of weighted norms is postponed until the next section;
 our interest in the instance dependent analysis stems from that it 
 provides the foundation for the analysis coming in the next sections. 
-While the results presented here may not have appeared in exactly the form presented here in the literature,
-the analysis follows standard ideas. \todoc{Add bunch of relevant references..}
+While the results presented here may not have appeared in the literature in exactly the form presented here, the analysis follows standard ideas. \todoc{Add bunch of relevant references..}
 \iffalse
 The core question is how the error depends on various instance-dependent quantities (variance of noise, spectral properties of matrices involved, the size of the initial error, etc.), how fast the error decreased over time.
 As we shall see, if the constant step-size belongs to a small enough neighborhood of zero (the size of which depends on the instance), the error decreases at a rate of $O(1/t)$ and both too small and too large step-sizes are undesirable. The main result, \Cref{th:rate}, which bounds the error from above, is corroborated with a lower bound which shows that the upper bound is tight.
@@ -18,40 +17,46 @@ We first show that any  CALSA scheme  achieves an error of size$O(\frac{1}{t})$ 
 step-size (see \Cref{th:rate}). In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
 As a first step, we need show that there exists an instance dependent step-size such that the iterates are stable. To this end, it is useful to look at the error (of un-averaged iterates) $e_t\eqdef\theta_t-\ts$ given as below:
 \fi
-Fix an instance $P$. Thus, $(A_t,b_t)\sim P$. To minimize clutter, dropping the subindex $P$ from $A_P$ and $b_P$, we let $A = \EE{A_t}$ and $b = \EE{b_t}$.
+Fix an instance $P$ so that $(A_t,b_t)\sim P$. To minimize clutter, 
+we let $A = \EE{A_t}$ and $b = \EE{b_t}$,
+dropping the subindex $P$ from $A_P$ and $b_P$.
 Straightforward calculation gives that $\hat e_t = \frac1{t+1} \sum_{s=0}^t e_s$, where
- $e_s\eqdef\theta_s-\ts$ is the error of the $s$th un-averaged iterate. Further calculation shows that \begin{align}\label{eq:errrecmain}
-e_t&={\prod_{s=1}^t (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\prod_{s=j+1}^t (I-\alpha A_s)\zeta_i}\,,
+ $e_s\eqdef\theta_s-\ts$ is the error of the $s$th un-averaged iterate. Further algebra shows that \begin{align}\label{eq:errrecmain}
+e_t&={\prod_{s=1}^t \! (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\! \left\{\prod_{s=i+1}^t \!(I-\alpha A_s)\!\right\}\!\zeta_i}\,,
 \end{align}
-where $\zeta_i = b_i-b - (A_i -A)\ts$ is the ``noise'' component in $(A_i,b_i)$.
+where $\zeta_i = b_i-b - (A_i -A)\ts$ is the ``noise component'' in $(A_i,b_i)$.
 
+\iffalse
 From \eqref{eq:errrecmain}, it is clear that the magnitude of $\hat e_t$ is governed by the behavior
-of the products $\Pi_{s=j+1}^{t}(I-\alpha A_s)$, $j=0,\dots,t$. 
+of the products $\Pi_{s=i+1}^{t}(I-\alpha A_s)$, $j=0,\dots,t$. 
 Here, we will perform some crude upper bounding and derive simple sufficient conditions that guarantee that on expectation these product matrices are ``small''. However, we will show that the error bounds derived are tight in a worst-case sense.
+\fi
 
-To motivate the next results, note that repeated conditioning shows that
+To motivate the next result, note that repeated conditioning shows that
 $\phi \defeq \norm{ \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} }<1$ is sufficient 
  to guarantee that the expectation of the squared norm of the
  first term in \eqref{eq:errrecmain} vanishes with growing $t$.
-Here, we can use $A_1$, because $(A_t)_t$ is i.i.d.
-Now, thanks to
-$\EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} = 
-I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
-we see that the eigenvalues of this matrix are of the form $1-\alpha \lambda$,
+Here, we can use $A_1$, because $(A_t)_t$ is an i.i.d. sequence.
+Let $R \defeq \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)}$.
+From the definition of $P$ we see that, on the one hand, it is positive
+definite, while, on the other hand,
+$R= I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
+hence the eigenvalues of $P$ are all real, nonnegative
+and are of the form $1-\alpha \lambda$,
 where $\lambda$ is an eigenvalue of the symmetric matrix 
 $S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
-Hence, if all eigenvalues of $S$ lie in the interval $(0,2/\alpha)$, we have
-$\phi<1$. Now since $\EE{A_1^\top A_1}$ is a positive semidefinite matrix,
-$\lambda_{\max}(S) \le \lambda_{\max}(A+A^\top)-\alpha \lambda_{\min}(\EE{A_1^\top A_1})\le \lambda_{\max}(A+A^\top)$, this $\lambda_{\max}(S)<2/\alpha$ holds if 
-$\lambda_{\max}(A+A^\top)<2/\alpha$.
-On the other hand, $\lambda_{\min}(S)>0$ holds
-provided
+Hence, if all eigenvalues of $S$ are nonnegative, we have
+$\phi<1$. 
+Let $P_A$ denote the distribution of $A_1$.
+Now, note that $\lambda_{\min}(S)>0$ is equivalent to
 \begin{align*}
-\rho_s(\alpha,P) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0.
+\rho_s(\alpha,P_A) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0\,.
 \end{align*}
-Now, $\rho_s(\alpha,P) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$, for $\alpha>0$ small enough, it follows that $\rho_s(\alpha,P)>0$. Note that there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$. However, one can show  that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (for details, see \cref{sec:hurpd}).
-
-
+Furthermore, 
+$\rho_s(\alpha,P_A) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$ then for $\alpha>0$ small enough, $\rho_s(\alpha,P_A)>0$ is guaranteed to hold. While there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$, one can show that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (cf. \cref{sec:hurpd}). Now, if $U$ is the underlying similarity transformation, so that $B=U^{-1} A U$, one can check that $z_t = U^{-1} e_t$ satisfies \eqref{eq:errrecmain} with $A_s$ replaced by $B_s \defeq U^{-1} A_s U$ and $\zeta_i$ replaced by $U^{-1} \zeta_i$. Let $P_U$ to denote the common distribution of $(B_s)_s$.
+Thanks to $\EE{B_s} = B$, the expected squared norm of the first term in the analog of  \eqref{eq:errrecmain} can be shown to be bounded by $(1-\alpha \rhos(P_U))^r \norm{e_0}^2$, \todoc{$\theta_0$ is NOT random then!}
+while the expected squared norm of the second term can be shown to be bounded by $c \alpha /\rhos{P_U}$ with some $P$-dependent constant $c>0$. One can also show that $\EE{\norm{\hat e_t}^2}\le (1+4/\alpha \rhod{P_U}) \sum_{i=0}^t \EE{ \norm{e_i}^2 }$, where $\rhod{P_U} \defeq \lmin{B+B^\top - \alpha B^\top B}>\rhos{P_U}$. Putting things together, we get the following result:
+\iffalse
 It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.
 \begin{definition}\label{def:spect}
 Let $A_t$ be as in \Cref{assmp:lsa}, and $U\in\C^{\dcd}$ be any invertible matrix. Now define $\Lambda_t\eqdef U^{-1}A_t U$, $\Lambda\eqdef \EE{U^{-1}A U}$,
@@ -62,15 +67,18 @@ Let $A_t$ be as in \Cref{assmp:lsa}, and $U\in\C^{\dcd}$ be any invertible matri
 \end{definition}
 where in $\rhod{P_U}$ and $\rhos{P_U}$, the subscripts $d$ and $s$ stands for \emph{deterministic} and \emph{stochastic} respectively. Also, note that $\rhos{P_U}<\rhod{P_U}$ holds from simple expectation algebra.
 \begin{restatable}{lemma}{lmhur}\label{lm:hur}
-Under \Cref{assmp:lsa} there exists an $\alpha_{P_U}>0$ and an invertible $U\in \C^{\dcd}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0$ holds for all $\alpha \in (0,\alpha_{P_U})$. 
+Let \Cref{assmp:lsa} hold.
+For any $U$ as in the previous paragraph,
+there exists an $\alpha_{P_U}>0$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0$ holds for all $\alpha \in (0,\alpha_{P_U})$. 
 \end{restatable}
 In \Cref{lm:hur}, $U$ is a change of basis matrix, and by defining a transformed iterate $\gamma_t\eqdef U^{-1}\theta_t$, we have $\gamma_t=(I-\alpha \Lambda_t) \gamma_t +\alpha U^{-1}b_t$. Then the stability of $\gamma_t$ implies stability of $\theta_t$; the former can be ensured if products $\Pi_{s=t'}^t (I-\alpha \Lambda_s),\,t'=1,\ldots,t-1$ don't blow up. Note that $\EE{\norm{I-\alpha \Lambda_t}^2}=1-\alpha \rhos{P_U}$, and thus \Cref{lm:hur} implies that $\EE{\norm{I-\alpha \Lambda_t}^2}<1,\,\forall \alpha\in (0,\alpha_{P_U})$. Here, $U$ transform helps to convert the given \emph{Hurwitz} matrix into a suitably scaled Jordan form, which is simpler to handle (see \Cref{sec:appendix} for more details).
 
 Now, we present the result that shows that CALSA procedure achieves an instance dependent $O(\frac{1}{t})$ asymptotic rate.
+\fi
 \begin{restatable}{theorem}{thrate}\label{th:rate}
 Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}.
-Then, for  $U\in\C^{\dcd}$ and $\alpha_{P_U}>0$ as in \Cref{lm:hur},
-\todoc{Why not use $\alpha_P$? $U$ is dependent on $P$. If $\alpha_{P_U}$ does not have a specific definition, there is no point to denote this dependence on $U$. It just adds to the clutter.}
+Then, for any $U\in\R^{\dcd}$ and $P_U$ as in the previous paragraph there exists
+$\alpha_{P_U}>0$ such that 
 for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
 \begin{align*}
 \EE{\normsm{\thh_t-\ts}^2}
