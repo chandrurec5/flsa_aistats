@@ -16,7 +16,7 @@ Then, for any positive-valued, user-chosen step-size sequence $\{\alpha_t\}_{t\g
 can be implemented in $O(d)$ time and space, making such 
 \emph{linear stochastic approximation (LSA) algorithms} 
 an appealing alternative to directly 
-computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$.
+computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$ by inverting $\bar A_t$ (whose computational cost is greater than $O(d^2)$)
 
 \if0
 independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning(RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.

@@ -110,6 +110,7 @@ Use of such similarity transformation have also been considered in analysis of R
 \textbf{Proof Sketch:} We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
 where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. Since, we also use a basis transformation via $U$, the growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $I-\alpha \Lambda_t$ and that of the deterministic matrix $I-\alpha \Lambda$, respectively. This explains the reason as to why $\rhos{P_U}$ and $\rhod{P_U} $ appear in the bounds.
 \end{comment}
+
 \textbf{The lower bound} of \Cref{th:lb} shows that the upper bound of \Cref{th:rate} is tight in a number of ways (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}).
 In particular, the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ are essentially matched (here $U=I$).
 Further, we also see that the $(\rhos{P_U}\rhod{P_U})^{-1}$ appearing in $\nu = \nu_{P_U,\alpha}$ cannot be removed from the upper bound. 
