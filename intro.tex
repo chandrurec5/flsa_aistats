@@ -1,15 +1,56 @@
 
 %!TEX root =  flsa.tex
 \section{Introduction}\label{sec:intro}
-We study the following linear stochastic approximation (LSA) algorithm: 
+Various estimation and filtering problems in signal processing, reinforcement learning or econometrics
+are formulated as the problem of finding the unique solution $\ts\in \R^d$ 
+to the linear equation $\EE{A_t} \theta = \EE{b_t}$,
+where $(b_t,A_t)_{t\ge 1}$ is an $\R^d \times \R^{\dcd}$-valued random sequence with a common distribution $P$
+and the expectation $\EE{A_t}$ of the matrix $A_t$ is non-singular \citep[e.g.,][]{bemepri90,LjPfWa92,SoKo94,degylu96,
+sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
+Oftentimes, the matrices $A_t$ are rank-1, $\EE{A_t}$ is Hurwitz (its eigenvalues have positive real parts)
+and the dimensionality $d$ is large.
+Then, for any positive-valued, user-chosen step-size sequence $(\alpha_t)_{t\ge 1}$, the updates
 \begin{align}\label{eq:lsaintro}
-\theta_t=\theta_{t-1}+\alpha_t (b_t-A_t \theta_{t-1}),
+\theta_t=\theta_{t-1}+\alpha_t (b_t-A_t \theta_{t-1})
 \end{align}
-which specifies the evolution of iterates $\theta_t\in\R^d$, $t\geq 1$ with initialization $\theta_0\in\R^d$ as a function of the data $(b_t,A_t)\in\R\times \R^{\dcd}$  and $(\alpha_t)_{t>0}$ a positive step-size sequence chosen by the user. Further, $(b_t,A_t)$ is a noise sequence independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning(RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
+can be implemented in $O(d)$ time and space, making such 
+\emph{linear stochastic approximation (LSA) algorithms} 
+an appealing alternative to directly 
+computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$.
+
+\if0
+independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning(RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
 \todoc{konda-tsitsiklis reference resolved to tsitsiklis-van-roy. is this what you want?? I also added KoTsi03:LSA, maybe that's what you wanted.}
+\fi
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
 
-A critical aspect in the design of LSA algorithms is the choice of the step-size sequence $(\alpha_t)_{t> 0}$: poor choices lead to slow convergence, or instability. In particular, the convergence rates can degrade, or they may depend on potentially unbounded problem dependent constants \cite{bach-moulines}. Diminishing step-sizes such as $\alpha_t=\frac{c_0}{t+c}$, with problem instance specific tuning of the constants $c>0,c_0>0$ have been used in practice \cite{gtd2,gtdmp,konda-tsitsiklis}. An alternate idea, which we call the constant step-size averaged LSA (CALSA) is to run \eqref{eq:lsaintro} by choosing $\alpha_t=\alpha>0$ $\forall t> 0$ with some $\alpha>0$, and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. Thus, in CALSA, $\theta_t$ is an internal variable and $\thh_t$ is the output of the algorithm. The idea is that the constant step-size leads to faster forgetting of initial conditions, while the averaging on the top reduces noise. This idea goes back to  \citet{ruppert} and \citet{polyak-judisky} who proposed it in the context of stochastic approximation that LSA is a special case of.   
+Assuming sufficient regularity of $(b_t,A_t)_{t\ge 1}$, e.g., independence, or mixing
+and bounded moments, if the step-size sequence converges to zero at an appropriate rate,
+convergence of $(\theta_t)_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. 
+In applications, 
+one often starts from some additional broad properties of the common distribution
+$P$ underlying $(b_t,A_t)$ (e.g., $\EE{A_t}$ is positive definite and $\EE{\normsm{b_t}^2}$,$\EE{\normsm{A_t}^2}\le B$ with $B$ known) and the goal is not only to guarantee asymptotic convergence, but also a reasonable worst-case error magnitude over all instances $P\in \cP$ 
+with the assumed properties and for all $t\ge 0$. 
+
+To overcome the difficulty of choosing such a ``universally good'' step-size sequence,
+following the ideas of \citet{ruppert} and \citet{polyak-judisky},
+in the context of linear prediction under the squared loss criterion (LSE),
+\citet{bach-moulines} suggested that
+\eqref{eq:lsaintro} should be used with $\alpha_t=\alpha>0$ ($t\ge 1$) 
+with some $\alpha>0$ to be chosen based on $\cP$, 
+and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. 
+The main result of 
+\citet{bach-moulines}, which is further improved
+by  \citet{bach}, is that for the LSE problem, under the assumption that $(b_t,A_t)_{t\ge 1}$ is an independent sequence, the constant step-size $\alpha$ can be chosen solely based on the above-mentioned upper bound $B$ to guarantee that 
+for some universal constant $C>0$
+the expected squared prediction error of using $\thh_t$ is at most $C B/t$ 
+which is known to be information-theoretically optimal.
+In this paper we ask to what extent this result can be extended beyond the LSE problem.
+
+\if0
+In particular, the convergence rates can degrade, or they may depend on potentially unbounded problem dependent constants \cite{bach-moulines}. Diminishing step-sizes such as $\alpha_t=\frac{c_0}{t+c}$, with problem instance specific tuning of the constants $c>0,c_0>0$ have been used in practice \cite{gtd2,gtdmp,konda-tsitsiklis}. 
+An alternate idea, which we call the constant step-size averaged LSA (CALSA) is to run \eqref{eq:lsaintro} by choosing $\alpha_t=\alpha>0$ $\forall t> 0$ with some $\alpha>0$, and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. Thus, in CALSA, $\theta_t$ is an internal variable and $\thh_t$ is the output of the algorithm. The idea is that the constant step-size leads to faster forgetting of initial conditions, while the averaging on the top reduces noise. This idea goes back to  \citet{ruppert} and \citet{polyak-judisky} who proposed it in the context of stochastic approximation that LSA is a special case of.   
+\fi
 
 \textbf{Design Questions:} A useful design criterion for CALSA algorithms would be to require them to work in a problem instance independent manner for a given class of  problems. We break down this design criterion into the following two question: $(i)$ whether there exists a \emph{universal} constant step-size, and $(ii)$ whether the behavior of the algorithm is \emph{uniform} across all the problem instances of the class. The idea is that the universal step-size can be used across all the instances thereby alleviating the need for an instance dependent tuning of the step-sizes. In this paper, we measure the performance of the algorithm by the mean squared error $\E[\normsm{\thh_t-\ts}^2_M]$, where $M$ is a positive definite matrix (whose choice plays a critical role). Here, we look at algorithm behavior in the finite-time, as well as asymptotic (a weaker condition) sense. By uniform finite-time behavior, we mean a convergence rate of $\frac{C}{t}$ for the MSE, where the constant $C>0$ is independent of the problem instance. And asymptotic fast convergence rate of $O(\frac{1}{t})$ means the constant in the rate expression can be problem instance dependent.
 
