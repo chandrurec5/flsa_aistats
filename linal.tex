@@ -198,16 +198,15 @@ We have $\EE{}=\EE{\cdot|\F_{i-1}|\F_{i-2}}=\ldots=\EE{\cdot|\F_{i-1}\ldots |\F_
 
 
 \begin{theorem}\label{th:pdrate}
-Let $\eh_t$ be as in \Cref{def:err}. %Let $P$ be a distribution over $\C^d\times\C^{\dcd}$ satisfying \Cref{assmp:lsacmplx}.
-Then,
+Let $A_P+A_P^\top$ be positive definite, then
 \begin{align}
 %\EE{\norm{\eh_t}^2}
 %\leq
 %\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
 \E[\norm{\eh_t}^2]
-\leq \left(1+\frac2{\alpha\rhod{P}}\right)\, \frac1{\alpha\rhos{P}}\, \,
+\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
 %\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
-\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)+\alpha \sigma_2^2\norm{e_0}}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
 \end{align}
 \end{theorem}
 \begin{proof}
@@ -254,20 +253,20 @@ Since $\sum_{i,j}\cdot{} = \sum_{i=j}\cdot{} + 2 \sum_i \sum_{j>i} \re \cdot{}$,
 \begin{align*}
 {\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}&= \left(1+\frac4{\alpha\rhod{P}}\right){\sum}_{i=0}^{t}\E\ip{e_i,e_i}\,.
 \end{align*}
-Expanding $e_i$ using \eqref{eq:etft} and then using \Cref{innerproduct} and \Cref{assmp:lsacmplx}
+Expanding $e_i$ using \eqref{eq:etft} and then using \Cref{innerproduct}
 \begin{align*}
-\E\ip{e_i,e_i}&=\E\ip{F_{i,1}e_0,F_{i,1}e_0}+\alpha^2{\sum}_{j=1}^i\E\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}+\alpha\sum_{j=1}^i  \E\ip{F_{i,1} e_0, F_{i,j+1}\zeta_j}\\
-&\leq (1-\alpha\rhos{P})^i\norm{e_0}^2+ \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}+ \alpha \frac{{\sigma}^2_2 \norm{e_0}}{\alpha\rhos{P}}\,,
+\EE{\ip{e_i,e_i}}\stackrel{(a)}{\leq} 2 \EE{\ip{F_{i,1}e_0,F_{i,1}e_0}}+2 \alpha^2{\sum}_{j=1}^i\EE{\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}}\\
+\stackrel{(b)}{\leq} 2 (1-\alpha\rhos{P})^i\norm{e_0}^2+ 2 \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}\,,
 \end{align*}
-and so
+where, in  $(a)$ we use the fact that $(a+b)^2\leq 2 a^2+2 b^2$, and the fact that $\zeta_j$s are i.i.d. In $(b)$ we use the fact that $\sum_{s=0}^{t} (1-\alpha \rhos{P})^s\leq \frac{1}{\alpha \rhos{P}}$. So
 \begin{align*}
 {\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}
-&\leq \left(1+\frac4{\alpha\rhod{P} }\right)\, \frac1{\alpha\rhos{P}}\, (t(\alpha^2{\sigma}_1^2+\alpha {\sigma}^2_2\norm{e_0}) +\norm{e_0}^2)\,.
+&\leq \left(1+\frac4{\alpha\rhod{P} }\right)\, \frac2{\alpha\rhos{P}}\, (t(\alpha^2{\sigma}_1^2+\alpha {\sigma}^2_2\norm{e_0}) +\norm{e_0}^2)\,.
 \end{align*}
 Putting things together,
 \begin{align}
 \E[\norm{\eh_t}^2]
-\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac1{\alpha\rhos{P}}\, \,
+\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
 %\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
 \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)+\alpha \sigma_2^2\norm{e_0}}{t+1} \right)\,.
 \end{align}

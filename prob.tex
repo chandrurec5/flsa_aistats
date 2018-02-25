@@ -127,7 +127,7 @@ The reader interested in the background of these methods can consult, e.g., \cit
 In discounted LVE the algorithm designer is given a so-called discount factor
  $\gamma\in (0,1)$, while the data is an i.i.d. sequence $\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}$ where
 $\phi_t,\phi_t'\in \R^d$ and $r_t\in \R$ and the goal is to find a solution $\ts$ to the equation $A \theta = b$
-where $A = \phi_t(\phi_t - \gamma \phi_t')^\top$ and $b = \phi_t r_t$.
+where $A =\EE{ \phi_t(\phi_t - \gamma \phi_t')^\top}$ and $b =\EE{ \phi_t r_t}$.
 Note that when $\gamma=0$, the equation defining $\ts$ is the same as $\nabla L(\theta)=0$ in LS. 
 Hence, in this sense LVE generalizes LS.
 Again, it is customary to assume that the data is bounded: 
