@@ -1,60 +1,16 @@
 %!TEX root =  flsa.tex
 \appendix
 
-\section{Proofs for \cref{sec:mainresults}}
+\section{Proofs for XX}
+{\cref{sec:mainresults}}
 \subsection{Hurwitz matrices and positive definiteness}
 \label{sec:hurpd}
-\iffalse
-\section{Linear Algebra Preliminaries}\label{sec:appendix}
-\subsection{Additional Notations}\label{sec:addnot}
-For $x=a+i b\in \C$, we denote its real and imaginary parts by $\re{x}=a$ and $\im{x}=b$ respectively. Given a $x\in \C^d$, for $1\leq i \leq d$, $x_i$ denotes the $i^{th}$ component of $x$.
-For any $x\in \C$ we denote its modulus $\md{x}=\sqrt{\re{x}^2+\im{x}^2}$ and its complex conjugate by $\bar{x}=a-ib$.
-We use $A\succeq 0$ to denote that the
-square matrix $A$ is Hermitian and positive semidefinite (HPSD):
-$A = A^*$, $\inf_x x^* A x\ge 0$. We use $A\succ 0$ to denote that the square matrix $A$ is Hermitian and positive definite (HPD): $A=A^*$, $\inf_x x^* A x > 0$.
-For $A,B$ HPD matrices, $A\succeq B$ holds if $A-B\succeq 0$.
-We also use $A\succ B$ similarly to denote that $A-B \succ 0$.
-We also use $\preceq$ and $\prec$ analogously. We denote the smallest eigenvalue of a real symmetric positive definite matrix $A$ by $\lambda_{\min}(A)$.\par
-We now present some useful results from linear algebra.
-
-Let $B$ be a $\dcd$ block diagonal matrix given by $B=\begin{bmatrix} B_1 &0 &0 &\ldots &0 \\ 0 &B_2 &0 &\ldots &0  \\ \vdots &\vdots &\vdots &\vdots &\vdots \\ 0 &\ldots &0 &0 &B_k \end{bmatrix}$, where $B_i$ is a $d_i \times d_i$ matrix such that $d_i<d,\,\forall i=1,\ldots,k$ (w.l.o.g) and $\sum_{i=1}^k d_i=d$. We also denote $B$ as
-\begin{align*}
-B=B_1 \op B_2 \op \ldots B_k=\op_{i=1}^k B_i.
-\end{align*}
-
-\subsection{Results in Matrix Decomposition and Transformation}
-We will now recall Jordan decomposition.
-\begin{lemma}\label{Jordan}
-Let $A\in \C^{\dcd}$ and $\lambda_i\in \C,i=1,\ldots,k\leq d$ denote its $k$ distinct eigenvalues.
-There exists a complex invertible matrix $V\in \C^{\dcd}$ such that $A=V\tL V^{-1}$, where
-$\tL=\tL_1\op\ldots\op\tL_k$, where each $\tL_i,\,i=1,\ldots,k$ can further be written as $\tL_i= {\tL}^i_{1}\op \ldots \op {\tL}^i_{{l(i)}}$. Each of ${\tL}^i_{j},j=1,\ldots,l(i)$ is a $d^i_j\times d^i_j$ square matrix such that $\sum_{j=1}^{l(i)} d^i_j =d_i$ and has the special form given by
-${\tL}^i_{j}=\begin{bmatrix} \lambda_i &1 &0 &\ldots &0 &0\\ 0 &\lambda_i &1 &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\lambda_i &1 \\ 0 &\ldots &0 &0 &0 &\lambda_i \end{bmatrix}$.
-\end{lemma}
-
+The symmetric part of a real-valued matrix $A$ is $(A+A^\top)/2$.
+The following lemma states that Hurwitz matrices are similar to some matrix whose symmetric part is positive definite.
+After the lemma we give an example that shows that the similarity cannot be chosen to be the identity matrix.
 \begin{lemma}\label{lm:simtran}
-Let $A\in \C^{\dcd}$ be a \emph{Hurwitz} matrix. There exists an invertible matrix $U\in \C^{\dcd}$ such that $A=U\Lambda U^{-1}$ and $\Lambda^*+\Lambda$ is a real symmetric positive definite matrix.
-\end{lemma}
-\begin{proof}
-It is trivial to see that for any $\Lambda\in \C^{\dcd}$, $\left(\Lambda^*+\Lambda\right)$ is Hermitian. We will use the decomposition of $A=V \tL V^{-1}$ in \Cref{Jordan} and also carry over the notations from \Cref{Jordan}. Consider the diagonal matrices $D^i_j=\begin{bmatrix} 1  &0 &0 &\ldots &0 &0\\ 0 &\re{\lambda_i} &0 &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\re{\lambda_i}^{d^i_j-1} &0 \\ 0 &\ldots &0 &0 &0 &\re{\lambda_i}^{d^i_j} \end{bmatrix},\,\forall j=1,\ldots,l(i)$, $D^i=D^i_1 \op\ldots\op D^i_{l(i)},\,\forall i=1,\ldots,k$ and $D=D^1 \op\ldots\op D^k$.
-It follows that $A=(VD) \Lambda (VD)^{-1}$, where $\Lambda$ is a matrix such that
-$\Lambda=\Lambda_1 \op \ldots \op \Lambda_k$, where each $\Lambda_i,\,i=1,\ldots,k$ can further be written as
-$\Lambda_i=\Lambda^i_{1} \op \ldots \op \Lambda^i_{{l(i)}}$. Each of $\Lambda^i_{j}$ is a $d^i_j\times d^i_j$ square matrix with the special form given by
-$\Lambda^i_{j}=\begin{bmatrix} \lambda_i &\re{\lambda_i} &0 &\ldots &0 &0\\ 0 &\lambda_i &\re{\lambda_i} &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\lambda_i &\re{\lambda_i} \\ 0 &\ldots &0 &0 &0 &\lambda_i \end{bmatrix}$.
-
-Now we have $\frac{(\Lambda^*+\Lambda)}{2}=\op_{i=1}^k \op_{j=1}^{l(i)}\frac{\Lambda^{i*}_{j}+\Lambda^i_{j}}{2}$, where $\frac{\Lambda^{i*}_{j}+\Lambda^i_{j}}{2}=\begin{bmatrix} \re{\lambda_i} &\frac{\re{\lambda_i}}{2} &0 &\ldots &0 &0\\ \frac{\re{\lambda_i}}{2} &\re{\lambda_i} &\frac{\re{\lambda_i}}{2} &0 &\ldots &0 \\ 0 &\vdots &\vdots &0 &\re{\lambda_i} &\frac{\re{\lambda_i}}{2} \\ 0 &\ldots &0 &0 &\frac{\re{\lambda_i}}{2} &\re{\lambda_i} \end{bmatrix} $. Now $\frac{\Lambda^{i*}_j+\Lambda^i_j}{2} >0$ since for any $x\in \C^{d_j^i} \setminus\{\mathbf{0}\}$, we have %there exists a $b\in \{-1,1\}^d$, such that
-\begin{align*}
-x^* \frac{(\Lambda^{i*}_j+\Lambda^i_j)}{2} x &=\re{\lambda_i} \left(\sum_{i=1}^{d^i_j} \bar{x}_i x_i+\sum_{i=1}^{d^i_j-1} \frac{\bar{x}_i x_{i+1} + x_i\bar{x}_{i+1}}{2}\right) \\
-&=\frac{\re{\lambda_i}}{2}\left(\md{x_1}^2+ \md{x_{d^i_j}}^2\right)+\frac{\re{\lambda_i}}{2}\left( \sum_{i=1}^{d^i_j-1} \md{x_i}^2+\bar{x}_i x_{i+1} + x_i\bar{x}_{i+1}+\md{x_{i+1}}^2 \right)\\
-&>\frac{\re{\lambda_i}}{2}\left(\sum_{i=1}^{d^i_j} \md{x_i+x_{i+1}}^2 +\md{x_1}^2+\md{x_{d^i_j}}^2\right) \\
-&> 0
-\end{align*}
-\end{proof}
-\fi
-The following lemma, which is often used in the control literature, states that Hurwitz and symmetric positive definite (SPD) matrices are closely related. 
-For the lemma recall that the symmetric part of a matrix is $A$ is $(A+A^\top)/2$.
-\begin{lemma}\label{lm:simtran}
-Any Hurwitz matrix is similar to a real matrix whose symmetric part is positive definite
-via a similarity transformation that is a symmetric and positive definite matrix.  \todoc{The reverse is also true, right..?}
+Any Hurwitz matrix is similar to a real matrix whose symmetric part is positive definite.
+Furthermore, the similarity transformation can be chosen to be an SPD matrix. \todoc{The reverse is also true, right..?}
 \end{lemma}
 \begin{proof}
 Recall that if $A\in \R^{d\times d}$ is Hurwitz, then there exist a unique SPD matrix $P$ such that the Lyapunov equation
@@ -72,17 +28,16 @@ B+B^\top
 \end{align*}
 which is positive definite, hence finishing the proof.
 \end{proof}
-
-Now we show a Hurwitz matrix $A$ such that $A+A^\top$ is not positive definite.
-In fact, the matrix 
+Now, consider the matrix 
 \begin{align*}
 A = 
 \begin{pmatrix}
 1 & -10 \\
 0 & 1
-\end{pmatrix}
+\end{pmatrix}\,.
 \end{align*}
-has these properties. Indeed, the only eigenvalue of $A$ is $1$, which is positive.
+We claim that this is a Hurwitz matrix, but $A+A^\top$ is not positive definite.
+Indeed, $A$ has a single eigenvalue of multiplicity two, which is equal to one. Thus, $A$ is Hurwitz.
 On the other hand,
 \begin{align*}
 A + A^\top = 
@@ -91,42 +46,34 @@ A + A^\top =
 -10 & 2
 \end{pmatrix}\,.
 \end{align*}
-Any eigenvalue $\lambda$ of this matrix solves $(2-\lambda)^2 - 100=0$, whose solutions 
-are $\lambda = 12$ and $\lambda = -8$.
+The eigenvalues of this matrix solve $(2-\lambda)^2 - 100=0$, i.e., they are
+$\lambda_1 = 12$ and $\lambda_2 = -8$. Hence, $A+A^\top$ is indeed not SPD.
 
-\subsection{CALSA where $A_P$ is positive definite}
-In what follows, we first show \Cref{th:pdrate}, which is a restricted case of \Cref{th:rate} when $A_P$ is a positive definite matrix. Using \Cref{lm:simtran}, one can then apply an appropriate similarity transformation to convert any \emph{Hurwitz} matrix into a positive definite matrix. Thus, \Cref{lm:simtran} together with \Cref{th:pdrate} together will imply \Cref{th:rate}.
+\subsection{The case when $A_P+A_P^\top$ is positive definite}
+In this section we consider \Cref{th:pdrate} when $A=A_P$ is such that its symmetric part is positive definite.
+Following the suggestion in the main body of the paper, the general case will be reduced to this case by using 
+\cref{lm:simtran}.
 
-
-%In this subsection, we assume that $P$ satisfies the assumptions in \Cref{assmp:lsa} and in addition $P$ is \emph{positive definite}.
-In this subsection, we re-write \eqref{eq:lsa} and \Cref{assmp:lsa} to accommodate complex number computations and in addition assume that $P$ is \emph{positive definite}. This allowance for complex numbers will enable us to use the similarity transformation `trick' of \Cref{lm:simtran}, where the matrix $U$ was an invertible $\dcd$ matrix with complex entries. To this end,
-\begin{subequations}\label{eq:lsacmplx}
-\begin{align}
-\label{conststepapp}&\text{LSA:} &\theta_t&=\theta_{t-1}+\alpha(b_t-A_t\theta_{t-1}),\\
-\label{iteravgapp}&\text{PR-Average:} &\thh_t&=\frac{1}{t+1}{\sum}_{i=0}^{t}\theta_i,
-\end{align}
-\end{subequations}
-where $\thh_t, \theta_t \in \C^{d}$. In this section, we assume the following: 
-\begin{assumption}\label{assmp:lsacmplx}
-\begin{enumerate}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
-\item \label{distapp} $(b_t, A_t)\sim (P^b,P^A), t\geq 0$ is an \iid sequence, where $P^b$ is a distribution over $\C^d$ and $P^A$ is a distribution over $\C^{\dcd}$. We assume that $P$ is positive definite.
-\item \label{matvarapp} The martingale difference sequences\footnote{$\EE{M_t|\F_{t-1}}=0$ and $\EE{N_t|\F_{t-1}}=0$, where $\F_t\eqdef \sigma\left(\theta_0,b_1,A_1,\ldots,b_t,A_t\right), t=0,1,\ldots$} $M_t\eqdef A_t-A_{P}$ and $N_t\eqdef b_t-b_{P}$ associated with $A_t$ and $b_t$ satisfy the following
-$\E\left[ \norm{M_t}^2\mid\F_{t-1}\right]\leq \sigma^2_{A_P}, \, \E[N_t^* N_t]=\sigma^2_{b_P}\,, \E[M_tN_t]=0$
-\item $A_P$ is invertible.
-\end{enumerate}
-\end{assumption}
-We now define the error variables and present the recursion for the error dynamics. 
-\begin{definition}\label{def:err}
-\begin{itemize}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
-\item Define the error variables $e_t\eqdef \theta_t-\ts$ and $\eh_t\eqdef \thh_t-\ts$.
-\item Define for all $ t\geq 0$ random vectors $\zeta_t\eqdef b_t-b-(A_t-A_P)\ts$.
-\item Define constants $\sigma_1^2\eqdef\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2$ and $\sigma_2^2\eqdef\sigma_{A_P}^2\norm{\ts}$. Note that $\EE{\norm{\zeta_t}^2}\leq \sigma_1^2$ and $\EE{\md{M_t\zeta_t}}\leq \sigma_2^2$.
-%\item Define constants $\EE{\norm{\zeta_t}^2}\eqdef\sigma_1^2$ and $\EE{\norm{M_t\zeta_t}}\eqdef \sigma_2^2$.
-\item Define $\forall\,i\geq j$, the random matrices $F_{i,j}=(I-\alpha A_i)\ldots (I-\alpha A_j)$ and $\forall \,i<j$ $F_{i,j}=I$.
-\end{itemize}
-\end{definition}
-
-
+Recall that 
+\begin{align*}
+e_t =  \theta_t-\ts\,, \qquad 
+\eh_t = \thh_t-\ts\,, \qquad  \text{and} \qquad 
+\zeta_t = b_t-b-(A_t-A_P)\ts\,.
+\end{align*}
+Further, introduce
+\begin{align*}
+F_{i,j} & =
+\begin{cases}
+ (I-\alpha A_i)(I-\alpha A_{i-1}) \dots (I-\alpha A_j)\,, & \text{if } i\ge j\,;\\
+ I\,, & \text{otherwise}\,,
+\end{cases}
+\end{align*}
+and let
+\begin{align*}
+\sigma_1^2 &= \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,, \qquad  \qquad
+\sigma_2^2 = \sigma_{A_P}^2\norm{\ts}\,.
+\end{align*}
+Note that $\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$ and $\EE{\md{M_t\zeta_t}}\leq \sigma_2^2$, where recall that $M_t = A_t - A$.
 
 \paragraph{Error Recursion} Let us now look at the dynamics of the error terms defined by
 \begin{align}\label{eq:errrec}
