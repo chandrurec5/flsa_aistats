@@ -5,7 +5,7 @@ In this section we consider instance dependent bounds on the expected squared pa
 The consideration of weighted norms is postponed until the next section;
 our interest in the instance dependent analysis stems from that it 
 provides the foundation for the analysis coming in the next sections. 
-While the results presented here may not have appeared in the literature in exactly the form presented here, the analysis follows standard ideas. \todoc{Add bunch of relevant references..}
+While the results presented here may not have appeared in the literature in exactly the form presented here, the analysis follows mostly standard ideas. \todoc{Add bunch of relevant references.. Any!? novelty!!?}
 \iffalse
 The core question is how the error depends on various instance-dependent quantities (variance of noise, spectral properties of matrices involved, the size of the initial error, etc.), how fast the error decreased over time.
 As we shall see, if the constant step-size belongs to a small enough neighborhood of zero (the size of which depends on the instance), the error decreases at a rate of $O(1/t)$ and both too small and too large step-sizes are undesirable. The main result, \Cref{th:rate}, which bounds the error from above, is corroborated with a lower bound which shows that the upper bound is tight.
@@ -89,12 +89,13 @@ where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \
 $v^2 = 
 \alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 \end{restatable}
-Note that $\nu$ depends on $P_U$ and $\alpha$.
-
+Note that $\nu$ depends on $U$, $P_U$ and $\alpha$ as shown.
+To get the tightest bound, one can choose a matrix $U$ that minimizes the bound. \todoc{Maybe here it is better to allow complex $U$!? This could be a note.}
+However, the bound of this result is essentially tight:
 \begin{restatable}[Lower Bound]{theorem}{thlb}
 \label{th:lb}
 There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, such that
-there exists $\alpha_P>0$ so that $\rhos{P}>0$ and $\rhod{P}>0$ hold for all $\alpha\in (0,\alpha_P)$ and
+there exists $\alpha_P>0$ so that $\rhos{P}>0$ (and, hence also $\rhod{P}>0$) holds (hold) for all $\alpha\in (0,\alpha_P)$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
 + \frac{\sigma^2_{b_P}\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
