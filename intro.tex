@@ -19,7 +19,7 @@ an appealing alternative to directly
 computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$ by inverting $\bar A_t$ (whose computational cost is greater than $O(d^2)$)
 
 \if0
-independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning(RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
+independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning (RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
 \todoc{konda-tsitsiklis reference resolved to tsitsiklis-van-roy. is this what you want?? I also added KoTsi03:LSA, maybe that's what you wanted.}
 \fi
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
@@ -59,7 +59,7 @@ In this paper we ask to what extent the nice result
 of \citet{bach-moulines} can be extended beyond the LS problem;
 in other words, we are asking which aspects of the LS problem play a critical role. 
 Our interest stems from the desire to repeat this result for
-linear value-function estimation (LVE) in reinforcement learning where
+linear value-function estimation (LVE) in reinforcement learning (RL) where
 multiple members of the
 \emph{temporal-difference (TD) family of algorithms} 
 (cf. \cite{sutton,gtd,gtd2,gtdmp} and \cref{sec:td})
@@ -72,7 +72,7 @@ In particular,  in LVE
 {\em (i)}  $A=\EE{A_t}$ is in general non-symmetric;
 {\em (ii)} the sequence  $\{(A_t,b_t)\}_{t\ge 1}$ is ``driven by Markov noise'' \cite{tsivan95,tsivan97};
 {\em (iii)} and while the natural error metric in LS problems is $\normsm{\thh_t-\ts}_{A}^2$
-(here $\norm{x}_A^2 = x^\top A x$ for $A$ symmetric, positive definite), 
+(here $\norm{x}_A^2 = x^\top\!\!A x$ for $A$ symmetric, positive definite), 
 this is not the case in TD.
 Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an i.i.d. sequence. For our results that have a negative character these is no loss of generality
 making this assumption. 
