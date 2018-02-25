@@ -4,12 +4,12 @@
 Various estimation and filtering problems in signal processing, reinforcement learning or econometrics
 are formulated as the problem of finding the unique solution $\ts\in \R^d$ 
 to the linear equation $\EE{A_t} \theta = \EE{b_t}$,
-where $(b_t,A_t)_{t\ge 1}$ is an $\R^d \times \R^{\dcd}$-valued random sequence with a common distribution $P$
+where $\{(b_t,A_t)\}_{t\ge 1}$ is an $\R^d \times \R^{\dcd}$-valued random sequence with a common distribution $P$
 and the expectation $\EE{A_t}$ of the matrix $A_t$ is non-singular \citep[e.g.,][]{bemepri90,LjPfWa92,SoKo94,degylu96,
 sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
 Oftentimes, the matrices $A_t$ are rank-1, $\EE{A_t}$ is Hurwitz (its eigenvalues have positive real parts)
 and the dimensionality $d$ is large.
-Then, for any positive-valued, user-chosen step-size sequence $(\alpha_t)_{t\ge 1}$, the updates
+Then, for any positive-valued, user-chosen step-size sequence $\{\alpha_t\}_{t\ge 1}$, the updates
 \begin{align}\label{eq:lsaintro}
 \theta_t=\theta_{t-1}+\alpha_t (b_t-A_t \theta_{t-1})
 \end{align}
@@ -24,13 +24,16 @@ independent and identically distributed according to $P$ (a distribution with bo
 \fi
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
 
-Assuming sufficient regularity of $(b_t,A_t)_{t\ge 1}$, e.g., independence, or mixing
-and bounded moments, if the step-size sequence converges to zero at an appropriate rate,
-convergence of $(\theta_t)_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. 
-In applications, 
-one often starts from some additional broad properties of the common distribution
-$P$ underlying $(b_t,A_t)$ (e.g., $\EE{A_t}$ is positive definite and $\EE{\normsm{b_t}^2}$,$\EE{\normsm{A_t}^2}\le B$ with $B$ known) and the goal is not only to guarantee asymptotic convergence, but also a reasonable worst-case error magnitude over all instances $P\in \cP$ 
-with the assumed properties and for all $t\ge 0$. 
+Assuming sufficient regularity of $\{(b_t,A_t)\}_{t\ge 1}$, e.g., independence, or mixing, in addition to bounded moments, if the step-size sequence converges to zero at an appropriate rate,
+convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. \todoc{cite some papers that do this..}
+In applications, one often starts from some additional broad properties of the common distribution
+$P$ underlying $\{(b_t,A_t)\}$.
+For example, in \emph{linear regression under the squared loss criterion} (LR),
+$A= \EE{A_t}$ is symmetric and positive definite and $\EE{\normsm{b_t}^2}$, $\EE{\normsm{A_t}^2}\le B$ with $B$ known.
+The goal then is not only to guarantee asymptotic convergence on a per-instance basis, 
+but also that for some choice of the update equations that uses only the broad knowledge available
+about the instances,
+the error of estimating $\ts = \ts(P)$ is kept small regardless of the choice of $P\in \cP$ and the time step $t\ge 0$.
 
 To overcome the difficulty of choosing such a ``universally good'' step-size sequence,
 following the ideas of \citet{ruppert} and \citet{polyak-judisky},
@@ -40,12 +43,38 @@ in the context of linear prediction under the squared loss criterion (LSE),
 with some $\alpha>0$ to be chosen based on $\cP$, 
 and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. 
 The main result of 
-\citet{bach-moulines}, which is further improved
-by  \citet{bach}, is that for the LSE problem, under the assumption that $(b_t,A_t)_{t\ge 1}$ is an independent sequence, the constant step-size $\alpha$ can be chosen solely based on the above-mentioned upper bound $B$ to guarantee that 
-for some universal constant $C>0$
-the expected squared prediction error of using $\thh_t$ is at most $C B/t$ 
-which is known to be information-theoretically optimal.
-In this paper we ask to what extent this result can be extended beyond the LSE problem.
+\citet{bach-moulines}, 
+%which is further improved by  \citet{bach}, 
+is that for the LSE problem, 
+under the assumption that $(b_t,A_t)_{t\ge 1}$ is an independent sequence, 
+the constant step-size $\alpha$ can be chosen solely based on the above-mentioned 
+upper bound $B$ to guarantee that for some universal constant $C>0$
+the expected squared prediction error of using $\thh_t$ is at most $C B/t$,
+which, up to constant factors, is information-theoretically optimal.
+
+In this paper we ask to what extent the nice result 
+of \citet{bach-moulines} can be extended beyond the LSE problem;
+in other words, we are starting to ask for the aspects of the LSE problem that are
+critical for this result. Our ultimate targets are the so-called
+\emph{temporal-difference (TD) family of algorithms} (cf. \cite{sutton,gtd,gtd2,gtdmp}
+and \cref{sec:td}) that are meant to be an efficient way of estimating value functions
+in reinforcement learning \cite[e.g.,][]{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
+While both LSE and TD are linear prediction problems, 
+in TD-methods $A=\EE{A_t}$ is in general non-symmetric, 
+and while the natural error metric in LSE problems is $\norm{\thh_t-\ts}_{A}^2$
+where $\norm{x}_A^2 = x^\top A x$,
+this is not the case in TD me
+At the high level 
+the main difference between LSE and the problem solved by TD methods
+is that
+
+\cite{tsivan95}
+\cite{tsivan97}
+
+In connection to this, it is importance to note that in this paper
+we only consider An important caveat on the limitations of the results we obtain 
+While in reinforcement learning, the $(b_t,A_t)_{t\ge 1}$ sequence would form a Hidden-Markov sequence, in this paper for simplicity we study the 
+
 
 \if0
 In particular, the convergence rates can degrade, or they may depend on potentially unbounded problem dependent constants \cite{bach-moulines}. Diminishing step-sizes such as $\alpha_t=\frac{c_0}{t+c}$, with problem instance specific tuning of the constants $c>0,c_0>0$ have been used in practice \cite{gtd2,gtdmp,konda-tsitsiklis}. 
