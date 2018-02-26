@@ -354,7 +354,7 @@ and noting that $\alpha_P$ is positive because by assumption $\lambda_{\min}(A^\
 Now assume that $A$ is Hurwitz. By \cref{lm:simtran} there exists a nonsingular matrix $U\in \R^{\dcd}$ such that
 $B = U^{-1} A U$ is so that $B+B^\top$ is PD. 
 Choose a matrix $U$ with this properties. 
-Let $B_t = U^{-1} A_t U$ and let $P_U$ be the distribution of $B_t$. 
+Let $B_t = U^{-1} A_t U$ and let $P_U$ be the common distribution of $\{B_t\}_{t\ge 1}$. 
 Note that $\EE{B_t} = B$.
 Premultiplying both equations in \eqref{eq:lsa} by $U^{-1}$, we get
 \begin{subequations}\label{eq:lsa2}
@@ -375,8 +375,6 @@ $\rhos{P_U}>0$. Take any such $\alpha$.
 
 Defining $\gamma_* = U^{-1} \ts$, we see that $B \gamma^* = U^{-1} b$.
 Let $z_t = \gamma_t - \gamma_*$ and $\hat z_t = \hat\gamma_t - \gamma_*$.
-Note that $\EE{ \norm{ U^{-1} (b_t - b) }^2 } \le \norm{U^{-1}}^2 \sigma_{b_P}^2$
-and $\EE{\norm{ U^{-1} (A_t-A) U }^2 } \le \norm{U^{-1}}^2 \norm{U}^2 \sigma_{A_P}^2 = \cond{U}^2 \sigma^2_{A_P}$.
 Define $\sigma_z^2 $
 to be an upper bound on $\EE{ \norm{U^{-1} (b_t-b) + (B_t-B) \gamma_* }^2 }$.
 Note that $U^{-1} (b_t-b) + (B_t-B) \gamma_* = 
@@ -390,7 +388,7 @@ Since $\rhos{P_U}>0$, by \cref{th:pdrate} it holds that
 \left(1+\frac4{\alpha\rhod{P_U}}\right)\, \frac2{\alpha\rhos{P_U}}\, \,
 \left(\frac{\norm{z_0}^2}{(t+1)^2}+ \frac{\alpha^2 \,\sigma_z^2}{t+1} \right)\,.
 \end{align*}
-Finally,
+Furthermore,
 \begin{align*}
 \E[ \norm{\eh_t}^2 ] = \E[ \norm{ U \hat z_t}^2 ] \le \norm{U}^2 \E[ \norm{\hat z_t}^2 ]\,,
 \qquad
