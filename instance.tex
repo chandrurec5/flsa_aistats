@@ -48,9 +48,9 @@ $S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
 Hence, if all eigenvalues of $S$ are positive, we have
 $\phi<1$. 
 Let $P_A$ denote the distribution of $A_1$ and note that $\lambda_{\min}(S)>0$ is equivalent to
-\begin{align*}
+\begin{align}\label{def:spect}
 \rho_s(\alpha,P_A) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0\,.
-\end{align*}
+\end{align}
 Now,
 $\rho_s(\alpha,P_A) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$ then for $\alpha>0$ small enough, $\rho_s(\alpha,P_A)>0$ is guaranteed to hold. While there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$, one can show that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (cf. \cref{sec:hurpd}). 
 Now, if $U$ is the underlying similarity transformation, so that $B=U^{-1} A U$, one can check that $z_t = U^{-1} e_t$ satisfies \eqref{eq:errrecmain} with $A_s$ replaced by $B_s \defeq U^{-1} A_s U$ and $\zeta_i$ replaced by $U^{-1} \zeta_i$. Let $P_U$ to denote the common distribution of $(B_s)_s$.
@@ -76,7 +76,7 @@ In \Cref{lm:hur}, $U$ is a change of basis matrix, and by defining a transformed
 Now, we present the result that shows that CALSA procedure achieves an instance dependent $O(\frac{1}{t})$ asymptotic rate.
 \fi
 \begin{restatable}{theorem}{thrate}\label{th:rate}
-Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}.
+Let $P$ be a distribution over $\R^{\dcd}\times\R^d $ satisfying \Cref{assmp:lsa}.
 Then, for any $U\in\R^{\dcd}$ and $P_U$ as in the previous paragraph there exists
 $\alpha_{P_U}>0$ such that 
 for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
@@ -103,7 +103,7 @@ where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a 
 However, the bound of this result is essentially tight:
 \begin{restatable}[Lower Bound]{theorem}{thlb}
 \label{th:lb}
-There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, such that
+There exists a distribution $P$ over $ \R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that
 there exists $\alpha_P>0$ so that $\rhos{P}>0$ (and, hence also $\rhod{P}>0$) holds (hold) for all $\alpha\in (0,\alpha_P)$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 

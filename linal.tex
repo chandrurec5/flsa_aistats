@@ -70,12 +70,7 @@ F_{i,j} & =
  I\,, & \text{otherwise}\,,
 \end{cases}
 \end{align*}
-and let
-\begin{align*}
-\sigma_1^2 &= \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,, \qquad  \qquad
-\sigma_2^2 = \sigma_{A_P}^2\norm{\ts}\,.
-\end{align*}
-Note that $\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$ and $\EE{\md{M_t\zeta_t}}\leq \sigma_2^2$, where recall that $M_t = A_t - A$. \todoc{Why do we have $|\cdot|$ for $M_t \zeta_t$, which is a vector? And why does $\sigma_2^2$ a bound for $\EE{\md{M_t\zeta_t}}$?}
+and define $\sigma_1^2 \eqdef \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,$, then it follows that $\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$.
 
 \paragraph{Error Recursion} Let us now look at the dynamics of the error terms defined by
 \begin{align}\label{eq:errrec}
@@ -92,11 +87,11 @@ Under \Cref{assmp:lsacmplx} there exists an $\alpha_P>0$ such that $\rhod{P}>0$ 
 \end{lemma}
 \begin{proof}
 \begin{align*}
-\rhos{P}&\stackrel{(a)}{=}\inf_{x:\norm{x}=1}x^* (A_P^*+A_P)x -\alpha x^*\EE{A_t^* A_t} x\\
-&\stackrel{(b)}{=}\inf_{x:\norm{x}=1}x^* (A_P^*+A_P)x -\alpha x^* A^*_P A_P -\alpha x^* \EE{M_t^* M_t} x\\
-&\stackrel{(c)}{\geq} \lambda_{\min}(A^*_P+A_P)-\alpha \norm{A_P}^2-\sigma^2_A
+\rhos{P}&\stackrel{(a)}{=}\inf_{x:\norm{x}=1}x^\top (A_P^\top+A_P)x -\alpha x^\top\EE{A_t^\top A_t} x\\
+&\stackrel{(b)}{=}\inf_{x:\norm{x}=1}x^\top (A_P^\top+A_P)x -\alpha x^\top A^\top_P A_P -\alpha x^\top \EE{M_t^\top M_t} x\\
+&\stackrel{(c)}{\geq} \lambda_{\min}(A^\top_P+A_P)-\alpha \norm{A_P}^2-\sigma^2_A
 \end{align*}
-The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^*_P+A_P)}{\norm{A_P}^2+\sigma^2_A}$. Above $(a)$ follows from definition of $\rhos{P}$ in \Cref{def:spect}, $(b)$ follows from the fact that $M_t$ is a martingale difference term (see \Cref{assmp:lsacmplx}) and $(c)$ follows from definitions of norms, Jensen inequality, properties of norms and the fact that for a real symmetric matrix $M$ the smallest eigenvalue is given by $\lambda_{\min}=\inf_{x:\norm{x}=1} x^* M x $.
+The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^\top_P+A_P)}{\norm{A_P}^2+\sigma^2_A}$. Above $(a)$ follows from definition of $\rhos{P}$ in \cref{def:spect}, $(b)$ follows from the fact that $M_t$ is a martingale difference term and $(c)$ follows from definitions of norms, properties of norms and the fact that for a real symmetric matrix $M$ the smallest eigenvalue is given by $\lambda_{\min}=\inf_{x:\norm{x}=1} x^\top M x $.
 \end{proof}
 
 
@@ -107,7 +102,7 @@ The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^*_P+A_P)}{\no
 \begin{lemma}[Product unroll lemma]\label{lem:genunroll}
 Let $t>i\ge 1$, $x,y\in \C^d$ be $\F_{i}$-measurable random vectors. Then,
 \begin{align*}
-\E[x^* F_{t,i+1}y|\F_i]=x^* (I-\alpha A_P)^{t-i} y\,.
+\E[x^\top F_{t,i+1}y|\F_i]=x^\top (I-\alpha A_P)^{t-i} y\,.
 \end{align*}
 \end{lemma}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,38 +111,38 @@ By the definition of $F_{t,i+1}$,
 and because $F_{t-1,i+1} = (I-\alpha A_{t-1}) \dots (I-\alpha A_{i+1})$ is $\F_{t-1}$-measurable,
 as are $x$ and $y$,
 \begin{align*}
-\EE{x^* F_{t,i+1} y | \F_{t-1} } &= x^\top \EE{ (I-\alpha A_t) | \F_{t-1} } F_{t-1,i+1} y=x^*  (I-\alpha A_P)  F_{t-1,i+1} y\,.
+\EE{x^\top F_{t,i+1} y | \F_{t-1} } &= x^\top \EE{ (I-\alpha A_t) | \F_{t-1} } F_{t-1,i+1} y=x^\top  (I-\alpha A_P)  F_{t-1,i+1} y\,.
 \end{align*}
 By the tower-rule for conditional expectations and our measurability assumptions,
 \begin{align*}
-\EE{x^* F_{t,i+1} y | \F_{t-2} }=x^*  (I-\alpha A_P)  \EE{F_{t-1,i+1} |\F_{t-2}} y= x^* (I-\alpha A_P)^2 F_{t-2,i+1} y\,.
+\EE{x^\top F_{t,i+1} y | \F_{t-2} }=x^\top  (I-\alpha A_P)  \EE{F_{t-1,i+1} |\F_{t-2}} y= x^\top (I-\alpha A_P)^2 F_{t-2,i+1} y\,.
 \end{align*}
 Continuing this way we get
 \begin{align*}
-\EE{x^* F_{t,i+1} y | \F_{t-j} }
-= x^* (I-\alpha A_P)^j F_{t-j,i+1} y\,, \quad j=1,2,\dots,t-i\,.
+\EE{x^\top F_{t,i+1} y | \F_{t-j} }
+= x^\top (I-\alpha A_P)^j F_{t-j,i+1} y\,, \quad j=1,2,\dots,t-i\,.
 \end{align*}
 Specifically, for $j=t-i$ we get
 \begin{align*}
-\EE{x^* F_{t,i+1} y | \F_{i} }  = x^* (I-\alpha A_P)^{t-i} y\,.
+\EE{x^\top F_{t,i+1} y | \F_{i} }  = x^\top (I-\alpha A_P)^{t-i} y\,.
 \end{align*}
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{lemma}\label{noisecancel}
 Let $t>i\ge 1$ and let $x\in \C^d$ be a $\F_{i-1}$-measurable random vector. Then,
-$\E[x^* F_{t,i+1}\zeta_{i}]=0$.
+$\E[x^\top F_{t,i+1}\zeta_{i}]=0$.
 \end{lemma}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{proof}
 By \Cref{lem:genunroll},
 \begin{align*}
-\EE{x^* F_{t,i+1} \zeta_i | \F_{i} }  = x^* (I-\alpha A_P)^{t-i} \zeta_i\,.
+\EE{x^\top F_{t,i+1} \zeta_i | \F_{i} }  = x^\top (I-\alpha A_P)^{t-i} \zeta_i\,.
 \end{align*}
 Using the tower rule,
 \begin{align*}
-\EE{x^* F_{t,i+1} \zeta_i | \F_{i-1} }
-= x^* (I-\alpha A_P)^{t-i}\EE{ \zeta_i | \F_{i-1} }= 0\,.
+\EE{x^\top F_{t,i+1} \zeta_i | \F_{i-1} }
+= x^\top (I-\alpha A_P)^{t-i}\EE{ \zeta_i | \F_{i-1} }= 0\,.
 \end{align*}
 \end{proof}
 
@@ -174,17 +169,17 @@ Then,
 \end{lemma}
 \begin{proof}
 Note that
-$S_t\doteq \EE{ (I-\alpha A_t)^* (I-\alpha A_t) | \F_{t-1} }
-= I - \alpha (A_P^* + A_P) + \alpha^2 \EE{ A_t^* A_t | \F_{t-1} }$.
-Since $(b_t,A_t)_t$ is an independent sequence, $\EE{ A_t^* A_t|\F_{t-1}} = \EE{ A_1^* A_1 }$.
+$S_t\doteq \EE{ (I-\alpha A_t)^\top (I-\alpha A_t) | \F_{t-1} }
+= I - \alpha (A_P^\top + A_P) + \alpha^2 \EE{ A_t^\top A_t | \F_{t-1} }$.
+Since $(b_t,A_t)_t$ is an independent sequence, $\EE{ A_t^\top A_t|\F_{t-1}} = \EE{ A_1^\top A_1 }$.
 Now, using the definition of $\rhos{P}$ from \Cref{def:spect}
-$\sup_{x:\norm{x}= 1} x^* S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A_P^* + A_P - \alpha \EE{A_1^\top A_1}) x
+$\sup_{x:\norm{x}= 1} x^\top S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A_P^\top + A_P - \alpha \EE{A_1^\top A_1}) x
 = 1-\alpha \rhos{P}$.
 Hence,
 \begin{align*}
 &\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }\\
-&= \EE{x^* F_{i-1,j+1}^\top (I-\alpha A_i)^* (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
-&=(x F_{i-1,j+1})^* \, S_i \, F_{i-1,j+1} x\\
+&= \EE{x^\top F_{i-1,j+1}^\top (I-\alpha A_i)^\top (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
+&=(x F_{i-1,j+1})^\top \, S_i \, F_{i-1,j+1} x\\
 &\le (1-\alpha \rhos{P}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}
 \end{align*}
 We have $\EE{}=\EE{\cdot|\F_{i-1}|\F_{i-2}}=\ldots=\EE{\cdot|\F_{i-1}\ldots |\F_{j}}$. Now
@@ -215,7 +210,7 @@ Let $A_P+A_P^\top$ be positive definite, then
 \begin{proof}
 By standard calculation using \eqref{eq:errrec} recursively, 
 \begin{align*}
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha \zeta_t
+e_t&=(I-\alpha A_t)e_{t-1}+\alpha \zeta_t\\
 & = (I-\alpha A_t) (I-\alpha A_{t-1}) e_{t-2}\\ &+ \alpha (I-\alpha A_t) \zeta_{t-1} +\alpha \zeta_t \\
 & \quad \vdots\\
 & = (I-\alpha A_t) \cdots (I-\alpha A_1) e_0\\ &+ \alpha (I-\alpha A_t) \cdots (I-\alpha A_2) \zeta_1 \\
@@ -279,15 +274,16 @@ Putting things together,
 
 %\lmhur*
 \todoc[inline]{Lemma text here.. got replaced.. work in progress..}
+\begin{comment}
 \begin{proof}
-We know that $A_P$ is Hurwitz and from  \Cref{lm:simtran} it follows that there exists an $U\in \gld$ such that  $\Lambda=U^{-1} A_P U$ and $(\Lambda^*+\Lambda)$ is real symmetric and positive definite. Using \Cref{def:spect}, we have $A_{P_U}=\Lambda$ and from \Cref{lm:pd} we know that there exists an $\alpha_{P_U}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0,~\forall \alpha \in (0,\alpha_{P_U})$.
+We know that $A_P$ is Hurwitz and from  \Cref{lm:simtran} it follows that there exists an $U\in \gld$ such that  $\Lambda=U^{-1} A_P U$ and $(\Lambda^\top+\Lambda)$ is real symmetric and positive definite. Using \Cref{def:spect}, we have $A_{P_U}=\Lambda$ and from \Cref{lm:pd} we know that there exists an $\alpha_{P_U}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0,~\forall \alpha \in (0,\alpha_{P_U})$.
 
 \end{proof}
 
 
 
 \begin{lemma}[Change of Basis]\label{lm:cb}
-Let $P$ be a distribution over $\R^d\times \R^{\dcd}$ as in \Cref{assmp:lsa} and let $U$ be chosen according to \Cref{lm:hur}. Define $\gamma_t\eqdef U^{-1}\theta_t,\,,\gamma_*\eqdef U^{-1}\ts$, then
+Let $P$ be a distribution over $\R^{\dcd}\times\R^d$ as in \Cref{assmp:lsa} and let $U$ be chosen according to \Cref{lm:hur}. Define $\gamma_t\eqdef U^{-1}\theta_t,\,,\gamma_*\eqdef U^{-1}\ts$, then
 \begin{align}
 \EE{\norm{\gamma_t-\gamma_*}^2}
 \leq
@@ -317,14 +313,16 @@ We know that $\EE{\norm{H_t}^2}\leq \norm{U^{-1}}^2\EE{\norm{\zeta_t}}$ and $\EE
 \end{align}
 
 \end{proof}
+\end{comment}
+
 
 \thrate*
 \begin{proof}
-Follows by substituting $\theta_t=U\gamma_t$ in \Cref{lm:cb}.
+Let $U$ be the symmetric matrix from \label{sec:hurpd}. Define $\gamma\eqdef U^{-1}\theta$ (and similarly quantities $\hat{\gamma},\gamma_*$)and use \Cref{th:pdrate} to bound $\EE{\norm{\hat{\gamma}_t-\gamma_*}^2}$ (note that the variance in the \Cref{th:pdrate} should be appropriately scaled by $\norm{U^{-1}}^2$). The result follows by recovering $\EE{\norm{\thh_t-\ts}^2}\leq \norm{U}^2\norm{U^{-1}}^2 \EE{\norm{\hat{\gamma}_t-\gamma_*}^2}$
 \end{proof}
 \begin{comment}
 \begin{theorem}[Lower Bound]
-There exists a distribution $P$ over $\R^d\times \R^{\dcd}$ satisfying \Cref{assmp:lsa}, such that $\alpha_P>0$, such that $\rhos{P}>0$ and $\rhod{P}>0,\,\forall \alpha\in (0,\alpha_P)$ and
+There exists a distribution $P$ over $\R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that $\alpha_P>0$, such that $\rhos{P}>0$ and $\rhod{P}>0,\,\forall \alpha\in (0,\alpha_P)$ and
 \begin{align*}
 \EE{\norm{\thh_t-\ts}^2} &\geq \frac{1}{(t+1)^2}(\alpha)^{-2}(\rhod{P}\rhos{P})^{-1}\Big( \big(1-(1-\alpha \rhos{P})^t\big) \norm{\theta_0-\ts}^2 \\&+ \sum_{s=1}^t \big(1-(1-\alpha \rhos{P})^{(t-s)}\big) \big(\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}\big) \Big)
 \end{align*}
