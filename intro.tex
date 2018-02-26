@@ -28,7 +28,8 @@ convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various sen
 In applications, one often starts from some additional broad properties of the common distribution
 $P$ underlying $\{(A_t,b_t)\}$, i.e., $P\in \cP$ for a known family of instances $\cP$.
 For example, in \emph{linear regression under the squared loss criterion} (LS), 
-$A= \EE{A_t}$ is symmetric and positive definite and $\EE{\normsm{b_t}^2}$, 
+$A= \EE{A_t}$ (the expectation of $A_t$) 
+is symmetric and positive definite and $\EE{\normsm{b_t}^2}$, 
 $\EE{\normsm{A_t}^2}\le B$ with $B$ known.
 The goal then is not only to guarantee asymptotic convergence on a per-instance basis, 
 but also to choose $\{\alpha_t\}_{t\ge 1}$ based on the knowledge of $\cP$ only, 
@@ -41,7 +42,7 @@ in the context of linear regression with the squared loss (LS),
 \citet{bach-moulines} suggested that
 \eqref{eq:lsaintro} should be used with $\alpha_t=\alpha>0$ ($t\ge 1$) 
 with some $\alpha>0$ to be chosen based on $\cP$, 
-and output the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$. 
+and user the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$ as the output. 
 \todoc{I think there is also an impossibility result for choosing $\{\alpha_t\}_{t\ge 1}$,
 at least for LS problems. Namely, no universal stepsize sequence achieves the optimal bound.}
 The main result of 
@@ -50,19 +51,21 @@ The main result of
 is that for the LS problem, 
 under the assumption that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent sequence, 
 the constant stepsize $\alpha$ can be chosen solely based on the above-mentioned 
-upper bound $B$ to guarantee that for some universal constant $C>0$
-the expected squared prediction error of using $\thh_t$ is at most $C B/t$ for any $t\ge 1$,
+upper bound $B$ \todoc{I think they actually assume bounded data? Check this..}
+to guarantee that for some universal constant $c>0$
+the expected squared prediction error of using $\thh_t$ is at most $c B/t$ for any $t\ge 1$,
 which, up to constant factors, is information-theoretically optimal. \todoc{This needs a reference.}
 
 In this paper we ask to what extent the nice result 
-of \citet{bach-moulines} can be extended beyond the LS problem;
+of \citet{bach-moulines} can be extended beyond LS;
 in other words, we are asking which aspects of the LS problem play a critical role. 
-Our interest stems from the desire to repeat this result for
+Our interest stems from the desire to reproduce this result for
 linear value-function estimation (LVE) in reinforcement learning (RL) where
 multiple members of the
 \emph{temporal-difference (TD) family of algorithms} 
 (cf. \cite{sutton,gtd,gtd2,gtdmp} and \cref{sec:rl})
-have been proposed as an analog of the ``LMS algorithm'' available for LS.
+have been proposed as an analog of the ``LMS algorithm'' analyzed by 
+\citet{bach-moulines}.
 % that are meant to be an efficient way of estimating value functions
 %in reinforcement learning \cite[e.g.,][]{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
 The extension is not straightforward as there are a number of critical differences
@@ -71,9 +74,10 @@ In particular,  in LVE
 {\em (i)}  $A=\EE{A_t}$ is in general non-symmetric;
 {\em (ii)} the sequence  $\{(A_t,b_t)\}_{t\ge 1}$ is ``driven by Markov noise'' \cite{tsivan95,tsivan97};
 {\em (iii)} and while the natural error metric in LS problems is $\normsm{\thh_t-\ts}_{A}^2$
-(here $\norm{x}_A^2 = x^\top\!\!A x$ for $A$ symmetric, positive definite), 
+(here $\norm{x}_Q^2 = x^\top\!\!Q x$ for $Q$ symmetric, positive definite), 
 this is not the case in TD.
-Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an i.i.d. sequence. For our results that have a negative character there is no loss of generality
+Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent, identically distributed (i.i.d.) sequence. 
+For our results that have a negative character there is no loss of generality
 making this assumption. 
 The question as to what extent our other results can be extended to the Markov noise
 case remains for future work. \todoc{I don't have high hopes.}
@@ -91,7 +95,7 @@ An alternate idea, which we call the constant stepsize averaged LSA (CALSA) is t
 
 \textbf{Focus:} We are interested in the TD class of algorithms that are also LSA algorithms. Specifically, we look at CATD(0) and CAGTD algorithms, which are TD(0) and GTD algorithms with constant stepsize and iterate averaging. Here, we want to repeat the feat of \cite{bach}, i.e., we want to find out whether the CATD(0) and CAGTD achieve a uniform convergence rate with a universal stepsize for useful classes of approximate policy evaluation problems. 
 \fi
-We answer these question in the following manner:
+Regarding the quest to extend the analysis of  \citet{bach-moulines} to LVE we provide the following results:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{enumerate}[topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt,label=\emph{\arabic*}.]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,41 +107,42 @@ is at most $\frac{C}{t}+\frac{C'}{t^2}$
 with some positive constants $C,C'$ that we explicitly compute from $P$ and $\alpha$
 (\cref{th:rate}).
 Our result is an extension of the result by \citet{polyak-judisky} who proved a similar result
-for $A_t=A$. We also show that our upper bound is essentially tight up to a universal constant
-factor (\cref{th:lb}).
+for $A_t=A$. 
+We also show that our upper bound is essentially tight up to a universal constant
+factor (\cref{th:lb}), thus the above result captures the instance-dependent
+behavior of CALSA in a faithful manner.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \textbf{Problem Landscape} (\Cref{sec:land}): 
 By means of a simple example we establish that 
-Hurwitzness and uniformly bounded moments
+Hurwitzness and uniformly bounded moments \todoc{Uniform boundedness would be stronger.}
 alone are insufficient for the existence of a single \emph{universal} stepsize (\cref{prop:unistep}).
-Here, a universal stepsize would guarantee that the worst-case expected squared 
-error over the chosen class is controlled, an in particular converges to zero.
-We also present a number of simple problem classes, closely related to the LS problem,
-that are used to highlight the significance of various properties of LS problems,
-such as the positive definiteness of $A$, that the error is measured in norm $\norm{\cdot}_A$,
-and the so-called ``structured noise'' property (\cref{th:pspd}).
-The strength of our results are that they give the exact behavior of the worst-case error (i.e.,
+Here, a universal stepsize is one that guarantees the convergence of the worst-case expected squared 
+error over the class of problems to zero as $t\to\infty$.
+This result is complemented by \cref{th:pspd}, which distills the importance of various aspects
+of the LS problem, such as the positive definiteness of $A$, that the error is measured in norm $\norm{\cdot}_A$, or the so-called ``structured noise'' property, in governing the worst-case
+error. The strength of our results is that they give the exact behavior of the worst-case error (i.e.,
 matching lower and upper bounds).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \textbf{Reinforcement Learning} (\Cref{sec:rl}): 
 In the context of reinforcement learning we establish that the constant stepsize averaged TD($0$) 
 and a novel version of GTD assume universal stepsizes in a number of cases 
 for various problem classes with bounded data (\cref{th:tdadmis}).
-In particular, the result is shown for averaged TD($0$) for the ``on-policy case'', which we define
-slightly differently from its standard formulation, which is necessary given that we consider the i.i.d. case. We also show that a universal stepsize exist for averaged TD($0$) 
+In particular, this is first shown for averaged TD($0$) for the ``on-policy case'', which we define
+slightly differently from its standard formulation (the change is made necessary because we consider the i.i.d. case). 
+We also show that a universal stepsize exist for averaged TD($0$) 
 even for the general (non-on-policy case) provided that 
-the features are normalized and the data is ``stationary''. 
+the features are normalized and the data is ``stationary'' (the second moments of features and next-state features match).
 Finally, we establish that even the normalization condition can be dropped for the novel version of GTD. The strength of these results is that they free the user 
 concerned with achieving the $O(1/t)$ problem-dependent rate from the burden of 
 designing stepsize tuning methods.
-In \cref{sec:exp} we illustrate these theoretical results by means of simulated computer
-experiments.
+In \cref{sec:exp} we illustrate these theoretical results by means of computer simulations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{enumerate}%In the main body of the paper we present the results and the proofs are presented in the supplementary material. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 After our results, we briefly discuss related work in \cref{sec:related}.
 In connection to this, we also wish to mention
-that other computationally cheap methods such as those based on matrix sketching idea, could be a viable alternative to  CALSA. \todoc{Add some ref! Book..? Widgerson?}
-However, especially in RL, LSA has been at the heart of the widely used TD algorithms for more than a decade, and our work contributes to the understanding of the limitations and benefits of such algorithms. Also, we believe understanding CALSA is foundational in the sense that in most cases of general incremental algorithms our understanding is based on their ``linearized'' versions. We now present some basic notations followed throughout the paper.
+that other computationally cheap methods such as those based on matrix sketching idea, could be a viable alternative to  CALSA. \todoc{Add some ref! Book..? Widgerson?} 
+However, regardless of this, we believe that understanding a simple method like CALSA remains an important and foundational challenge.
+%However, especially in RL, LSA has been at the heart of the widely used TD algorithms for more than a decade, and our work contributes to the understanding of the limitations and benefits of such algorithms. Also, we believe understanding CALSA is foundational in the sense that in most cases of general incremental algorithms our understanding is based on their ``linearized'' versions. We now present some basic notations followed throughout the paper.
 

@@ -1,7 +1,23 @@
 \section{Problem Landscape}\label{sec:land}
-In this section, we show that it is not `always' possible to $(ii)$ choose a universal step-size or $(ii)$ have a \emph{uniform} finite time rate of $\frac{C}{t}$, where $C>0$ is independent of problem instance.
-We first consider the question of choosing a \emph{universal} constant step-size which is defined as follows:
-\begin{definition} Let $\P$ be a problem class and $P\in\P$ be an instance, then define $\alpha^{stab}_{P}\subset (0,\infty)$ to be such that the random matrix product $\Pi_{s=1}^t (I-\alpha A_s)\ra 0$ (note $(b_t,A_t)\overset{i.i.d}{\sim} P$ ) as $t\ra\infty$ whenever $\alpha\in \alpha^{stab}_P$ and $\alpha^{stab}_{\P}\eqdef\cap_{P\in \P}\alpha_{P}$. Define any $\alpha\in\alpha_{\P}$ to be a \emph{universal} step-size choice for $\P$.
+While the previous section considered individual problem instances, in this section we start
+to consider classes $\cP$ of problem instances.
+The first question that arises then is whether for a given class $\cP$ it is possible to find a single
+($\cP$-)\emph{universal} stepsize that guarantees that the worst-case expected squared error vanishes as $t\to\infty$.
+
+A universal stepsize can fail to exist for multiple reasons: One is that the 
+The next result shows that Hurwitzness of $A=A_P$ is far from sufficient for this.
+To see
+
+The next result shows that universal stepsizes need not exist always.
+\begin{restatable}{proposition}{propunistep}\label{prop:unistep}
+There does not exist $\alpha$ such that $\Lambda(I-\alpha A_P)<1, \forall P\in \P_{ROT}$. 
+\end{restatable}
+In the case of $\P_{ROT}$,  $\Lambda(I-\alpha A_P)=(1-\alpha u)^2+v^2$ and as $u\ra 0$ the stepsize $\alpha\ra 0$ and hence $\alpha_{\P}$ is an empty-set.
+
+
+In this section, we show that it is not `always' possible to $(ii)$ choose a universal stepsize or $(ii)$ have a \emph{uniform} finite time rate of $\frac{C}{t}$, where $C>0$ is independent of problem instance.
+We first consider the question of choosing a \emph{universal} constant stepsize which is defined as follows:
+\begin{definition} Let $\P$ be a problem class and $P\in\P$ be an instance, then define $\alpha^{stab}_{P}\subset (0,\infty)$ to be such that the random matrix product $\Pi_{s=1}^t (I-\alpha A_s)\ra 0$ (note $(b_t,A_t)\overset{i.i.d}{\sim} P$ ) as $t\ra\infty$ whenever $\alpha\in \alpha^{stab}_P$ and $\alpha^{stab}_{\P}\eqdef\cap_{P\in \P}\alpha_{P}$. Define any $\alpha\in\alpha_{\P}$ to be a \emph{universal} stepsize choice for $\P$.
 \end{definition}
 Note that from \Cref{lm:hur} we have $(0,\alpha_{P_U})\subset \alpha^{stab}_{P}$. 
 
@@ -10,17 +26,11 @@ variance trade-off in \Cref{th:rate}, say we choose $\alpha\in\alpha^{stab}_{\P}
 \begin{definition}
 Define the following \emph{additive noise} problem classes (where $A_t=A_P,\forall t\geq 0$): $(i)$  $\P_{SPD}=\{ P: A_P\in \R^{\dcd}\text{is real symmetric positive definite with~} \Lambda(A_P)<1, b_P=\mathbf{0}, \sigma^2_{b_P}=1\}$, $(ii)$ $\P_{SPDSN}\subset \P_{SPD}$ such that $\EE{b_tb_t^\top}<A_P$ $(iii)$ $\P_{ROT}=\{P=(u,v): b_t=\mathbf{0}, A_t=A_P, \forall t\geq 0, A_P=\left[\begin{matrix} u &v \\ -v & u\end{matrix}\right], u^2+v^2\leq B\}$.
 \end{definition}
-Problem classes $\P_{SPD}$ and $\P_{ROT}$ are special cases of \Cref{assmp:lsa}-\eqref{dist}, i.e., they have only \emph{additive} noise through $b_t$. While the additive noise case does not hold for our domains such as RL, we are interested in these classes to understand how problem structure plays a crucial role in universality of step-size and uniformity of rates. In $\P_{SPD}$, the matrices are diagonalizable, all the eigenvalues are real. However, in $\P_{rot}$ the matrices are \emph{Hurwitz} and eigenvalues have non-zero imaginary parts. Further in $\P_{SPDSN}$, the noise \emph{scales} with the underlying $A_P$ matrix. 
-We first show even when a universal step-size choice exists, uniform finite time rate of $\frac{C}{t}$, can be achieved only when the problem class has certain exploitable structure.
+Problem classes $\P_{SPD}$ and $\P_{ROT}$ are special cases of \Cref{assmp:lsa}-\eqref{dist}, i.e., they have only \emph{additive} noise through $b_t$. While the additive noise case does not hold for our domains such as RL, we are interested in these classes to understand how problem structure plays a crucial role in universality of stepsize and uniformity of rates. In $\P_{SPD}$, the matrices are diagonalizable, all the eigenvalues are real. However, in $\P_{rot}$ the matrices are \emph{Hurwitz} and eigenvalues have non-zero imaginary parts. Further in $\P_{SPDSN}$, the noise \emph{scales} with the underlying $A_P$ matrix. 
+We first show even when a universal stepsize choice exists, uniform finite time rate of $\frac{C}{t}$, can be achieved only when the problem class has certain exploitable structure.
 \begin{restatable}{theorem}{thpspd}\label{th:pspd}
-Any $\alpha\in(0,1)$ is a universal step-size for $\P_{SPD}$ and $\P_{SPDSN}$. Let $\B=\norm{e_0}^2$, then $(i)$  $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2}{P}\asymp\frac{1}{(t+1)^2}(\B (t+1)^2+ \alpha^2\sigma_b^2 \Theta(t^3))=\B+\alpha^2\sigma_b^2 \Theta(t)$. $(ii)$ $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2_{A_P}}{P} \asymp (\frac{\B}{\alpha t})+\Theta(\sigma^2_b\alpha)$. $(iii)$ $\arg\max_{P\in\P_{SPDSN}}\eep{\norm{\eh_t}^2_{A_P}}{P}\asymp (\frac{\B}{\alpha t})+\Theta(\frac{1}{t})$.
+Any $\alpha\in(0,1)$ is a universal stepsize for $\P_{SPD}$ and $\P_{SPDSN}$. Let $\B=\norm{e_0}^2$, then $(i)$  $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2}{P}\asymp\frac{1}{(t+1)^2}(\B (t+1)^2+ \alpha^2\sigma_b^2 \Theta(t^3))=\B+\alpha^2\sigma_b^2 \Theta(t)$. $(ii)$ $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2_{A_P}}{P} \asymp (\frac{\B}{\alpha t})+\Theta(\sigma^2_b\alpha)$. $(iii)$ $\arg\max_{P\in\P_{SPDSN}}\eep{\norm{\eh_t}^2_{A_P}}{P}\asymp (\frac{\B}{\alpha t})+\Theta(\frac{1}{t})$.
 \end{restatable}
-Once we choose a step-size $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible. The proof is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix. In what follows, without loss of generality, let the dimension be $d=1$.
+Once we choose a stepsize $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible. The proof is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix. In what follows, without loss of generality, let the dimension be $d=1$.
 \Cref{th:pspd}-$(i)$: the $\frac{1}{(t+1)^2}$ in the denominator is directly a result of iterate averaging,  further, when adversary choose $A_P$ close to $0$, the forgetting factor is very close to unity, in which case no forgetting happens, and error accumulates due to the summation of the iterates leading to the $\B(t+1)^2$ and $\alpha^2 \sigma_b^2 O(t^3)$ terms. \Cref{th:pspd}-$(ii)$ is same as the previous except that, now the error is also measured with respect to $A_P$ as result the adversary cannot make the MSE worse by just choosing small enough $A_P$; here we can achieve a rate of $O(\frac{1}{\sqrt{t}})$ if we choose $\alpha=\frac{1}{\sqrt{t}}$. \Cref{th:pspd}-$(iii)$ is when the noise also scales with $A_P$, and a rate of $O(\frac{1}{t})$ for any fixed $\alpha\in(0,1)$ across all the problems in the $\P_{SPDSN}$. Note that \Cref{th:pspd}-$(iii)$ has special structure, i.e., the noise is \emph{scaled} and the mean squared error is measured with respect to the quadratic norm induced by $A_P$, and these result in a uniform finite time rate of $\frac{C}{t}$. We would like to mention that the results of \citet{bach} is very similar to  \Cref{th:pspd}-$(iii)$. Further, it is clear that these special structures are not present in the case of TD algorithms for LVE problems.
-
-The next result shows that universal step-sizes need not exist always.
-\begin{restatable}{proposition}{propunistep}\label{prop:unistep}
-There does not exist $\alpha$ such that $\Lambda(I-\alpha A_P)<1, \forall P\in \P_{ROT}$. 
-\end{restatable}
-In the case of $\P_{ROT}$,  $\Lambda(I-\alpha A_P)=(1-\alpha u)^2+v^2$ and as $u\ra 0$ the step-size $\alpha\ra 0$ and hence $\alpha_{\P}$ is an empty-set.
 

@@ -1,11 +1,15 @@
 %!TEX root =  flsa.tex
 \section{Instance Dependent Bounds}\label{sec:mainresults}
 Let $\hat e_t = \hat \theta_t - \ts$ be the error of estimating $\ts$.
-In this section we consider instance dependent bounds on the expected squared parameter estimation error $\E[ \norm{\hat e_t}^2 ]$. 
-The consideration of weighted norms is postponed until the next section;
-our interest in the instance dependent analysis stems from that it 
-provides the foundation for the analysis coming in the next sections. 
-While the results presented here may not have appeared in the literature in exactly the form presented here, the analysis follows mostly standard ideas. \todoc{Add bunch of relevant references.. Any!? novelty!!?}
+To provide the foundation for the next sections,
+in this section we consider instance-dependent bounds on the expected squared parameter estimation error $\E[ \norm{\hat e_t}^2 ]$. 
+The consideration of weighted norms is postponed until later.
+%our interest in the instance dependent analysis stems from that it 
+%provides the foundation for the analysis coming in the next sections. 
+While the results presented here may not have appeared in the literature in exactly the form presented here
+and has some novelty in dealing with the general Hurwitz case, 
+we borrow much from previous papers (e.g., \cite{bach-moulines,polyak-judisky}). 
+ \todoc{Other references?}
 \iffalse
 The core question is how the error depends on various instance-dependent quantities (variance of noise, spectral properties of matrices involved, the size of the initial error, etc.), how fast the error decreased over time.
 As we shall see, if the constant step-size belongs to a small enough neighborhood of zero (the size of which depends on the instance), the error decreases at a rate of $O(1/t)$ and both too small and too large step-sizes are undesirable. The main result, \Cref{th:rate}, which bounds the error from above, is corroborated with a lower bound which shows that the upper bound is tight.
@@ -17,7 +21,7 @@ We first show that any  CALSA scheme  achieves an error of size$O(\frac{1}{t})$ 
 step-size (see \Cref{th:rate}). In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.
 As a first step, we need show that there exists an instance dependent step-size such that the iterates are stable. To this end, it is useful to look at the error (of un-averaged iterates) $e_t\eqdef\theta_t-\ts$ given as below:
 \fi
-Fix an instance $P$ so that $(A_t,b_t)\sim P$. To minimize clutter, 
+For the next result fix an instance $P$ so that $(A_t,b_t)\sim P$. To minimize clutter, 
 we let $A = \EE{A_t}$ and $b = \EE{b_t}$,
 dropping the subindex $P$ from $A_P$ and $b_P$.
 Straightforward calculation gives that $\hat e_t = \frac1{t+1} \sum_{s=0}^t e_s$, where
@@ -31,19 +35,16 @@ From \eqref{eq:errrecmain}, it is clear that the magnitude of $\hat e_t$ is gove
 of the products $\Pi_{s=i+1}^{t}(I-\alpha A_s)$, $j=0,\dots,t$. 
 Here, we will perform some crude upper bounding and derive simple sufficient conditions that guarantee that on expectation these product matrices are ``small''. However, we will show that the error bounds derived are tight in a worst-case sense.
 \fi
-
-To motivate the next result, note that repeated conditioning shows that
+Focusing on the first term above, using repeated conditioning one can see that
 $\phi \defeq \normsm{ \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} }<1$ is sufficient 
- to guarantee that the expectation of the squared norm of the
- first term in \eqref{eq:errrecmain} vanishes with growing $t$.
+ to guarantee that the expectation of the squared norm of this term vanishes as $t\to\infty$.
 Here, we can use $A_1$, because $(A_t)_t$ is an i.i.d. sequence.
 Let $R \defeq \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)}$.
-From the definition of $P$ we see that, on the one hand, it is positive
+From the definition of $R$ we see that, on the one hand, $R$ is positive
 definite, while, on the other hand,
-$R= I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$,
-hence the eigenvalues of $R$ are all real, nonnegative
-and are of the form $1-\alpha \lambda$,
-where $\lambda$ is an eigenvalue of the symmetric matrix 
+$R= I - \alpha \left\{(A+A^\top) -\alpha \EE{A_1^\top A_1}\right\}$.
+Hence the eigenvalues of $R$ are all real, nonnegative
+and are of the form $1-\alpha \lambda$ for $\lambda \in \Lambda(S) \subset \R$,
 $S = (A+A^\top) -\alpha \EE{A_1^\top A_1}$.
 Hence, if all eigenvalues of $S$ are positive, we have
 $\phi<1$. 
@@ -52,10 +53,10 @@ Let $P_A$ denote the distribution of $A_1$ and note that $\lambda_{\min}(S)>0$ i
 \rho_s(\alpha,P_A) \defeq \lambda_{\min} ((A+A^\top) -\alpha \EE{A_1^\top A_1} )>0\,.
 \end{align}
 Now,
-$\rho_s(\alpha,P_A) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$ then for $\alpha>0$ small enough, $\rho_s(\alpha,P_A)>0$ is guaranteed to hold. While there are Hurwitz matrices $A$ such that $\lambda_{\min}(A+A^\top)<0$, one can show that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (cf. \cref{sec:hurpd}). 
-Now, if $U$ is the underlying similarity transformation, so that $B=U^{-1} A U$, one can check that $z_t = U^{-1} e_t$ satisfies \eqref{eq:errrecmain} with $A_s$ replaced by $B_s \defeq U^{-1} A_s U$ and $\zeta_i$ replaced by $U^{-1} \zeta_i$. Let $P_U$ to denote the common distribution of $(B_s)_s$.
+$\rho_s(\alpha,P_A) \ge \lambda_{\min}( A+A^\top ) - \alpha \lambda_{\max} (\EE{ A_1^\top A_1})$. Thus, if $\lambda_{\min}(A+A^\top)>0$ then for $\alpha>0$ small enough, $\rho_s(\alpha,P_A)>0$ is guaranteed to hold. While $A$ being Hurwitz is insufficient to guarantee $\lambda_{\min}(A+A^\top)>0$, one can show that every Hurwitz matrix is similar to a real matrix $B$ such that $B+B^\top$ is SPD (cf. \cref{sec:hurpd}). 
+Now, if $U$ is the underlying similarity transformation, so that $B=U^{-1} A U$, one can check that $z_t = U^{-1} e_t$ satisfies \eqref{eq:errrecmain} with $A_s$ replaced by $B_s \defeq U^{-1} A_s U$ and $\zeta_i$ replaced by $U^{-1} \zeta_i$. Let $P_U$ to denote the common distribution of $\{B_s\}_s$.
 Thanks to $\EE{B_s} = B$, the expected squared norm of the first term in the analog of  \eqref{eq:errrecmain} can be shown to be bounded by $(1-\alpha \rhos{P_U})^t\norm{e_0}^2$, \todoc{$\theta_0$ is NOT random then!}
-while the expected squared norm of the second term can be shown to be bounded by $c \alpha /\rhos{P_U}$ with some $P$-dependent constant $c>0$. One can also show that $\EE{\norm{\hat e_t}^2}\le (1+4/\alpha \rhod{P_U}) \sum_{i=0}^t \EE{ \norm{e_i}^2 }$, where $\rhod{P_U} \defeq \lmin{B+B^\top - \alpha B^\top B}>\rhos{P_U}$. Putting things together, we get the following result:
+while the expected squared norm of the second term can be shown to be bounded by $c \alpha /\rhos{P_U}$ with some $P$-dependent constant $c>0$. One can also show that $\EE{\norm{\hat e_t}^2}\le (1+4/\alpha \rhod{P_U}) \sum_{i=0}^t \EE{ \norm{e_i}^2 }$, where $\rhod{P_U} \defeq \lmin{B+B^\top - \alpha B^\top B}\ge\rhos{P_U}$. Putting things together, we get the following result:
 \iffalse
 It is clear that for the iterates to be stable a necessary condition is that the products of random matrices  of the form $\Pi_{s=t'}^{t}(I-\alpha A_s),\,t'=1,\ldots,t-1$ appearing in \eqref{eq:errrecmain} should not blow up. Through \Cref{def:spect} and \Cref{lm:hur} we show that (under \Cref{assmp:lsa}), for any given problem instance $P$, there exists a range of step-sizes for which this necessary condition can be satisfied.
 \begin{definition}\label{def:spect}
@@ -90,37 +91,37 @@ where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \
 $v^2 = 
 \alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 \end{restatable}
-Note that $\nu$ depends on $U$, $P_U$ and $\alpha$ as shown.
-According to this result, the MSE at time $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\B=\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term is given by $\V=\nu\, \frac{v^2}{t+1} $ and captures the rate at which noise is rejected. 
+According to this result, the MSE in round $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term $\nu\, \frac{v^2}{t+1} $  captures the rate at which noise is rejected. Note that $\nu$ depends on $U$, $P_U$ and $\alpha$.
 
-\textbf{Behavior for extreme values of $\alpha$}: As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb} below) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha^2$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. As $\alpha$ is increased to a critical value $\alpha_{P_U}$, 
-$\rho{P_U}\ra 0$ and the bounds blow up again. 
-More generally, one can always take $U$ in the result that leads to the smallest bound. \todoc{Maybe here it is better to allow complex $U$!? This could be a note.}
+%\textbf{Behavior for extreme values of $\alpha$}: 
+As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb} below) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha^2$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. As $\alpha$ is increased to a critical value $\alpha_{P_U}$, 
+$\rhos{P_U}\ra 0$ and the bounds blow up again. 
+One can always take $U$ in the result that leads to the smallest bound. \todoc{Maybe here it is better to allow complex $U$!? This could be a note.}
 \begin{comment}
 \textbf{Proof Sketch:} We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
 where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. Since, we also use a basis transformation via $U$, the growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $I-\alpha \Lambda_t$ and that of the deterministic matrix $I-\alpha \Lambda$, respectively. This explains the reason as to why $\rhos{P_U}$ and $\rhod{P_U} $ appear in the bounds.
 \end{comment}
-However, the bound of this result is essentially tight:
+However, the bound of \cref{th:rate} is essentially tight:
 \begin{restatable}[Lower Bound]{theorem}{thlb}
 \label{th:lb}
 There exists a distribution $P$ over $ \R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that
-there exists $\alpha_P>0$ so that $\rhos{P}>0$ (and, hence also $\rhod{P}>0$) holds (hold) for all $\alpha\in (0,\alpha_P)$ and
+there exists $\alpha_P>0$ so that $(\rhod{P}\ge )$ $\rhos{P}>0$  holds for all
+$0<\alpha<\alpha_P$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
 + \frac{\sigma^2_{b_P}\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
 where $\beta_{t} =  1-(1-\alpha \rhos{P})^t$.
 \end{restatable}
-Note that $\beta_t \to 1$ as $t\to\infty$ and in particular, $\beta_t \ge 1/2$ for 
-$t\ge \log(2)/(\alpha \rhos{P})$.
+Note that $\beta_t \ge 1/2$ for $t\ge \log(2)/(\alpha \rhos{P})$.
 %Hence, the lower bound essentially matches the upper bound (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}). %In what follows, we discuss in brief the results in \cref{th:rate,th:lb}. 
-Thus, this result indeed establishes that the upper bound of \Cref{th:rate} is tight in a number of ways.
-In particular, the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ 
-are matched for $t$ as above (here $U=I$).
-Further, we also see that the $(\rhos{P_U}\rhod{P_U})^{-1}$ appearing in $\nu = \nu_{P_U,\alpha}$ cannot be removed from the upper bound. 
+Thus, for such $t$ \cref{th:lb} 
+the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ 
+match the corresponding terms of \cref{th:rate} (here $U=I$).
+Further, we also see that the $(\rhos{P_U}\rhod{P_U})^{-1}$ appearing in $\nu$ of
+\cref{th:rate} cannot be removed from there, unless the problems considered have 
+further structure, as in CALMS for LS.
 %(expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}).
-Note however that there are specific examples, such as CALMS for LS,
-where this latter factor can in fact be avoided.
-The next section also highlights how this happens.
+The next section dives into investigating what additional structure can help.
 
 
 %\textbf{Goal:} In \Cref{th:rate} we have established the fact that under \Cref{assmp:lsa} CALSA achieves an \emph{asymptotic} rate of $O(\frac{1}{t})$ for the MSE with an instance dependent step-size range of $(0,\alpha_{P_U})$, and the  constant $\nu$ has instance dependent terms. In the \Cref{sec:land,sec:rl}, we investigate conditions under which this instance dependence can be eliminated such that we have \emph{universal} step-size choice and \emph{uniform} rates.

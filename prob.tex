@@ -1,22 +1,21 @@
 %!TEX root =  flsa.tex
 \section{Problem Setup and Examples}\label{sec:prob}
-In this section we introduce the \emph{constant stepsize averaged linear stochastic approximation} (CALSA) algorithm, state and discuss the assumptions under which we study CALSA and then present two instance of learning problems where CALSA is applied. A CALSA algorithm sequentially processes the data $\{(A_t,b_t)\}_{t\ge 1}$ 
-where $A_t\in \R^{\dcd}$ and $b_t\in \R^d$ to produce the parameter vectors 
-$\theta_t,\thh_t\in \R^{d}$ in round $t$ using 
+In this section we define what we mean by the \emph{constant stepsize averaged linear stochastic approximation} (CALSA) algorithm, state and discuss the assumptions under which we study CALSA and then present two instance of learning problems where CALSA is applied. A CALSA algorithm sequentially processes the data $\{(A_t,b_t)\}_{t\ge 1} \subset \R^{\dcd} \times \R^d$ to produce in round $t$ the parameter vectors 
+$\theta_t,\thh_t\in \R^{d}$  using 
 \begin{subequations}\label{eq:lsa}
 \begin{align}
 \label{conststep}&\text{LSA:} &\theta_t&=\theta_{t-1}+\alpha(b_t-A_t\theta_{t-1})\,,\\
 \label{iteravg}&\text{Average:} &\thh_t&=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s\,.
 \end{align}
 \end{subequations}
-Here, $\theta_0\in \R^d$ and the stepsize $\alpha>0$ are user-chosen parameters of the algorithm. 
-The iterate $\theta_t$ is treated as an internal state of the algorithm, while $\thh_t$ is the output at time step $t$. The update of $\theta_t$ alone is considered a form of constant stepsize LSA.
+The value of the initial parameter vector $\theta_0\in \R^d$ and the stepsize $\alpha>0$ are left to be chosen by the user. 
+The iterate $\theta_t$ is treated as an internal state of the algorithm, while $\thh_t$ is the output in round $t$. The update of $\theta_t$ alone is considered a form of constant stepsize LSA.
 
 \if0
 \textbf{Applications of CALSA:} In certain interesting cases, $A_t$ will have a special form (such as a rank-$1$ structure) and then the matrix-vector product $A_t \theta_{t-1}$ can also be computed in $O(d)$ time, a scenario common in reinforcement learning \cite{sutton,konda-tsitsiklis,gtd,gtd2,gtdmp}, see also \Cref{ex:linpred,ex:ape}. This makes the algorithm particularly attractive in large-scale computations when $d$ is in the range of thousands, or millions, or more, as may be required by modern applications (e.g., \citep{LiMaTaBo16}). 
 \fi
 
-The data $\{(A_t,b_t)\}_{t\ge 1}$ is assumed to be random, i.i.d. sequence with common distribution $P$. 
+The data $\{(A_t,b_t)\}_{t\ge 1}$ is assumed to be an i.i.d. sequence with common distribution $P$. 
 Throughout the paper we will use
 $\cF_t = \sigma(A_1,b_1,\dots,A_t,b_t)$ to denote the $\sigma$-algebra summarizing the history up to and
 including time step $t\ge 1$ and we let $\cF_0$ denote the trivial $\sigma$-algebra. We will also assume
@@ -63,7 +62,7 @@ And finally, the boundedness of the variances has also been assumed.
 Let $\{(x_t,y_t)\}_{t\ge 1}$ be an $\R^{d}\times \R$-valued i.i.d. sequence so that $\norm{x_t},|y_t|\le B$ with some $B>0$ that is given to the algorithm designer.
 In linear prediction under the squared loss criterion the problem is to find $\ts\in \R^d$ such that 
 $\ts = \arg\min_{\theta\in \R^d} L(\theta)$ with $L(\theta)= \EE{ (\ip{x_t,\theta}-y_t)^2 } =c + \norm{\theta-\ts}_{A}^2$, where $A = \EE{x_t x_t^\top}$, where $c$ is a constant independent of $\theta$ (but $c$ can depend on the joint distribution of $(x_t,y_t)$).
-The \emph{constant stepsize averaged least-mean square} (CALMS) algorithm for this problem is given by 
+The \emph{constant stepsize averaged least-mean square} (CALMS) algorithm analyzed by \citet{bach-moulines} is given by 
 $\theta_t=\theta_{t-1}+\alpha(x_t y_t-x_tx_t^\top\theta_{t-1})$,
 $\thh_t=\frac{1}{t+1}{\sum}_{s=0}^{t}\,\theta_s$. 
 \if0
@@ -123,17 +122,16 @@ $ \\\hline
 
 \begin{example}[Linear value-function estimation (LVE)]
 \label{ex:ape}
-The reader interested in the background of these methods can consult, e.g., \cite{sutton,Sze10}.
-In discounted LVE the algorithm designer is given a so-called discount factor
- $\gamma\in (0,1)$, while the data is an i.i.d. sequence $\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}$ where
-$\phi_t,\phi_t'\in \R^d$ and $r_t\in \R$ and the goal is to find a solution $\ts$ to the equation $A \theta = b$
+The reader interested in the background of LVE can consult, e.g., \cite{sutton,Sze10}.
+In i.i.d. discounted LVE the algorithm designer is given a so-called discount factor
+ $\gamma\in (0,1)$, while the data is an i.i.d. sequence $\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}\subset \R^d \times \R^d \times \R$ and the goal is to find a solution $\ts\in \R^d$ to the equation $A \theta = b$
 where $A =\EE{ \phi_t(\phi_t - \gamma \phi_t')^\top}$ and $b =\EE{ \phi_t r_t}$.
 Note that when $\gamma=0$, the equation defining $\ts$ is the same as $\nabla L(\theta)=0$ in LS. 
 Hence, in this sense LVE generalizes LS.
 Again, it is customary to assume that the data is bounded: 
-$\norm{\phi_t},\norm{\phi_t'},|r_t|\le B$ with some known 
+$\norm{\phi_t},\norm{\phi_t'},|r_t|\le B$ almost surely (a.s.) with some known 
 constant $B>0$. 
-Commonly, the loss of a parameter vector $\theta\in \R^d$ is either measured using $\norm{\theta-\ts}_{\EE{\phi_t \phi_t^\top}}^2$, which can be thought of as a generalization of $L(\theta)$, or simply it is measured by 
+Commonly, the loss of a parameter vector $\theta\in \R^d$ is either measured using $\norm{\theta-\ts}_{\EE{\phi_t \phi_t^\top}}^2$, which can be thought of as a generalization of $L(\theta)$, or just by
 the unweighted $2$-norm, $\norm{\theta-\ts}^2$. 
 While it is not the purpose of this article to discuss these choices, we note in passing that these losses
 are nowhere near as natural as the squared loss in LS.
@@ -145,11 +143,11 @@ In this paper, we consider an important problem namely approximate policy evalua
 \fi
 In this paper we consider the constant stepsize version of
 \citeauthor{sut95}'s TD(0) \cite{sut95}, and a constant stepsize version of a novel variant of the so-called
-GTD algorithm \cite{gtd,gtd2}. The novelty of this variant is that it updates the parameter vector $\theta_t$ using
+GTD algorithm \cite{gtd,gtd2}. The novelty of our variant is that it updates the parameter vector $\theta_t$ using
 the updates auxiliary parameter $y_t$, rather than using $y_{t-1}$ as in the original version. This small change will be instrumental for our results in \cref{sec:rl}. The algorithms are summarized in \Cref{tb:tdalgos}.
 %One can define $\P_{APE}$ to be the class of all APE problems with fixed $|S|$ and $|A|$ restricting to those policies that give rise to an irreducible Markov chains and restricting the entires of $\Phi$ to be bounded.
 \end{example}
-\begin{table}[H]
+\begin{table}[t]
 \resizebox{\columnwidth}{!}{
 \begin{tabular}{|c|c|}\hline
 CATD(0)& CAGTD\\ \hline

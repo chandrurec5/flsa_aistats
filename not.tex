@@ -1,9 +1,10 @@
 %!TEX root =  flsa.tex
-\textbf{Notation:} We denote the sets of reals by $\R$. 
+\textbf{Notation:} The set of reals is denoted by $\R$. 
 %For $x\in \C$ we denote its modulus and complex conjugate by $\md{x}$ and $\bar{x}$, respectively. 
-We denote the $d$-dimensional vector spaces over $\R$ by $\R^{d}$
-and use $\R^{\dcd}$  to denote $\dcd$ matrices with real. 
-We denote the transpose of a matrix $C$ by $C^\top$  
+The $d$-dimensional vector space over $\R$ is denoted by $\R^{d}$,
+while $\R^{p\times q}$ denotes the vector space of $p\times q$ matrices over the reals.
+Vectors are column vectors (i.e., $\R^d$ is identified with $\R^{d\times 1}$).
+The transpose of a matrix $C$ is denoted by $C^\top$
 (and of course the same notation applies to vectors, as well). 
 We will use $\ip{\cdot,\cdot}$ to denote inner products: $\ip{x,y}=x^\top y$
 and use $\norm{x} = \ip{x,x}^{1/2}$ to denote the $2$-norm.
@@ -12,14 +13,15 @@ We call a matrix $A\in \R^{\dcd}$ \emph{positive definite} (PD) if $\ip{x,Ax} >0
 If $\inf_x \ip{x,Ax}\ge 0$ then $A$ is \emph{positive semi-definite} (PSD).
 We call a matrix $A\in \R^{\dcd}$ to be \emph{symmetric positive definite} (SPD) if 
 it is symmetric i.e., $A^\top=A$ and PD. 
-For $C\in \R^{\dcd}$ SPD and $x\in \R^d$, we let $\norm{x}^2_C\eqdef x^*\, C \,x$.
+For $C\in \R^{\dcd}$ SPD and $x\in \R^d$, we let $\norm{x}^2_C\eqdef x^\top C \,x$.
 The spectral norm of the matrix $A$ is given by $\norm{A}\eqdef \sup_{x\in \R^d:\norm{x}=1} \norm{Ax}$.  
-The spectral radius of $A$ is $\rho(A)\defeq \max\{ |\lambda|\,:\, \lambda \in \Lambda(A) \}$ where $\Lambda(A)$ is the set of (complex) eigenvalues of $A$. 
+The spectral radius of $A$ is $\rho(A)\defeq \max\{ |\lambda|\,:\, \lambda \in \Lambda(A) \}$ where $\Lambda(A)$ is the set of (complex) eigenvalues of $A$. For symmetric matrices $\rho(A) = \norm{A}$.
 We use $\cond{A}=\normsm{A}\normsm{A^{-1}}$ to denote the condition number of a non-singular matrix $A$. 
-We use $\lmin{A}$ to denote the minimum eigenvalue of a symmetric matrix.
+We use $\lmin{A}$ to denote the minimum eigenvalue of a symmetric matrix $A$, while $\lmax{A}$ denotes its maximum eigenvalue.
 %We denote the spectral radius of a matrix $A$ by $\Lambda(A)=\{\max_i \left|\lambda_i\right|: \lambda_i ~\text{is an eigenvalue of}~A\}$.
-We denote the identity matrix in $\R^{\dcd}$ by $\I$ and the set of invertible $\dcd$ complex matrices by $\gld$.
-For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \R^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \R^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\R^d$ and $\R^{d\times d}$, respectively, of radius $B$.  \todoc{Is this used?!}
+We denote the identity matrix in $\R^{\dcd}$ by $I$ \todoc{I don't think $\I$ is used much.}
+and the set of invertible $\dcd$ complex matrices by $\gld$. \todoc{Is this used ever?}
+For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \R^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \R^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\R^d$ and $\R^{d\times d}$, respectively, of radius $B$.  \todoc{Are these used?!}
 We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$; $\E$ denotes mathematical expectation. 
 \begin{comment}
 Let us now state some definitions that will be useful for presenting our main results. \todoc{Actually, we should remove all definitions not needed by the main body.}
