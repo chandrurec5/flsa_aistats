@@ -472,6 +472,19 @@ finishing the proof.
 %\EE{\norm{\eh_t}^2}\geq \frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
 %\end{align}
 \end{proof}
+
+Note that it may seem silly to consider $d=2$ and use a diagonal matrix with identical elements.
+The reason we considered $d=2$ above is because the proof also leads to the stronger conclusion
+that 
+\begin{align}
+\inf_P \sup_{\alpha: \alpha \rhos{P_A}>0} \alpha \rhos{P_A} = 0\,,
+\label{eq:badrhos}
+\end{align}
+where the infimum over $P$ is for those
+instances where $\lambda_2$ is fixed and $0<\lambda_1<\lambda_2$ is allowed to change.
+Indeed, when $\lambda_1<\lambda_2$, $\alpha_P = 2/\lambda_2$ and \eqref{eq:badrhos} holds (choosing $\lambda_1\to 0$). 
+When \eqref{eq:badrhos} holds we see that the lower bound blows up for any fixed choice of $\alpha$ in a worst-case sense. Thus, already in the two-dimensional, diagonal case, there is no ``universal'' stepsize.
+
 \begin{comment}
 \textbf{Proof of }
 Given any $A_P$ we can choose a unitary matrix $U$ (i.e., $U^\top U=I$) such that $U^\top A_P U=D_P$, where $D_P$ is a diagonal matrix. Thus with $\gamma=U\top \theta$, we have
