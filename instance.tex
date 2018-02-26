@@ -93,9 +93,9 @@ for all $\alpha\in (0,\alpha_{P_U})$ and for all $t\ge 0$,
 \nu\,
 \left\{\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{v^2}{t+1} \right\}\,,
 \end{align*}
-where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \rhos{P_U}}$ and
+where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{2\cond{U}^2}{\alpha \rhos{P_U}}$ and
 $v^2 = 
-\alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
+2\alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 \end{restatable}
 Thus, the MSE in round $t$ is bounded by a sum of two terms. The first, \emph{bias} term, is given by $\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second, \emph{variance} term, $\nu\, \frac{v^2}{t+1}$  captures the rate at which noise is rejected. Note that $\nu$ depends on $U$, $P_U$ and $\alpha$.
 

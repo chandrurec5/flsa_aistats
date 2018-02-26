@@ -51,10 +51,12 @@ $\lambda_1 = 12$ and $\lambda_2 = -8$. Hence, $A+A^\top$ is indeed not SPD.
 We note in passing that the change of coordinates argument that we follow here is inspired 
 by the paper of \citet{lihong}. 
 
-\subsection{The case when $A_P+A_P^\top$ is positive definite}
-In this section we consider \Cref{th:pdrate} when $A=A_P$ is such that its symmetric part is positive definite.
+\subsection{Error bound when $\rhos{P_A}\ge 0$}
+In this section we show a bound on the MSE, $\E[\norm{\eh_t}^2]$, for the case when $\rhos{P_A}\ge 0$.
 Following the suggestion in the main body of the paper, the general case will be reduced to this case by using 
 \cref{lm:simtran}.
+The relations presented below that connect expressions that involve conditional expectations hold almost surely (a.s.).
+However, to minimize clutter, the ``a.s.'' qualifier will be omitted from their statement.
 
 Let $b = b_P$.
 Recall that 
@@ -68,11 +70,13 @@ Further, introduce
 F_{i,j} & =
 \begin{cases}
  (I-\alpha A_i)(I-\alpha A_{i-1}) \dots (I-\alpha A_j)\,, & \text{if } i\ge j\,;\\
- I\,, & \text{otherwise}\,,
+ I\,, & \text{otherwise}\,.
 \end{cases}
 \end{align*}
-and define $\sigma_1^2 \eqdef \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,$ so that 
+Let $\sigma_1^2$ be so that 
+%and define $\sigma_1^2 \eqdef 2( \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$ so that 
 $\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$.
+Note that we can always choose $\sigma_1^2 = 2( \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 
 \paragraph{Error Recursion}
 Recall that 
@@ -126,7 +130,7 @@ uses the martingale structure of the noise will be useful:
     Let $0\le j <i$ and let $x\in \R^d$ be an $\F_j$-measurable random vector.
     Then,
     \begin{align*}
-    \E[\ip{F_{i,j+1}x,F_{i,j+1}x}]\leq (1-\alpha \rhos{P})^{i-j}\,\E\norm{x}^2\,.
+    \E[\ip{F_{i,j+1}x,F_{i,j+1}x}]\leq (1-\alpha \rhos{P_A})^{i-j}\,\E\norm{x}^2\,.
     \end{align*}
   \end{enumerate}
 \end{lemma}
@@ -186,16 +190,16 @@ Taking expectation of both sides gives the desired result.
 Note that
 $S_t\doteq \EE{ (I-\alpha A_t)^\top (I-\alpha A_t) | \F_{t-1} }
 = I - \alpha (A^\top + A) + \alpha^2 \EE{ A_t^\top A_t | \F_{t-1} }$.
-Since $\{(A_t,b_t)\}_{t\ge 1}$ is an independent sequence, $\EE{ A_t^\top A_t|\F_{t-1}} = \EE{ A_1^\top A_1 }$.
-Now, using the definition of $\rhos{P}$ from \Cref{def:spect}
+Since $\{A_t\}_{t\ge 1}$ is an i.i.d. sequence, $\EE{ A_t^\top A_t|\F_{t-1}} = \EE{ A_1^\top A_1 }$.
+Now, using the definition of $\rhos{P_A}$ (cf. \cref{def:spect}),
 $\sup_{x:\norm{x}= 1} x^\top S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A^\top + A - \alpha \EE{A_1^\top A_1}) x
-= 1-\alpha \rhos{P}$.
+= 1-\alpha \rhos{P_A}$.
 Hence,
 \begin{align*}
 \EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }
 &= \EE{x^\top F_{i-1,j+1}^\top (I-\alpha A_i)^\top (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
 &=(x F_{i-1,j+1})^\top \, S_i \, F_{i-1,j+1} x\\
-&\le (1-\alpha \rhos{P}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}
+&\le (1-\alpha \rhos{P_A}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}
 \end{align*}
 When $i=j-1$, $F_{i-1,j+1}=I$ and the proof is done by taking expectations of both sides.
 Otherwise, $i>j-1$ and repeating the same calculation as above
@@ -204,16 +208,16 @@ and using the tower rule for conditional expectations we get
 \EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-2}}
 &=
 \EE{\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }|\F_{i-2}}\\
-& \le (1-\alpha \rhos{P}) \, \EE{\ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}|\F_{i-2}} \\
-& \le (1-\alpha \rhos{P})^2\, \ip{ F_{i-2,j+1} x, F_{i-2,j+1} x}\,.
+& \le (1-\alpha \rhos{P_A}) \, \EE{\ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}|\F_{i-2}} \\
+& \le (1-\alpha \rhos{P_A})^2\, \ip{ F_{i-2,j+1} x, F_{i-2,j+1} x}\,.
 \end{align*}
 If $i=j-2$, $F_{i-2,j+1}=I$ and taking expectations of both sides the proof is finished.
 Continuing the same way we get
 \begin{align*}
 \EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{j}}
 %&= \EE{\EE{ \ip{F_{i,j+1}x,F_{i,j+1}x} |\F_{j+1}}|\F_{j}} 
-%& \le (1-\alpha \rhos{P})^{j-i-1} \ip{ F_{i+1-j,j+1} x, F_{i+1-j,j+1} x}
-& \le (1-\alpha \rhos{P})^{j-i} \norm{x}^2\,.
+%& \le (1-\alpha \rhos{P_A})^{j-i-1} \ip{ F_{i+1-j,j+1} x, F_{i+1-j,j+1} x}
+& \le (1-\alpha \rhos{P_A})^{j-i} \norm{x}^2\,.
 \end{align*}
 Taking expectations of both sides finishes the proof.
 \end{proof}
@@ -222,13 +226,13 @@ Returning to bounding $\E[ \normsm{\eh_t}^2 ]$ based on \eqref{eq:ehtexp}.
 We now show that the contribution of the ``cross-terms'', $\sum_{i=0}^t \sum_{j=i+1}^t \EE{ \ip{e_i,e_j} }$, 
 on the right-hand side of \eqref{eq:ehtexp}
 is proportional to the contribution of the ``diagonal terms'', $\sum_{i=0}^t \EE{ \ip{e_i,e_i} }$.
-For the bound, recall that $\rhod{P} = \lmin{ A + A^\top - \alpha A^\top A }$.
+For the bound, recall that $\rhod{P_A} = \lmin{ A + A^\top - \alpha A^\top A }$.
 \begin{lemma}
 \label{lem:crosstermbound}
-Assume that $\rhod{P}\ge 0$. Then it holds that
+Assume that $\rhod{P_A}\ge 0$. Then it holds that
 \begin{align*}
 \sum_{i=0}^{t-1}\sum_{j=i+1}^t {\EE{\ip{e_i,e_j}}} \le
- \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t} \E[\normsm{e_i}^2 ]\,.
+ \frac2{\alpha\rhod{P_A}}{\sum}_{i=0}^{t} \E[\normsm{e_i}^2 ]\,.
 \end{align*}
 \end{lemma}
 \begin{proof}
@@ -241,53 +245,53 @@ Let $j>i$. Then,
 \end{align*}
 Now, from the definition of spectral norms, $\ip{e_i, (I-\alpha A)^{j-i} e_i } \le \norm{e_i}^2 \norm{(I-\alpha A)^{j-i}}
 \le \norm{e_i}^2 \norm{ I-\alpha A }^{j-i}$.
-By definition, $\rhod{P} = \lmin{ A + A^\top - \alpha A^\top A }$.
+By definition, $\rhod{P_A} = \lmin{ A + A^\top - \alpha A^\top A }$.
 Using this, and the definition of spectral norms,
 \begin{align*}
-\norm{I-\alpha A}^2 = \sup_{x:\norm{x}=1} \norm{ (I-\alpha A) x }^2 = \sup_{x:\norm{x}=1} x^\top (I-\alpha A)^\top (I-\alpha A) x = 1- \alpha \rhod{P}\,.
+\norm{I-\alpha A}^2 = \sup_{x:\norm{x}=1} \norm{ (I-\alpha A) x }^2 = \sup_{x:\norm{x}=1} x^\top (I-\alpha A)^\top (I-\alpha A) x = 1- \alpha \rhod{P_A}\,.
 \end{align*}
-Note that $1-\alpha \rhod{P}\ge 0$ as the left-hand side of the above equality is obviously nonnegative.
+Note that $1-\alpha \rhod{P_A}\ge 0$ as the left-hand side of the above equality is obviously nonnegative.
 Now, by the elementary inequality $\sqrt{1-x} \le 1- \frac{x}{2}$ which holds as long as $1-x\ge 0$,
-$\norm{I-\alpha A} \le 1- \frac{\alpha \rhod{P}}{2}$. Putting things together,
+$\norm{I-\alpha A} \le 1- \frac{\alpha \rhod{P_A}}{2}$. Putting things together,
 \begin{align*}
-\ip{e_i, (I-\alpha A)^{j-i} e_i } \le \left(1- \tfrac{\alpha \rhod{P}}{2} \right)^{j-i} \norm{e_i}^2 \,.
+\ip{e_i, (I-\alpha A)^{j-i} e_i } \le \left(1- \tfrac{\alpha \rhod{P_A}}{2} \right)^{j-i} \norm{e_i}^2 \,.
 \end{align*}
 Thus, using $\sum_{i=1}^\infty \gamma^i 
 = \gamma/(1-\gamma) \le 1/(1-\gamma)$ which holds for any $\gamma\in (0,1)$
-and since by assumption $\rhod{P}\ge 0$,
+and since by assumption $\rhod{P_A}\ge 0$,
 \begin{align*}
 \label{inter}
 \MoveEqLeft 
 \sum_{i=0}^{t-1}\sum_{j=i+1}^t {\EE{\ip{e_i,e_j}}}
-=\sum_{i=0}^{t-1}\sum_{j=i+1}^t \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \E[\norm{e_i}^2]
-\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \sum_{j=i+1}^\infty \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \\
-&\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \frac{2}{\alpha \rhod{P}}
-=\frac2{\alpha\rhod{P}} {\sum}_{i=0}^{t-1}\E[\normsm{e_i}^2]
-\leq \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t}\E[\normsm{e_i}^2]\,,
+=\sum_{i=0}^{t-1}\sum_{j=i+1}^t \left(1-\frac{\alpha\rhod{P_A}}{2}\right)^{j-i} \E[\norm{e_i}^2]
+\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \sum_{j=i+1}^\infty \left(1-\frac{\alpha\rhod{P_A}}{2}\right)^{j-i} \\
+&\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \frac{2}{\alpha \rhod{P_A}}
+=\frac2{\alpha\rhod{P_A}} {\sum}_{i=0}^{t-1}\E[\normsm{e_i}^2]
+\leq \frac2{\alpha\rhod{P_A}}{\sum}_{i=0}^{t}\E[\normsm{e_i}^2]\,,
 \end{align*}
 finishing the proof.
 \end{proof}
 
 
 \begin{theorem}\label{th:pdrate}
-Assume that $\rhos{P}\ge 0$. Then,
+Assume that $\rhos{P_A}\ge 0$. Then,
 \begin{align}
 %\EE{\norm{\eh_t}^2}
 %\leq
-%\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
+%\left(1+\frac2{\alpha\rhod{P_A}}\right)\frac{1}{\alpha \rhos{P_A}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
 \E[\norm{\eh_t}^2]
-\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
+\leq \left(1+\frac4{\alpha\rhod{P_A}}\right)\, \frac2{\alpha\rhos{P_A}}\, \,
 %\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
-\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2 \,\sigma_1^2}{t+1} \right)\,.
 \end{align}
 \end{theorem}
 \begin{proof}
-As it was noted earlier, $\rhod{P}\ge \rhos{P}$. Hence, it follows that $\rhod{P}\ge 0$ holds, too
+As it was noted earlier, $\rhod{P_A}\ge \rhos{P_A}$. Hence, it follows that $\rhod{P_A}\ge 0$ holds, too
 and we can use  \cref{lem:crosstermbound}.
 Combining \eqref{eq:ehtexp} and \cref{lem:crosstermbound} we get
 \begin{align*}
 \EE{\normsm{\eh_t}^2} \le  
-\left( 1+\frac4{\alpha\rhod{P}} \right)\,
+\left( 1+\frac4{\alpha\rhod{P_A}} \right)\,
 \frac{1}{(t+1)^2} \, \sum_{i=0}^{t}\E[\normsm{e_i}^2]\,.
 \end{align*}
 Expanding $\norm{e_i}^2$ using \eqref{eq:etft},
@@ -295,100 +299,121 @@ using $(a+b)^2\leq 2 a^2+2 b^2$ which holds for any $a,b\in \R$,
 \begin{align*}
 \E[\normsm{e_i}^2]
 &\le  2 \EE{\ip{F_{i,1}e_0,F_{i,1}e_0}}+2 \alpha^2\sum_{j=1}^i\EE{\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}}\\
-& \le 2 (1-\alpha\rhos{P})^i\norm{e_0}^2+ 2 \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}\,,
+& \le 2 (1-\alpha\rhos{P_A})^i\norm{e_0}^2+ 2 \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P_A}}\,,
 \end{align*}
 where the second inequality follows from 
  \cref{lem:mart}\ref{lem:mart:innerproduct}, $\E[ \normsm{\zeta_j}^2 ] \le \sigma_1^2$
- and from  $\sum_{j=0}^{i-1} (1-\alpha \rhos{P})^j\leq \frac{1}{\alpha \rhos{P}}$. 
+ and from  $\sum_{j=0}^{i-1} (1-\alpha \rhos{P_A})^j\leq \frac{1}{\alpha \rhos{P_A}}$. 
  Hence, using again the sum of geometric series,
 \begin{align*}
 \sum_{i=0}^t \E[ \norm{e_i}^2 ] 
 & \le
-\frac{ 2 \alpha^2{\sigma}_1^2}{\alpha \rhos{P}}\,(t+1) +
- 2 \norm{e_0}^2 \sum_{i=0}^t(1-\alpha\rhos{P})^i  
+\frac{ 2 \alpha^2{\sigma}_1^2}{\alpha \rhos{P_A}}\,(t+1) +
+ 2 \norm{e_0}^2 \sum_{i=0}^t(1-\alpha\rhos{P_A})^i  
  \le
-\frac{ 2 \alpha^2 {\sigma}_1^2}{\alpha \rhos{P}}\,(t+1) +
- \frac{2 \norm{e_0}^2}{\alpha\rhos{P}} \,.
+\frac{ 2 \alpha^2 {\sigma}_1^2}{\alpha \rhos{P_A}}\,(t+1) +
+ \frac{2 \norm{e_0}^2}{\alpha\rhos{P_A}} \,.
 \end{align*}
 Putting things together,
 \begin{align*}
 \E[\norm{\eh_t}^2]
-\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
+\leq \left(1+\frac4{\alpha\rhod{P_A}}\right)\, \frac2{\alpha\rhos{P_A}}\, \,
 %\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
 \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
 \end{align*}
 \end{proof}
 
+\subsection{The case of Hurwitz $A$}
+To prove \cref{th:rate} we first show the existence of a nonsingular matrix $U\in \R^{d\times d}$ and a constant
+$\alpha_{P_U}$ which depends only on the distribution $P_U$ of $U^{-1} A_t U$ such that for all $\alpha\in (0,\alpha_{P_U})$, $\alpha \rhos{P_U}>0$. This will be used together with a change of basis to finish the proof.
 
+We start with a lemma that shows that if $A+A^\top$ is PD then $U=I$ works with a suitable constant $\alpha_P>0$:
 \begin{lemma}\label{lm:pd}
-Under \Cref{assmp:lsacmplx} there exists an $\alpha_P>0$ such that $\rhod{P}>0$ and $\rhos{P}>0,~\forall \alpha \in (0,\alpha_P)$.
+Assume that $A+A^\top$ is PD. Then there exists a constant $\alpha_P>0$ such that  $\rhos{P_A}>0$ 
+holds for all $\alpha \in (0,\alpha_P)$.
 \end{lemma}
 \begin{proof}
+We compute
 \begin{align*}
-\rhos{P}&\stackrel{(a)}{=}\inf_{x:\norm{x}=1}x^\top (A_P^\top+A_P)x -\alpha x^\top\EE{A_t^\top A_t} x\\
-&\stackrel{(b)}{=}\inf_{x:\norm{x}=1}x^\top (A_P^\top+A_P)x -\alpha x^\top A^\top_P A_P -\alpha x^\top \EE{M_t^\top M_t} x\\
-&\stackrel{(c)}{\geq} \lambda_{\min}(A^\top_P+A_P)-\alpha \norm{A_P}^2-\sigma^2_A
+\rhos{P_A}&=\inf_{x:\norm{x}=1}x^\top (A^\top+A)x -\alpha x^\top\EE{A_t^\top A_t} x
+	& (\text{by \cref{def:spect}}) \\
+&=\inf_{x:\norm{x}=1}x^\top (A^\top+A)x -\alpha x^\top A^\top A\, x -\alpha x^\top \EE{M_t^\top M_t} x
+	& (\text{using }A_t = A+M_t, \EE{M_t}=0) \\
+&\geq \lambda_{\min}(A^\top+A)-\alpha( \norm{A}^2+ \sigma^2_{A_P})\,,
 \end{align*}
-The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^\top_P+A_P)}{\norm{A_P}^2+\sigma^2_A}$. Above $(a)$ follows from definition of $\rhos{P}$ in \cref{def:spect}, $(b)$ follows from the fact that $M_t$ is a martingale difference term and $(c)$ follows from definitions of norms, properties of norms and the fact that for a real symmetric matrix $M$ the smallest eigenvalue is given by $\lambda_{\min}=\inf_{x:\norm{x}=1} x^\top M x $.
+where the last inequality follows from optimizing $x$ separately for all the three term,
+$\lmin{M} = \inf_{x:\norm{x}=1} x^\top M x$ which holds for any real symmetric matrix $M$,
+the definition of the spectral norm and 
+ that $\sup_{x:\norm{x}=1} x^\top \EE{M_t^\top M_t} x
+\le \EE{ \sup_{x:\norm{x}=1} x^\top M_t^\top M_t x} = \EE{\sup_{x:\norm{x}=1} \norm{M_t x}^2 }
+=\EE{ \norm{M_t}^2 } \le \sigma^2_{A_P}$.
+The proof is complete by choosing $\alpha_P=\frac{\lambda_{\min}(A^\top+A)}{\norm{A}^2+\sigma^2_A}$
+and noting that $\alpha_P$ is positive because by assumption $\lambda_{\min}(A^\top+A)>0$.
 \end{proof}
 
-
-
-
-
-%\lmhur*
-\todoc[inline]{Lemma text here.. got replaced.. work in progress..}
-\begin{comment}
-\begin{proof}
-We know that $A_P$ is Hurwitz and from  \Cref{lm:simtran} it follows that there exists an $U\in \gld$ such that  $\Lambda=U^{-1} A_P U$ and $(\Lambda^\top+\Lambda)$ is real symmetric and positive definite. Using \Cref{def:spect}, we have $A_{P_U}=\Lambda$ and from \Cref{lm:pd} we know that there exists an $\alpha_{P_U}$ such that $\rhod{P_U}>0$ and $\rhos{P_U}>0,~\forall \alpha \in (0,\alpha_{P_U})$.
-
-\end{proof}
-
-
-
-\begin{lemma}[Change of Basis]\label{lm:cb}
-Let $P$ be a distribution over $\R^{\dcd}\times\R^d$ as in \Cref{assmp:lsa} and let $U$ be chosen according to \Cref{lm:hur}. Define $\gamma_t\eqdef U^{-1}\theta_t,\,,\gamma_*\eqdef U^{-1}\ts$, then
+Now assume that $A$ is Hurwitz. By \cref{lm:simtran} there exists a nonsingular matrix $U\in \R^{\dcd}$ such that
+$B = U^{-1} A U$ is so that $B+B^\top$ is PD. 
+Choose a matrix $U$ with this properties. 
+Let $B_t = U^{-1} A_t U$ and let $P_U$ be the distribution of $B_t$. 
+Note that $\EE{B_t} = B$.
+Premultiplying both equations in \eqref{eq:lsa} by $U^{-1}$, we get
+\begin{subequations}\label{eq:lsa2}
 \begin{align}
-\EE{\norm{\gamma_t-\gamma_*}^2}
-\leq
-\left(1+\frac2{\alpha\rhod{P_U}}\right)\frac{\norm{U^{-1}}^2}{\alpha \rhos{P_U}}
-\left(\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{\theta_0-\ts}}{t+1} \right)\,.
-%\left(\frac{\norm{\gamma_0-\gamma_*}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2+\alpha \norm{\gamma_0-\gamma_*})}{t+1} \right)\,,
+\label{conststep2}&\text{LSA:} &U^{-1} \theta_t&=U^{-1} \theta_{t-1}+\alpha(U^{-1} b_t-B_t U^{-1} \theta_{t-1})\,,\\
+\label{iteravg2}&\text{Average:} &U^{-1} \thh_t&=\frac{1}{t+1}{\sum}_{s=0}^{t}\,U^{-1} \theta_s\,.
 \end{align}
-where $\gh_t=\frac{1}{t+1}\sum_{s=0}^t \gamma_s$.
-\end{lemma}
-\begin{proof}
-Consider the modified error recursion in terms of $z_t\eqdef \gamma_t-\gamma_*$
-\begin{align}\label{eq:newerrrec}
-\begin{split}
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t\\
-U^{-1}e_t&=(I-\alpha U^{-1}A_t U) U^{-1}e_{t-1}+ \alpha U^{-1}\zeta_t\\
-z_t&=(I-\alpha \Lambda_t) z_{t-1}+\alpha H_t,
-\end{split}
-\end{align}
-where  $\Lambda_t=U^{-1}A_t U$ and $H_t=U^{-1}\zeta_t$. Note that the error recursion in $z_t$ might involve complex computations (depending on whether $U$ has complex entries or not), and hence \eqref{eq:lsacmplx} and \Cref{assmp:lsacmplx} are useful in analyzing $z_t$.
-We know that $\EE{\norm{H_t}^2}\leq \norm{U^{-1}}^2\EE{\norm{\zeta_t}}$ and $\EE{\norm{\Lambda_t H_t}}=\EE{\norm{U^{-1}A_t UU^{-1}\zeta_t}}=\EE{\norm{U^{-1}A_t \zeta_t}}\leq \norm{U^{-1}}\EE{\norm{A_t\zeta_t}}=\norm{U^{-1}}\sigma_2^2$. Now applying \Cref{th:pdrate} to $\hat{z}_t\eqdef \frac{1}{t+1}\sum_{s=0}^t z_t$, we have
-\begin{align}
-\E[\norm{\zh_t}^2]
-&\leq \left(1+\frac2{\alpha\rhod{P_U}}\right)\, \frac1{\alpha\rhos{P_U}}\, \,
-\left(\frac{\norm{z_0}^2}{(t+1)^2}+ \frac{\alpha^2(\norm{U^{-1}}^2\sigma_1^2)+\alpha (\norm{U^{-1}}\sigma_2^2)\norm{z_0}}{t+1} \right)\,\\
-&\leq \left(1+\frac2{\alpha\rhod{P_U}}\right)\, \frac1{\alpha\rhos{P_U}}\, \,
-\left(\frac{\norm{U^{-1}}^2\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\norm{U^{-1}}^2\sigma_1^2)+\alpha (\norm{U^{-1}}\sigma_2^2)\norm{U^{-1}}\norm{e_0}}{t+1} \right)\,
-\end{align}
+\end{subequations}
+Defining $\gamma_t = U^{-1} \theta_t$ and $\hat \gamma_t = U^{-1}\thh_t$, we see that
+\begin{align*}
+\gamma_t =\gamma_{t-1}+\alpha(U^{-1} b_t-B_t \gamma_{t-1})\,, \qquad\qquad
+\hat \gamma_t =\frac{1}{t+1}{\sum}_{s=0}^{t}\,\gamma_s \,,
+\end{align*}
+which is a CALSA update applied to the data $\{(B_t,U^{-1} b_t)\}_{t\ge 1}$. 
+Since $B+B^\top$ is PD,
+by \cref{lm:pd} there exist a constant $\alpha_{P_U}>0$ such that for any $\alpha\in (0,\alpha_{P_U})$,
+$\rhos{P_U}>0$. Take any such $\alpha$.
 
-\end{proof}
-\end{comment}
-
+Defining $\gamma_* = U^{-1} \ts$, we see that $B \gamma^* = U^{-1} b$.
+Let $z_t = \gamma_t - \gamma_*$ and $\hat z_t = \hat\gamma_t - \gamma_*$.
+Note that $\EE{ \norm{ U^{-1} (b_t - b) }^2 } \le \norm{U^{-1}}^2 \sigma_{b_P}^2$
+and $\EE{\norm{ U^{-1} (A_t-A) U }^2 } \le \norm{U^{-1}}^2 \norm{U}^2 \sigma_{A_P}^2 = \cond{U}^2 \sigma^2_{A_P}$.
+Define $\sigma_z^2 $
+to be an upper bound on $\EE{ \norm{U^{-1} (b_t-b) + (B_t-B) \gamma_* }^2 }$.
+Note that $U^{-1} (b_t-b) + (B_t-B) \gamma_* = 
+U^{-1} \left\{(b_t-b) +(A_t-A) \ts\right\}$, hence, 
+we can choose $\sigma_z^2 = \norm{U^{-1}}^2 \sigma_1^2$, where $\sigma_1^2$ is an upper bound on
+$\EE{ \norm{ (b_t-b) +(A_t-A) \ts }^2 }$.
+Since $\rhos{P_U}>0$, by \cref{th:pdrate} it holds that
+\begin{align*}
+\E[\norm{\hat z_t}^2]
+\leq 
+\left(1+\frac4{\alpha\rhod{P_U}}\right)\, \frac2{\alpha\rhos{P_U}}\, \,
+\left(\frac{\norm{z_0}^2}{(t+1)^2}+ \frac{\alpha^2 \,\sigma_z^2}{t+1} \right)\,.
+\end{align*}
+Finally,
+\begin{align*}
+\E[ \norm{\eh_t}^2 ] = \E[ \norm{ U \hat z_t}^2 ] \le \norm{U}^2 \E[ \norm{\hat z_t}^2 ]\,,
+\qquad
+\text{and}
+\qquad
+\norm{z_0}^2 \le \norm{U^{-1}}^2 \norm{e_0}^2\,,
+\end{align*}
+Putting things together we get 
+\begin{align*}
+\E[ \norm{\eh_t}^2 ] \le
+\cond{U}^2 
+\left(1+\frac4{\alpha\rhod{P_U}}\right)\, \frac2{\alpha\rhos{P_U}}\, \,
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2 \,\sigma_1^2}{t+1} \right)\,,
+\end{align*}
+which gives the desired result:
 
 \thrate*
-\begin{proof}
-Let $U$ be the symmetric matrix from \label{sec:hurpd}. Define $\gamma\eqdef U^{-1}\theta$ (and similarly quantities $\hat{\gamma},\gamma_*$)and use \Cref{th:pdrate} to bound $\EE{\norm{\hat{\gamma}_t-\gamma_*}^2}$ (note that the variance in the \Cref{th:pdrate} should be appropriately scaled by $\norm{U^{-1}}^2$). The result follows by recovering $\EE{\norm{\thh_t-\ts}^2}\leq \norm{U}^2\norm{U^{-1}}^2 \EE{\norm{\hat{\gamma}_t-\gamma_*}^2}$
-\end{proof}
+
 \begin{comment}
 \begin{theorem}[Lower Bound]
-There exists a distribution $P$ over $\R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that $\alpha_P>0$, such that $\rhos{P}>0$ and $\rhod{P}>0,\,\forall \alpha\in (0,\alpha_P)$ and
+There exists a distribution $P$ over $\R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that $\alpha_P>0$, such that $\rhos{P_A}>0$ and $\rhod{P_A}>0,\,\forall \alpha\in (0,\alpha_P)$ and
 \begin{align*}
-\EE{\norm{\thh_t-\ts}^2} &\geq \frac{1}{(t+1)^2}(\alpha)^{-2}(\rhod{P}\rhos{P})^{-1}\Big( \big(1-(1-\alpha \rhos{P})^t\big) \norm{\theta_0-\ts}^2 \\&+ \sum_{s=1}^t \big(1-(1-\alpha \rhos{P})^{(t-s)}\big) \big(\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}\big) \Big)
+\EE{\norm{\thh_t-\ts}^2} &\geq \frac{1}{(t+1)^2}(\alpha)^{-2}(\rhod{P_A}\rhos{P_A})^{-1}\Big( \big(1-(1-\alpha \rhos{P_A})^t\big) \norm{\theta_0-\ts}^2 \\&+ \sum_{s=1}^t \big(1-(1-\alpha \rhos{P_A})^{(t-s)}\big) \big(\alpha^2(\sigma_A^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_A^2\norm{\ts})\norm{\theta_0-\ts}\big) \Big)
 \end{align*}
 \end{theorem}
 \end{comment}
@@ -414,10 +439,10 @@ the two components, $\eh_{t,1}$ and $\eh_{t,2}$ of the vector $\eh_t$ are calcul
 					+ \frac{1}{t+1} \sum_{s=1}^t (1-(1-\alpha \lambda_1)^{t+1-s}) N_s\,,\\
 \eh_{t,2} & =  \frac{1}{t+1} \frac{1-(1-\alpha \lambda_2)^{t+1}}{ \alpha \lambda_2} e_{0,2}\,.
 \end{align*}
-Now, choosing $U=I$, $\rhos{P_U} = \rhos{P} = \min( \lambda_1(2-\alpha \lambda_1), \lambda_2 (2-\alpha \lambda_2) )$ which is positive as long as $0<\alpha \lambda_2<2$ (which, in this case, also happens to be the necessary condition for the errors to decay).
+Now, choosing $U=I$, $\rhos{P_U} = \rhos{P_A} = \min( \lambda_1(2-\alpha \lambda_1), \lambda_2 (2-\alpha \lambda_2) )$ which is positive as long as $0<\alpha \lambda_2<2$ (which, in this case, also happens to be the necessary condition for the errors to decay).
 Setting $\lambda \defeq \lambda_1=\lambda_2$,
 $\alpha_P = 1/\lambda$ we see that 
-$\rhos{P}=\rhod{P} = \lambda(2-\alpha \lambda)$ (the reason for choosing $\alpha_P$ this way will become clear later). \todoc{The claim that for $\lambda_1<\lambda_2$, $\rhos{P} = \lambda_1(2-\alpha \lambda_1)$ was false.}
+$\rhos{P_A}=\rhod{P_A} = \lambda(2-\alpha \lambda)$ (the reason for choosing $\alpha_P$ this way will become clear later). \todoc{The claim that for $\lambda_1<\lambda_2$, $\rhos{P_A} = \lambda_1(2-\alpha \lambda_1)$ was false.}
 Thanks to $\EE{N_s}=0$,
 \begin{align*}
 \EE{\eh^2_{t,1}} =
@@ -429,22 +454,22 @@ while
 \EE{\eh^2_{t,2}} = \eh^2_{t,2} = 
 \frac{1}{(t+1)^2} \left(\frac{1-(1-\alpha \lambda)^{t+1}}{ \alpha \lambda}\right)^2 e_{0,2}^2\,.
 \end{align*}
-For $0<\alpha<\alpha_P$, $\alpha\lambda \le \alpha \rhos{P} \le 2\alpha \lambda$, hence 
+For $0<\alpha<\alpha_P$, $\alpha\lambda \le \alpha \rhos{P_A} \le 2\alpha \lambda$, hence 
 \begin{align*}
-1-(1-\alpha \lambda)^i &\ge 1-\left(1-\tfrac12 \alpha \rhos{P}\right)^i\,, \quad \alpha \in (0,\alpha_P), \,\, i \ge 0\,\\
-(\alpha \lambda)^{-1} &\ge  (\alpha \rhos{P})^{-1}\,.
+1-(1-\alpha \lambda)^i &\ge 1-\left(1-\tfrac12 \alpha \rhos{P_A}\right)^i\,, \quad \alpha \in (0,\alpha_P), \,\, i \ge 0\,\\
+(\alpha \lambda)^{-1} &\ge  (\alpha \rhos{P_A})^{-1}\,.
 \end{align*}
-Thus, defining $\beta_i = 1-\left(1-\tfrac12 \alpha \rhos{P}\right)^i$,
+Thus, defining $\beta_i = 1-\left(1-\tfrac12 \alpha \rhos{P_A}\right)^i$,
 \begin{align*}
 \EE{ \norm{\eh_t}^2 } 
 & = \EE{\eh^2_{t,1}} + \EE{\eh^2_{t,2}} 
    \ge \frac{1}{(t+1)^2} 
-   \left(\frac{\beta_{t+1}}{ \alpha \rhos{P}}\right)^2 \norm{e_0}^2
+   \left(\frac{\beta_{t+1}}{ \alpha \rhos{P_A}}\right)^2 \norm{e_0}^2
    +
     \frac{ \sigma^2 \sum_{s=1}^t \beta_{s}^2 }{(t+1)^2}\,,
 \end{align*}
 finishing the proof.
-%Here $(a)$ and $(b)$ follows from the \iid assumption. Note that in this example, $\rhos{P}=\rhod{P}=2\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(2-\alpha \lambda_{\min})$, and $\norm{\ts}=0$ and $\sigma^2_A=0$. Further, the result follows by noting the fact that  $\norm{b_t}^2=b_t(1)^2$ and $\norm{\theta_t}^2=\theta_t(1)^2$.
+%Here $(a)$ and $(b)$ follows from the \iid assumption. Note that in this example, $\rhos{P_A}=\rhod{P_A}=2\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(2-\alpha \lambda_{\min})$, and $\norm{\ts}=0$ and $\sigma^2_A=0$. Further, the result follows by noting the fact that  $\norm{b_t}^2=b_t(1)^2$ and $\norm{\theta_t}^2=\theta_t(1)^2$.
 %\begin{align}
 %\EE{\norm{\eh_t}^2}\geq \frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
 %\end{align}
@@ -623,7 +648,7 @@ Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follo
 
 \thtdadmis*
 \begin{proof}
-We need to show for the said values of $\alpha$ it holds that $\rhos{P}>0$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
+We need to show for the said values of $\alpha$ it holds that $\rhos{P_A}>0$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
 
 \textbf{$(i)$}   We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, 
 \begin{align*}
