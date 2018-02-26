@@ -56,11 +56,12 @@ In this section we consider \Cref{th:pdrate} when $A=A_P$ is such that its symme
 Following the suggestion in the main body of the paper, the general case will be reduced to this case by using 
 \cref{lm:simtran}.
 
+Let $b = b_P$.
 Recall that 
 \begin{align*}
 e_t =  \theta_t-\ts\,, \qquad 
 \eh_t = \thh_t-\ts\,, \qquad  \text{and} \qquad 
-\zeta_t = b_t-b-(A_t-A_P)\ts\,.
+\zeta_t = b_t-b-(A_t-A)\ts\,.
 \end{align*}
 Further, introduce
 \begin{align*}
@@ -70,17 +71,254 @@ F_{i,j} & =
  I\,, & \text{otherwise}\,,
 \end{cases}
 \end{align*}
-and define $\sigma_1^2 \eqdef \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,$, then it follows that $\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$.
+and define $\sigma_1^2 \eqdef \sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2\,$ so that 
+$\EE{\normsm{\zeta_t}^2}\leq \sigma_1^2$.
 
-\paragraph{Error Recursion} Let us now look at the dynamics of the error terms defined by
-\begin{align}\label{eq:errrec}
-\begin{split}
-\theta_t&=\theta_{t-1}+\alpha\big(b_t-A_t\theta_{t-1}\big), \text{subtract $\ts$ from both sides})\\
-\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\big(b_t-A_t(\theta_{t-1}-\ts+\ts)\big), \text{using definition of $e_t$}\\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha(b_t -b -(A_t-A)\ts), \text{using definition of $\zeta_t$}\\
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha\zeta_t
-\end{split}
+\paragraph{Error Recursion}
+Recall that 
+$\theta_t=\theta_{t-1}+\alpha\big(b_t-A_t\theta_{t-1}\big)$.
+Subtracting $\ts$ from both sides, we get
+\begin{align*}
+\theta_t-\ts&=\theta_{t-1}-\ts+\alpha\big(b_t-A_t(\theta_{t-1}-\ts+\ts)\big)\,,
+\end{align*}
+and substituting $e_t$ and using $A\ts-b=0$ we get
+\begin{align*}
+e_t 
+	&= (I-\alpha A_t) e_{t-1} + \alpha (b_t - A_t \ts ) 
+	   = (I-\alpha A_t) e_{t-1} + \alpha (b_t-b - (A_t-A) \ts ) \\
+	 &= (I-\alpha A_t) e_{t-1} + \alpha \zeta_t\,.
+	   \label{eq:errrec} \numberthis
+\end{align*}
+Unrolling this for $t-1,t-2,\dots,1$, we get
+\begin{align}
+e_t
+%&={\prod_{s=1}^t \! (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\! \left\{\prod_{s=i+1}^t \!(I-\alpha A_s)\!\right\}\!\zeta_i}\\
+&=F_{t,1} e_0+\alpha\, \sum_{i=1}^t F_{t,i+1} \zeta_i\,,
+ \label{eq:etft}
 \end{align}
+which matches \eqref{eq:errrecmain}.
+Now, $\eh_t = \frac{1}{t+1} \sum_{i=0}^t e_i$ and hence
+\begin{align}
+\EE{\normsm{\eh_t}^2} = \frac{1}{(t+1)^2} \sum_{i,j=0}^t \EE{ \ip{e_i,e_j} }\,.
+\label{eq:ehtexp}
+\end{align}
+To bound the terms $\EE{ \ip{e_i,e_j} }$ the following lemma that 
+uses the martingale structure of the noise will be useful:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}
+  \label{lem:mart}
+  The following hold:
+  \begin{enumerate}[label=(\emph{\roman*})]
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item \label{lem:mart:genunroll}
+    Let $1\le i<t$ and let $x,y\in \R^d$ be $\F_{i}$-measurable random vectors. Then,
+    \begin{align*}
+    \E[x^\top F_{t,i+1}y|\F_i]=x^\top (I-\alpha A)^{t-i} y\,.
+    \end{align*}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item \label{lem:mart:noisecancel}
+    Let $1\le i <t$  and let $x\in \R^d$ be an $\F_{i-1}$-measurable random vector. Then,
+    $\E[x^\top F_{t,i+1}\zeta_{i}]=0$.
+    \item \label{lem:mart:unroll}
+    For all $0\le i < t$, $\E[ \ip{e_i,F_{t,i+1} e_i}]=\E[\ip{e_i,(I-\alpha A)^{t-i} e_i}]$.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item \label{lem:mart:innerproduct}
+    Let $0\le j <i$ and let $x\in \R^d$ be an $\F_j$-measurable random vector.
+    Then,
+    \begin{align*}
+    \E[\ip{F_{i,j+1}x,F_{i,j+1}x}]\leq (1-\alpha \rhos{P})^{i-j}\,\E\norm{x}^2\,.
+    \end{align*}
+  \end{enumerate}
+\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We start by noting that for arbitrary $t,i$, $F_{t,i}$ is $\cF_t$-measurable. Indeed, this holds
+because $F_{t,i}$ is a function of $\{A_s\}_{\min(t,i)\le s \le t}$ only.
+
+\noindent \textbf{Part \ref{lem:mart:genunroll}:}
+By definition $F_{t,i+1} = (I-\alpha A_t) F_{t-1,i+1}$.
+By our note above, $F_{t-1,i+1}$ is $\F_{t-1}$-measurable.
+Since $x$ and $y$ are also $\F_{t-1}$-measurable, we get 
+\begin{align*}
+\EE{x^\top F_{t,i+1} y | \F_{t-1} } &= x^\top \EE{ (I-\alpha A_t) | \F_{t-1} } F_{t-1,i+1} y=x^\top  (I-\alpha A)  F_{t-1,i+1} y\,.
+\end{align*}
+If $t-1=i$, the proof is done. When $t-1\ge i+1$,
+by the tower-rule for conditional expectations and our measurability assumptions,
+\begin{align*}
+\EE{x^\top F_{t,i+1} y | \F_{t-2} }=x^\top  (I-\alpha A)  \EE{F_{t-1,i+1} |\F_{t-2}} y= x^\top (I-\alpha A)^2 F_{t-2,i+1} y\,.
+\end{align*}
+Continuing this way we get
+\begin{align*}
+\EE{x^\top F_{t,i+1} y | \F_{t-j} }
+= x^\top (I-\alpha A)^j F_{t-j,i+1} y\,, \quad j=1,2,\dots,t-i\,.
+\end{align*}
+Specifically, for $j=t-i$ we get
+\begin{align*}
+\EE{x^\top F_{t,i+1} y | \F_{i} }  = x^\top (I-\alpha A)^{t-i} y\,.
+\end{align*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{Part \ref{lem:mart:noisecancel}:}
+By part \ref{lem:mart:genunroll},
+\begin{align*}
+\EE{x^\top F_{t,i+1} \zeta_i | \F_{i} }  = x^\top (I-\alpha A)^{t-i} \zeta_i\,.
+\end{align*}
+Using the tower rule,
+\begin{align*}
+\EE{x^\top F_{t,i+1} \zeta_i | \F_{i-1} }
+= x^\top (I-\alpha A)^{t-i}\EE{ \zeta_i | \F_{i-1} }= 0\,.
+\end{align*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{Part \ref{lem:mart:unroll}}:
+The result follows directly from part~\ref{lem:mart:genunroll}. Indeed,
+$\theta_i$ depends only on $A_1,\dots,A_{i},b_1,\dots,b_{i}$ and so  $e_i$ is $\F_i$-measurable.
+Hence, by part~\ref{lem:mart:genunroll},
+\begin{align*}
+\EE{ \ip{e_i, F_{t,i+1} e_i} | \F_i } =
+\EE{ \ip{e_i, (I-\alpha A)^{t-i} e_i} | \F_i }\,.
+\end{align*}
+Taking expectation of both sides gives the desired result.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent \textbf{Part \ref{lem:mart:innerproduct}}:
+Note that
+$S_t\doteq \EE{ (I-\alpha A_t)^\top (I-\alpha A_t) | \F_{t-1} }
+= I - \alpha (A^\top + A) + \alpha^2 \EE{ A_t^\top A_t | \F_{t-1} }$.
+Since $\{(A_t,b_t)\}_{t\ge 1}$ is an independent sequence, $\EE{ A_t^\top A_t|\F_{t-1}} = \EE{ A_1^\top A_1 }$.
+Now, using the definition of $\rhos{P}$ from \Cref{def:spect}
+$\sup_{x:\norm{x}= 1} x^\top S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A^\top + A - \alpha \EE{A_1^\top A_1}) x
+= 1-\alpha \rhos{P}$.
+Hence,
+\begin{align*}
+\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }
+&= \EE{x^\top F_{i-1,j+1}^\top (I-\alpha A_i)^\top (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
+&=(x F_{i-1,j+1})^\top \, S_i \, F_{i-1,j+1} x\\
+&\le (1-\alpha \rhos{P}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}
+\end{align*}
+When $i=j-1$, $F_{i-1,j+1}=I$ and the proof is done by taking expectations of both sides.
+Otherwise, $i>j-1$ and repeating the same calculation as above
+and using the tower rule for conditional expectations we get
+\begin{align*}
+\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-2}}
+&=
+\EE{\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }|\F_{i-2}}\\
+& \le (1-\alpha \rhos{P}) \, \EE{\ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}|\F_{i-2}} \\
+& \le (1-\alpha \rhos{P})^2\, \ip{ F_{i-2,j+1} x, F_{i-2,j+1} x}\,.
+\end{align*}
+If $i=j-2$, $F_{i-2,j+1}=I$ and taking expectations of both sides the proof is finished.
+Continuing the same way we get
+\begin{align*}
+\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{j}}
+%&= \EE{\EE{ \ip{F_{i,j+1}x,F_{i,j+1}x} |\F_{j+1}}|\F_{j}} 
+%& \le (1-\alpha \rhos{P})^{j-i-1} \ip{ F_{i+1-j,j+1} x, F_{i+1-j,j+1} x}
+& \le (1-\alpha \rhos{P})^{j-i} \norm{x}^2\,.
+\end{align*}
+Taking expectations of both sides finishes the proof.
+\end{proof}
+
+Returning to bounding $\E[ \normsm{\eh_t}^2 ]$ based on \eqref{eq:ehtexp}.
+We now show that the contribution of the ``cross-terms'', $\sum_{i=0}^t \sum_{j=i+1}^t \EE{ \ip{e_i,e_j} }$, 
+on the right-hand side of \eqref{eq:ehtexp}
+is proportional to the contribution of the ``diagonal terms'', $\sum_{i=0}^t \EE{ \ip{e_i,e_i} }$.
+For the bound, recall that $\rhod{P} = \lmin{ A + A^\top - \alpha A^\top A }$.
+\begin{lemma}
+\label{lem:crosstermbound}
+Assume that $\rhod{P}\ge 0$. Then it holds that
+\begin{align*}
+\sum_{i=0}^{t-1}\sum_{j=i+1}^t {\EE{\ip{e_i,e_j}}} \le
+ \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t} \E[\normsm{e_i}^2 ]\,.
+\end{align*}
+\end{lemma}
+\begin{proof}
+Let $j>i$. Then, 
+\begin{align*}
+\EE{\ip{e_i,e_j}}
+&=\E \ip{e_i, F_{j,i+1} e_i+\alpha\textstyle\sum_{k=i+1}^j F_{j,k+1}\zeta_{k} }\\
+&=\E\ip{e_i,F_{j,i+1} e_i}  &\text{(from \cref{lem:mart}\ref{lem:mart:noisecancel})}\\
+&=\E\ip{e_i, (I-\alpha A)^{j-i} e_i}\,. & \text{(from \cref{lem:mart}\ref{lem:mart:unroll})}
+\end{align*}
+Now, from the definition of spectral norms, $\ip{e_i, (I-\alpha A)^{j-i} e_i } \le \norm{e_i}^2 \norm{(I-\alpha A)^{j-i}}
+\le \norm{e_i}^2 \norm{ I-\alpha A }^{j-i}$.
+By definition, $\rhod{P} = \lmin{ A + A^\top - \alpha A^\top A }$.
+Using this, and the definition of spectral norms,
+\begin{align*}
+\norm{I-\alpha A}^2 = \sup_{x:\norm{x}=1} \norm{ (I-\alpha A) x }^2 = \sup_{x:\norm{x}=1} x^\top (I-\alpha A)^\top (I-\alpha A) x = 1- \alpha \rhod{P}\,.
+\end{align*}
+Note that $1-\alpha \rhod{P}\ge 0$ as the left-hand side of the above equality is obviously nonnegative.
+Now, by the elementary inequality $\sqrt{1-x} \le 1- \frac{x}{2}$ which holds as long as $1-x\ge 0$,
+$\norm{I-\alpha A} \le 1- \frac{\alpha \rhod{P}}{2}$. Putting things together,
+\begin{align*}
+\ip{e_i, (I-\alpha A)^{j-i} e_i } \le \left(1- \tfrac{\alpha \rhod{P}}{2} \right)^{j-i} \norm{e_i}^2 \,.
+\end{align*}
+Thus, using $\sum_{i=1}^\infty \gamma^i 
+= \gamma/(1-\gamma) \le 1/(1-\gamma)$ which holds for any $\gamma\in (0,1)$
+and since by assumption $\rhod{P}\ge 0$,
+\begin{align*}
+\label{inter}
+\MoveEqLeft 
+\sum_{i=0}^{t-1}\sum_{j=i+1}^t {\EE{\ip{e_i,e_j}}}
+=\sum_{i=0}^{t-1}\sum_{j=i+1}^t \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \E[\norm{e_i}^2]
+\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \sum_{j=i+1}^\infty \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \\
+&\leq \sum_{i=0}^{t-1} \E[\norm{e_i}^2] \frac{2}{\alpha \rhod{P}}
+=\frac2{\alpha\rhod{P}} {\sum}_{i=0}^{t-1}\E[\normsm{e_i}^2]
+\leq \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t}\E[\normsm{e_i}^2]\,,
+\end{align*}
+finishing the proof.
+\end{proof}
+
+
+\begin{theorem}\label{th:pdrate}
+Assume that $\rhos{P}\ge 0$. Then,
+\begin{align}
+%\EE{\norm{\eh_t}^2}
+%\leq
+%\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
+\E[\norm{\eh_t}^2]
+\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
+%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
+\end{align}
+\end{theorem}
+\begin{proof}
+As it was noted earlier, $\rhod{P}\ge \rhos{P}$. Hence, it follows that $\rhod{P}\ge 0$ holds, too
+and we can use  \cref{lem:crosstermbound}.
+Combining \eqref{eq:ehtexp} and \cref{lem:crosstermbound} we get
+\begin{align*}
+\EE{\normsm{\eh_t}^2} \le  
+\left( 1+\frac4{\alpha\rhod{P}} \right)\,
+\frac{1}{(t+1)^2} \, \sum_{i=0}^{t}\E[\normsm{e_i}^2]\,.
+\end{align*}
+Expanding $\norm{e_i}^2$ using \eqref{eq:etft},
+using $(a+b)^2\leq 2 a^2+2 b^2$ which holds for any $a,b\in \R$,
+\begin{align*}
+\E[\normsm{e_i}^2]
+&\le  2 \EE{\ip{F_{i,1}e_0,F_{i,1}e_0}}+2 \alpha^2\sum_{j=1}^i\EE{\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}}\\
+& \le 2 (1-\alpha\rhos{P})^i\norm{e_0}^2+ 2 \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}\,,
+\end{align*}
+where the second inequality follows from 
+ \cref{lem:mart}\ref{lem:mart:innerproduct}, $\E[ \normsm{\zeta_j}^2 ] \le \sigma_1^2$
+ and from  $\sum_{j=0}^{i-1} (1-\alpha \rhos{P})^j\leq \frac{1}{\alpha \rhos{P}}$. 
+ Hence, using again the sum of geometric series,
+\begin{align*}
+\sum_{i=0}^t \E[ \norm{e_i}^2 ] 
+& \le
+\frac{ 2 \alpha^2{\sigma}_1^2}{\alpha \rhos{P}}\,(t+1) +
+ 2 \norm{e_0}^2 \sum_{i=0}^t(1-\alpha\rhos{P})^i  
+ \le
+\frac{ 2 \alpha^2 {\sigma}_1^2}{\alpha \rhos{P}}\,(t+1) +
+ \frac{2 \norm{e_0}^2}{\alpha\rhos{P}} \,.
+\end{align*}
+Putting things together,
+\begin{align*}
+\E[\norm{\eh_t}^2]
+\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
+%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
+\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
+\end{align*}
+\end{proof}
+
 
 \begin{lemma}\label{lm:pd}
 Under \Cref{assmp:lsacmplx} there exists an $\alpha_P>0$ such that $\rhod{P}>0$ and $\rhos{P}>0,~\forall \alpha \in (0,\alpha_P)$.
@@ -96,180 +334,6 @@ The proof is complete by choosing $\alpha_P<\frac{\lambda_{\min}(A^\top_P+A_P)}{
 
 
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{lemma}[Product unroll lemma]\label{lem:genunroll}
-Let $t>i\ge 1$, $x,y\in \C^d$ be $\F_{i}$-measurable random vectors. Then,
-\begin{align*}
-\E[x^\top F_{t,i+1}y|\F_i]=x^\top (I-\alpha A_P)^{t-i} y\,.
-\end{align*}
-\end{lemma}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{proof}
-By the definition of $F_{t,i+1}$,
-and because $F_{t-1,i+1} = (I-\alpha A_{t-1}) \dots (I-\alpha A_{i+1})$ is $\F_{t-1}$-measurable,
-as are $x$ and $y$,
-\begin{align*}
-\EE{x^\top F_{t,i+1} y | \F_{t-1} } &= x^\top \EE{ (I-\alpha A_t) | \F_{t-1} } F_{t-1,i+1} y=x^\top  (I-\alpha A_P)  F_{t-1,i+1} y\,.
-\end{align*}
-By the tower-rule for conditional expectations and our measurability assumptions,
-\begin{align*}
-\EE{x^\top F_{t,i+1} y | \F_{t-2} }=x^\top  (I-\alpha A_P)  \EE{F_{t-1,i+1} |\F_{t-2}} y= x^\top (I-\alpha A_P)^2 F_{t-2,i+1} y\,.
-\end{align*}
-Continuing this way we get
-\begin{align*}
-\EE{x^\top F_{t,i+1} y | \F_{t-j} }
-= x^\top (I-\alpha A_P)^j F_{t-j,i+1} y\,, \quad j=1,2,\dots,t-i\,.
-\end{align*}
-Specifically, for $j=t-i$ we get
-\begin{align*}
-\EE{x^\top F_{t,i+1} y | \F_{i} }  = x^\top (I-\alpha A_P)^{t-i} y\,.
-\end{align*}
-\end{proof}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{lemma}\label{noisecancel}
-Let $t>i\ge 1$ and let $x\in \C^d$ be a $\F_{i-1}$-measurable random vector. Then,
-$\E[x^\top F_{t,i+1}\zeta_{i}]=0$.
-\end{lemma}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{proof}
-By \Cref{lem:genunroll},
-\begin{align*}
-\EE{x^\top F_{t,i+1} \zeta_i | \F_{i} }  = x^\top (I-\alpha A_P)^{t-i} \zeta_i\,.
-\end{align*}
-Using the tower rule,
-\begin{align*}
-\EE{x^\top F_{t,i+1} \zeta_i | \F_{i-1} }
-= x^\top (I-\alpha A_P)^{t-i}\EE{ \zeta_i | \F_{i-1} }= 0\,.
-\end{align*}
-\end{proof}
-
-\begin{lemma}\label{lem:unroll}
-For all $t>i\ge 0$, $\E \ip{e_i,F_{t,i+1} e_i}=\E\ip{e_i,(I-\alpha A_P)^{t-i} e_i}$.
-\end{lemma}
-\begin{proof}
-The lemma follows directly from \Cref{lem:genunroll}. Indeed,
-$\theta_i$ depends only on $A_1,\dots,A_{i},b_1,\dots,b_{i}$, $\theta_i$ and so is $e_i$ $\F_i$-measurable.
-Hence, the lemma is applicable and implies that
-\begin{align*}
-\EE{ \ip{e_i, F_{t,i+1} e_i} | \F_i } =
-\EE{ \ip{e_i, (I-\alpha A_P)^{t-i} e_i} | \F_i }\,.
-\end{align*}
-Taking expectation of both sides gives the desired result.
-\end{proof}
-
-\begin{lemma}\label{innerproduct}
-Let $i>j \ge 0$ and let $x\in \R^d$ be an $\F_j$-measurable random vector.
-Then,
-\begin{align*}
-\E\ip{F_{i,j+1}x,F_{i,j+1}x}\leq (1-\alpha \rhos{P})^{i-j}\E\norm{x}^2\,.
-\end{align*}
-\end{lemma}
-\begin{proof}
-Note that
-$S_t\doteq \EE{ (I-\alpha A_t)^\top (I-\alpha A_t) | \F_{t-1} }
-= I - \alpha (A_P^\top + A_P) + \alpha^2 \EE{ A_t^\top A_t | \F_{t-1} }$.
-Since $(b_t,A_t)_t$ is an independent sequence, $\EE{ A_t^\top A_t|\F_{t-1}} = \EE{ A_1^\top A_1 }$.
-Now, using the definition of $\rhos{P}$ from \Cref{def:spect}
-$\sup_{x:\norm{x}= 1} x^\top S_t x = 1 - \alpha \inf_{x:\norm{x}=1} x^\top (A_P^\top + A_P - \alpha \EE{A_1^\top A_1}) x
-= 1-\alpha \rhos{P}$.
-Hence,
-\begin{align*}
-&\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} }\\
-&= \EE{x^\top F_{i-1,j+1}^\top (I-\alpha A_i)^\top (I-\alpha A_i) F_{i-1,j+1} x\,|\,\F_{i-1}}\\
-&=(x F_{i-1,j+1})^\top \, S_i \, F_{i-1,j+1} x\\
-&\le (1-\alpha \rhos{P}) \, \ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}
-\end{align*}
-We have $\EE{}=\EE{\cdot|\F_{i-1}|\F_{i-2}}=\ldots=\EE{\cdot|\F_{i-1}\ldots |\F_{j}}$. Now
-\begin{align*}
-&\EE{\ip{F_{i,j+1}x,F_{i,j+1}x}|\F_{i-1} |\F_{i-2}}\\
-&\le (1-\alpha \rhos{P}) \, \EE{\ip{ F_{i-1,j+1} x, F_{i-1,j+1} x}|\F_{i-2}}
-& \le (1-\alpha \rhos{P})^2\, \EE{\ip{ F_{i-2,j+1} x, F_{i-2,j+1} x} |\F_{i-3}}\\
-& \quad \vdots \\
-& \le (1-\alpha \rhos{P})^{i-j}\, \norm{x}^2\,.
-%&= \E[x^\top (I-\alpha H_{j+1})\ldots (I-\alpha H_i)^\top (I-\alpha H_i)\ldots (I-\alpha H_{j+1})x|\F_{i-1}]\\
-%&=(1-\alpha\rhos{P}) \E[x^\top (I-\alpha H_{j+1})\ldots (I-\alpha H_{i-1})^\top (I-\alpha H_{i-1})\ldots (I-\alpha H_{j+1})x]
-\end{align*}
-\end{proof}
-
-
-\begin{theorem}\label{th:pdrate}
-Let $A_P+A_P^\top$ be positive definite, then
-\begin{align}
-%\EE{\norm{\eh_t}^2}
-%\leq
-%\left(1+\frac2{\alpha\rhod{P}}\right)\frac{1}{\alpha \rhos{P}} \left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2{\sigma}_1^2+ {\sigma}_2^2 (\alpha^2\norm{\ts}+\alpha \norm{e_0})}{t+1} \right)\,.
-\E[\norm{\eh_t}^2]
-\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
-%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
-\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
-\end{align}
-\end{theorem}
-\begin{proof}
-By standard calculation using \eqref{eq:errrec} recursively, 
-\begin{align*}
-e_t&=(I-\alpha A_t)e_{t-1}+\alpha \zeta_t\\
-& = (I-\alpha A_t) (I-\alpha A_{t-1}) e_{t-2}\\ &+ \alpha (I-\alpha A_t) \zeta_{t-1} +\alpha \zeta_t \\
-& \quad \vdots\\
-& = (I-\alpha A_t) \cdots (I-\alpha A_1) e_0\\ &+ \alpha (I-\alpha A_t) \cdots (I-\alpha A_2) \zeta_1 \\
-& + \alpha (I-\alpha A_t) \cdots (I-\alpha A_3) \zeta_2\\
-&  \quad \vdots \\
-&+ \alpha \zeta_t\,,
-\end{align*}
-which can be written compactly as
-\begin{align}
-\label{eq:etft}
-e_t = F_{t,1} e_0 + \alpha (F_{t,2} \zeta_1 + \dots + F_{t,t+1} \zeta_t )\,,
-\end{align}
-$\eh_t=\frac{1}{t+1}{\sum}_{i=0}^{t}e_i =\frac{1}{t+1}\Big\{{\sum}_{i=0}^{t} F_{i,1} e_0 + \alpha \sum_{i=1}^{t} \left(\sum_{k=i}^{t} F_{k,i+1} \right)\zeta_i \Big\} ,$
-where in the second sum we flipped the order of sums and swapped the names of the variables that the sum runs over.
-We not expand the MSE as below:
-\begin{align*}
-\E[\norm{\eh_t}^2]&=\E\ip{\eh_t,\eh_t}=\frac{1}{(t+1)^2} \sum_{i,j=0}^t \E\ip{e_i,e_j}= \frac{1}{(t+1)^2}\left(\sum_{i=0}^t \EE{\norm{e_i}^2}+2\sum_{i=0}^{t-1}\sum_{j>i} \re{\EE{\ip{e_i,e_j}}}\right)
-\end{align*}
-Hence, we see that it suffices to bound $\EE{\ip{ e_i,  e_j }}$.
-There are two cases depending on whether $i=j$. When $j> i$,
-\begin{align*}
-\EE{\ip{e_i,e_j}}
-&=\E \ip{e_i,\big[F_{j,i+1} e_i+\alpha\textstyle\sum_{k=i+1}^j F_{j,k+1}\zeta_{k}\big]}\\
-&=\E\ip{e_i,F_{j,i+1} e_i}  \text{(from \Cref{noisecancel})}\\
-&=\E\ip{e_i, (I-\alpha A)^{j-i} e_i} \text{(from \Cref{lem:unroll})}
-\end{align*}
-We now use the fact that for $z\in \C$, $\re{z}\leq \md{z}$ and hence $\re{\EE{\ip{e_i,e_j}}}\leq \md{\EE{\ip{e_i,e_j}}}$. Now,  $\md{\EE{\ip{e_i,e_j}}}\leq \md{\EE{\ip{e_i,(I-\alpha A)^{j-1}e_i}}}$, and from Cauchy-Schwatz we have $\md{\EE{\ip{e_i, (I-\alpha A)^{j-i}e_i}}}\leq \EE{\norm{e_i}^2}(1-\frac{\alpha\rhod{P}}{2})$.
-\begin{align*}
-\label{inter}
-\sum_{i=0}^{t-1}\sum_{j=i+1}^t \md{\EE{\ip{e_i,e_j}}}
-&=\sum_{i=0}^{t-1}\sum_{j=i+1}^t \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \EE{\norm{e_i}^2}\\
-&\leq \sum_{i=0}^{t-1} \EE{\norm{e_i}^2} \sum_{j=i+1}^\infty \left(1-\frac{\alpha\rhod{P}}{2}\right)^{j-i} \\
-&\stackrel{(a)}{\leq} \sum_{i=0}^{t-1} \EE{\norm{e_i}^2} \frac{2}{\alpha \rhod{P}}\\
-&=\frac2{\alpha\rhod{P}} {\sum}_{i=0}^{t-1}\E\ip{e_i,e_i}\\
-&\leq \frac2{\alpha\rhod{P}}{\sum}_{i=0}^{t}\E\ip{e_i,e_i}\,.
-\end{align*}
-In $(a)$, we have used the fact that $\rho+\rho^2+\ldots\leq \frac1{1-\rho}$, when $\rho\in(0,1)$
-Since $\sum_{i,j}\cdot{} = \sum_{i=j}\cdot{} + 2 \sum_i \sum_{j>i} \re \cdot{}$,
-\begin{align*}
-{\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}&= \left(1+\frac4{\alpha\rhod{P}}\right){\sum}_{i=0}^{t}\E\ip{e_i,e_i}\,.
-\end{align*}
-Expanding $e_i$ using \eqref{eq:etft} and then using \Cref{innerproduct}
-\begin{align*}
-\EE{\ip{e_i,e_i}}\stackrel{(a)}{\leq} 2 \EE{\ip{F_{i,1}e_0,F_{i,1}e_0}}+2 \alpha^2{\sum}_{j=1}^i\EE{\ip{ F_{i,j+1}\zeta_j, F_{i,j+1}\zeta_j}}\\
-\stackrel{(b)}{\leq} 2 (1-\alpha\rhos{P})^i\norm{e_0}^2+ 2 \alpha^2\frac{{\sigma}_1^2}{\alpha \rhos{P}}\,,
-\end{align*}
-where, in  $(a)$ we use the fact that $(a+b)^2\leq 2 a^2+2 b^2$, and the fact that $\zeta_j$s are i.i.d. In $(b)$ we use the fact that $\sum_{s=0}^{t} (1-\alpha \rhos{P})^s\leq \frac{1}{\alpha \rhos{P}}$. So
-\begin{align*}
-{\sum}_{i=0}^{t}{\sum}_{j=0}^{t} \E\ip{e_i,e_j}
-&\leq \left(1+\frac4{\alpha\rhod{P} }\right)\, \frac2{\alpha\rhos{P}}\, (t(\alpha^2{\sigma}_1^2) +\norm{e_0}^2)\,.
-\end{align*}
-Putting things together,
-\begin{align}
-\E[\norm{\eh_t}^2]
-\leq \left(1+\frac4{\alpha\rhod{P}}\right)\, \frac2{\alpha\rhos{P}}\, \,
-%\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_P^2\norm{\ts}^2+\sigma_b^2)+\alpha (\sigma_P^2\norm{\ts})\norm{e_0}}{t+1} \right)\,.
-\left(\frac{\norm{e_0}^2}{(t+1)^2}+ \frac{\alpha^2(\sigma_1^2)}{t+1} \right)\,.
-\end{align}
-\end{proof}
 
 
 %\lmhur*

@@ -26,18 +26,24 @@ we let $A = \EE{A_t}$ and $b = \EE{b_t}$,
 dropping the subindex $P$ from $A_P$ and $b_P$.
 Straightforward calculation gives that $\hat e_t = \frac1{t+1} \sum_{s=0}^t e_s$, where
  $e_s\eqdef\theta_s-\ts$ is the error of the $s$th un-averaged iterate. Further algebra shows that \begin{align}\label{eq:errrecmain}
-e_t&={\prod_{s=1}^t \! (I-\alpha A_s) e_0}+\alpha{\sum_{i=1}^t\! \left\{\prod_{s=i+1}^t \!(I-\alpha A_s)\!\right\}\!\zeta_i}\,,
+e_t&=
+F_{t,1} e_0 + 
+\alpha \sum_{i=1}^t F_{t,i+1} \zeta_i
+%\left\{\prod_{s\in [t:1:-1]} \! (I-\alpha A_s) \right\} e_0 +\alpha{\sum_{i=1}^t\!
+%\left\{\prod_{s\in [t:i+1:-1]} \!(I-\alpha A_s)\!\right\}\!\zeta_i}\,,
 \end{align}
-where $\zeta_i = b_i-b - (A_i -A)\ts$ is the ``noise component'' in $(A_i,b_i)$.
+where for $1\le i \le t$,
+$F_{t,i} = (I-\alpha A_t) (I-\alpha A_{t-1}) \dots (I-\alpha A_{i+1}) (I-\alpha A_i)$ and
+$\zeta_i = b_i-b - (A_i -A)\ts$ is the ``noise component'' in $(A_i,b_i)$.
 
 \iffalse
 From \eqref{eq:errrecmain}, it is clear that the magnitude of $\hat e_t$ is governed by the behavior
 of the products $\Pi_{s=i+1}^{t}(I-\alpha A_s)$, $j=0,\dots,t$. 
 Here, we will perform some crude upper bounding and derive simple sufficient conditions that guarantee that on expectation these product matrices are ``small''. However, we will show that the error bounds derived are tight in a worst-case sense.
 \fi
-Focusing on the first term above, using repeated conditioning one can see that
+Focusing on $F_{t,1} e_0$, using repeated conditioning one can see that
 $\phi \defeq \normsm{ \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)} }<1$ is sufficient 
- to guarantee that the expectation of the squared norm of this term vanishes as $t\to\infty$.
+ to guarantee that $\EE{\norm{F_{t,1}e_0}^2}$ vanishes as $t\to\infty$.
 Here, we can use $A_1$, because $(A_t)_t$ is an i.i.d. sequence.
 Let $R \defeq \EE{ (I-\alpha A_1)^\top (I-\alpha A_1)}$.
 From the definition of $R$ we see that, on the one hand, $R$ is positive
@@ -91,7 +97,7 @@ where $\nu = \left(1+\tfrac4{\alpha\rhod{P_U}}\right)\tfrac{\cond{U}^2}{\alpha \
 $v^2 = 
 \alpha^2(\sigma_{A_P}^2\norm{\ts}^2+\sigma_{b_P}^2)$.
 \end{restatable}
-According to this result, the MSE in round $t$ is bounded by a sum of two terms. The first \emph{bias} term is given by $\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second \emph{variance} term $\nu\, \frac{v^2}{t+1} $  captures the rate at which noise is rejected. Note that $\nu$ depends on $U$, $P_U$ and $\alpha$.
+Thus, the MSE in round $t$ is bounded by a sum of two terms. The first, \emph{bias} term, is given by $\nu \,\frac{\norm{\theta_0-\ts}^2}{(t+1)^2}$, bounding how fast the initial error $\norm{\theta_0-\ts}^2$ is forgotten. The second, \emph{variance} term, $\nu\, \frac{v^2}{t+1}$  captures the rate at which noise is rejected. Note that $\nu$ depends on $U$, $P_U$ and $\alpha$.
 
 %\textbf{Behavior for extreme values of $\alpha$}: 
 As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb} below) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha^2$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. As $\alpha$ is increased to a critical value $\alpha_{P_U}$, 
@@ -104,15 +110,15 @@ where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a 
 However, the bound of \cref{th:rate} is essentially tight:
 \begin{restatable}[Lower Bound]{theorem}{thlb}
 \label{th:lb}
-There exists a distribution $P$ over $ \R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa}, such that
-there exists $\alpha_P>0$ so that $(\rhod{P}\ge )$ $\rhos{P}>0$  holds for all
+There exists a distribution $P$ over $ \R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa} and a constant
+ $\alpha_P>0$ so that $(\rhod{P}\ge )$ $\rhos{P}>0$  holds for all
 $0<\alpha<\alpha_P$ and
 for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
-\geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t \norm{\theta_0-\ts}^2}{(t+1)^2} 
-+ \frac{\sigma^2_{b_P}\sum_{s=1}^t \beta_{t-s}  }{(t+1)^2} \right\}\,,$
-where $\beta_{t} =  1-(1-\alpha \rhos{P})^t$.
+\geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_t^2 \norm{\theta_0-\ts}^2}{(t+1)^2} 
++ \frac{\alpha^2 \sigma^2_{b_P}\sum_{s=1}^t \beta_{s}^2  }{(t+1)^2} \right\}\,,$
+where $\beta_{t} =  1-(1-\tfrac12 \alpha \rhos{P})^t$.
 \end{restatable}
-Note that $\beta_t \ge 1/2$ for $t\ge \log(2)/(\alpha \rhos{P})$.
+Note that $\beta_t \ge 1/2$ for $t\ge \log(2)2/(\alpha \rhos{P})$.
 %Hence, the lower bound essentially matches the upper bound (expect that $v^2$ appears in \cref{th:rate} and only $\sigma^2_{b_P}$ appears in \cref{th:lb}). %In what follows, we discuss in brief the results in \cref{th:rate,th:lb}. 
 Thus, for such $t$ \cref{th:lb} 
 the coefficients of both the $1/t$ and $1/t^2$ terms inside $\{ \cdot \}$ 

@@ -20,12 +20,14 @@
 \usepackage{pifont}
 \usepackage{makecell}
 \usepackage{slashbox}
+\usepackage{mathtools}
 
 \usepackage[capitalize]{cleveref}
 \crefname{assumption}{Assumption}{Assumption}
 
 %\usepackage[numbers, sort, comma, square]{natbib}
 %New Commands
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \DeclareMathOperator{\supp}{supp}
 \newcommand{\ip}[1]{\langle#1\rangle}
 \newcommand{\norm}[1]{\left\| #1\right\|}
