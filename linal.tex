@@ -352,8 +352,9 @@ the two components, $\eh_{t,1}$ and $\eh_{t,2}$ of the vector $\eh_t$ are calcul
 \end{align*}
 Now, choosing $U=I$, $\rhos{P_U} = \rhos{P} = \min( \lambda_1(2-\alpha \lambda_1), \lambda_2 (2-\alpha \lambda_2) )$ which is positive as long as $0<\alpha \lambda_2<2$ (which, in this case, also happens to be the necessary condition for the errors to decay).
 Setting $\lambda \defeq \lambda_1=\lambda_2$,
-$\alpha_P = 1/\lambda$ we see that $\rhos{P}=\rhod{P} = \lambda(2-\alpha \lambda)$. \todoc{The claim that for $\lambda_1<\lambda_2$, $\rhos{P} = \lambda_1(2-\alpha \lambda_1)$ was false.}
-Furthermore, thanks to $\EE{N_s}=0$,
+$\alpha_P = 1/\lambda$ we see that 
+$\rhos{P}=\rhod{P} = \lambda(2-\alpha \lambda)$ (the reason for choosing $\alpha_P$ this way will become clear later). \todoc{The claim that for $\lambda_1<\lambda_2$, $\rhos{P} = \lambda_1(2-\alpha \lambda_1)$ was false.}
+Thanks to $\EE{N_s}=0$,
 \begin{align*}
 \EE{\eh^2_{t,1}} =
  \frac{1}{(t+1)^2} \left(\frac{1-(1-\alpha \lambda)^{t+1}}{ \alpha \lambda}\right)^2 e_{0,1}^2
@@ -364,7 +365,21 @@ while
 \EE{\eh^2_{t,2}} = \eh^2_{t,2} = 
 \frac{1}{(t+1)^2} \left(\frac{1-(1-\alpha \lambda)^{t+1}}{ \alpha \lambda}\right)^2 e_{0,2}^2\,.
 \end{align*}
-Summing up these two equalities, we get the desired bound. \todoc{Except I don't see the $\alpha\rhos{P}$ showing up.}
+For $0<\alpha<\alpha_P$, $\alpha\lambda \le \alpha \rhos{P} \le 2\alpha \lambda$, hence 
+\begin{align*}
+1-(1-\alpha \lambda)^i &\ge 1-\left(1-\tfrac12 \alpha \rhos{P}\right)^i\,, \quad \alpha \in (0,\alpha_P), \,\, i \ge 0\,\\
+(\alpha \lambda)^{-1} &\ge  (\alpha \rhos{P})^{-1}\,.
+\end{align*}
+Thus, defining $\beta_i = 1-\left(1-\tfrac12 \alpha \rhos{P}\right)^i$,
+\begin{align*}
+\EE{ \norm{\eh_t}^2 } 
+& = \EE{\eh^2_{t,1}} + \EE{\eh^2_{t,2}} 
+   \ge \frac{1}{(t+1)^2} 
+   \left(\frac{\beta_{t+1}}{ \alpha \rhos{P}}\right)^2 \norm{e_0}^2
+   +
+    \frac{ \sigma^2 \sum_{s=1}^t \beta_{s}^2 }{(t+1)^2}\,,
+\end{align*}
+finishing the proof.
 %Here $(a)$ and $(b)$ follows from the \iid assumption. Note that in this example, $\rhos{P}=\rhod{P}=2\lambda_{\min} -\alpha \lambda_{\min}^2=\lambda_{\min}(2-\alpha \lambda_{\min})$, and $\norm{\ts}=0$ and $\sigma^2_A=0$. Further, the result follows by noting the fact that  $\norm{b_t}^2=b_t(1)^2$ and $\norm{\theta_t}^2=\theta_t(1)^2$.
 %\begin{align}
 %\EE{\norm{\eh_t}^2}\geq \frac{1}{(t+1)^2}(\alpha \lambda_{\min})^{-2}(1-\alpha \lambda_{\min}^t) \theta^2_0(1)
