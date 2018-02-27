@@ -526,25 +526,32 @@ For any $P$ in $\SPD$ or $\SPDSN$, the corresponding $A_P$ matrix is real symmet
 Since $U$ is an orthogonal matrix $\norm{\gamma}_{\Lambda_P}=\gamma^\top \Lambda_P \gamma= \theta^\top U \Lambda_P U^\top \theta=\norm{\theta}_{A_P}$ and similarly $\norm{\gamma}=\norm{\theta}$ and when $P\in \P_{SPDSN}$ we have $\EE{\zeta_t \zeta_t^\top}\preceq \Lambda_P$. Thus, for any adversarial choice of $A_P$ is equivalent to choosing a problem when the $A_P$ is diagonal. Thus, in order to prove the bounds it is enough to consider such diagonal problems. In what follows, by slightly abusing our notation, we recycle $e_t$ and let $e_t\eqdef\gamma_t-\gamma_*$.
 % (though we have used $e_t=\theta_t-\ts$ everywhere else, we have re-defined to avoid introducing additional notation).
 
-It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, it follows that under our boundedness assumption such an adversarial choice should have $\Lambda(i)=\lambda, i=1,\ldots, d$. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, the error $\eh_t = 1/(t+1) \sum_{s=0}^t e_t$ satisfies 
+It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, by symmetry it follows that under our boundedness assumption such an adversarial choice should have $\Lambda(i)=\lambda, i=1,\ldots, d$. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, the error $\eh_t = 1/(t+1) \sum_{s=0}^t e_t$ satisfies 
 \begin{align}\label{eq:onederr}
 \eh_t=\frac{1}{t+1}\left[\sum_{s=0}^t (1-\alpha \lambda)^s e_0+ \alpha \sum_{i=1}^t \sum_{s=0}^{t-i} (1-\alpha \lambda)^s b_i\right]\,.
 \end{align}
 We now look at the three claims and prove matching lower and upper bounds for the error. 
 In what follows, we use the following facts:
 \begin{enumerate}
-\item For sufficiently large $t$ we have $(1-\frac{1}{t+1})^t\geq c$ (the constant $c\approx \frac{1}{e}$, where $e$ is the base of the natural logarithm). This will be used in the lower bound proofs.
-\item $\sum_{s=0}^t(1-\alpha \lambda)^2\leq \min\{(\alpha\lambda)^{-1},(t+1)\}$. This will be used in the upper bound proofs.
+\item For all $t\ge 0$,
+$(1-\frac{1}{t+1})^0 \ge (1-\frac{1}{t+1})^1 \ge \dots \ge (1-\frac{1}{t+1})^t \ge 1/e$,
+% we have $(1-\frac{1}{t+1})^{t+1}\leq 1/e$, 
+where  $e$ is the base of the natural logarithm. This will be used in the lower bound proofs.
+\item When $0\le 1-\alpha \lambda\le 1$,
+ $\sum_{s=0}^t(1-\alpha \lambda)^s\leq \min\{(\alpha\lambda)^{-1},(t+1)\}$. This will be used in the upper bound proofs.
  \end{enumerate}
 \textbf{Lower Bound for $\eps_t(\SPD)$:}
- For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
+ For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda>0$ such that $\alpha \lambda (t+1)=1$. Taking expectation of both sides of \eqref{eq:onederr} and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
-\EE{\norm{\eh_t}^2}=\frac{1}{(t+1)^2}\left[ (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P} \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
+\EE{\norm{\eh_t}^2}
+=\frac{1}{(t+1)^2}\left[ \left\{\sum_{s=0}^t(1-\alpha \lambda)^s\right\}^2 \B
++ \alpha^2\sigma^2_{b_P} \sum_{i=1}^t \left\{ \sum_{s=0}^{t-i} (1-\alpha \lambda)^s\right\}^2\right],
 \end{align}
-where we use the property of independence. Now for this choice of $\lambda$ we have
+where we use the property of independence. Now for our choice of $\lambda$ we have
+that for some universal constants $c,c'>0$,
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ c^2(t+1)^2 \B+ \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]
-\geq c^2\left[B+ \alpha^2 \sigma^2_{b_P} \Theta(t) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{c}{(t+1)^2}\left[ (t+1)^2 \B+ \alpha^2\sigma^2_{b_P} \sum_{i=1}^t (i)^2\right]
+\geq c' \left[B+ \alpha^2 \sigma^2_{b_P} t \right],
 \end{align}
 which completes the lower bound part for this case.
 
@@ -562,14 +569,14 @@ which completes the upper bound part for this case.
 \textbf{Lower Bound for $\eps_t'(\SPD)$:}
 We will slightly abuse notation by writing $\norm{\eh_t}^2_{\lambda} = \lambda (\eh_t)^2$
 and writing $\norm{\eh_t}^2 = (\eh_t)^2$.
-For sufficiently large $t$, and any step-size $\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
+As before, pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation of both sides of \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
-where we use the property of independence. Now for this choice of $\lambda$ we have
+where we use the property of independence. Now for our choice of $\lambda$, for some universal constants $c,c'>0$,
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]
-= c^2\left[\frac{\B}{\alpha (t+1)}+ \alpha  \sigma^2_{b_P} \Theta(1) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{c}{(t+1)^2}\left[ \lambda (t+1)^2 \B+ \lambda \alpha^2\sigma^2_{b_P} \sum_{i=1}^t (i)^2\right]
+= c' \left[\frac{\B}{\alpha (t+1)}+ \alpha  \sigma^2_{b_P} \right],
 \end{align}
 which completes the lower bound part for this case.
 
@@ -587,16 +594,17 @@ $\frac{1}{(t+1)^2}\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2=\frac{1}{\alpha 
 This completes the upper bound part for this case.
 
 \textbf{Lower Bound for $\eps_t'(\SPDSN)$:}
-For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
+Pick $\lambda$ such that $\alpha \lambda (t+1)=1$. 
+Taking expectations of both sides of \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
-where we use the property of independence. Now for this choice of $\lambda$ we have
+where we use the property of independence. Now for our choice of $\lambda$ we have, for some universal constants $c,c'>0$ that
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2 \lambda c^2\sum_{i=1}^t (i)^2\right]
-= c^2\left[\frac{\B}{\alpha (t+1)}+   \Theta(\frac{1}{t}) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{c}{(t+1)^2}\left[ \lambda (t+1)^2 \B+ \lambda^2 \alpha^2  \sum_{i=1}^t (i)^2\right]
+= c' \left[\frac{\B}{\alpha (t+1)}+   \frac{1}{t} \right],
 \end{align}
-where we use $\sigma^2_{b_P}=\lambda$. This completes the lower bound part for this case.
+where we used that $\sigma^2_{b_P}=\lambda$. This completes the lower bound part for this case.
 
 \textbf{Upper Bound for $\eps_t'(\SPDSN)$:}
 Starting from \eqref{eq:intererr}, we have
@@ -624,7 +632,7 @@ Thus,
 \EE{\norm{\eh_t}^2_{\lambda}}
 	&\leq \left[\B \frac{1}{\alpha (t+1)}+ \alpha \frac{1}{\alpha (t+1)} \right]\,,
 \end{align}
-where we use $\sigma^2_{b_P}=\lambda$. This completes the upper bound part for this case.
+where we uses that $\sigma^2_{b_P}=\lambda$. This completes the upper bound part for this case.
 \end{proof}
 \begin{comment}
 
