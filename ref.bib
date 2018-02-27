@@ -2,12 +2,40 @@
 %% http://bibdesk.sourceforge.net/
 
 
-%% Created for Csaba at 2018-02-27 16:06:10 +0000 
+%% Created for Csaba at 2018-02-27 16:33:00 +0000 
 
 
 %% Saved with string encoding Unicode (UTF-8) 
 
 
+
+@inproceedings{lihong,
+	Abstract = {Policy evaluation is concerned with estimating the value function that predicts long-term values of states under a given policy. It is a crucial step in many reinforcement-learning algorithms. In this paper, we focus on policy evaluation with linear function approximation over a fixed dataset. We first transform the empirical policy evaluation problem into a (quadratic) convex-concave saddle-point problem, and then present a primal-dual batch gradient method, as well as two stochastic variance reduction methods for solving the problem. These algorithms scale linearly in both sample size and feature dimension. Moreover, they achieve linear convergence even when the saddle-point problem has only strong concavity in the dual variables but no strong convexity in the primal variables. Numerical experiments on benchmark problems demonstrate the effectiveness of our methods.},
+	Address = {International Convention Centre, Sydney, Australia},
+	Author = {Du, Simon S. and Chen, Jianshu and Li, Lihong and Xiao, Lin and Zhou, Dengyong},
+	Booktitle = {ICML},
+	Date-Added = {2018-02-27 16:29:39 +0000},
+	Date-Modified = {2018-02-27 16:30:16 +0000},
+	Editor = {Precup, Doina and Teh, Yee Whye},
+	Month = {06--11 Aug},
+	Pages = {1049--1058},
+	Pdf = {http://proceedings.mlr.press/v70/du17a/du17a.pdf},
+	Title = {Stochastic Variance Reduction Methods for Policy Evaluation},
+	Url = {http://proceedings.mlr.press/v70/du17a.html},
+	Year = {2017},
+	Bdsk-Url-1 = {http://proceedings.mlr.press/v70/du17a.html}}
+
+@article{bach,
+	Author = {Dieuleveut, Aymeric and Flammarion, Nicolas and Bach, Francis},
+	Date-Added = {2018-02-27 16:28:03 +0000},
+	Date-Modified = {2018-02-27 16:28:39 +0000},
+	Journal = {Journal of Machine Learning Research},
+	Number = {1},
+	Pages = {3520--3570},
+	Title = {Harder, Better, Faster, Stronger Convergence Rates for Least-squares Regression},
+	Volume = {18},
+	Year = {2017},
+	Bdsk-Url-1 = {http://dl.acm.org.login.ezproxy.library.ualberta.ca/citation.cfm?id=3122009.3176845}}
 
 @article{su88,
 	Author = {Sutton, R. S.},
@@ -125,10 +153,9 @@
 @book{LjPfWa92,
 	Author = {Ljung, Lennart and Pflug, Georg and Walk, Harro},
 	Date-Added = {2018-02-25 14:37:27 +0000},
-	Date-Modified = {2018-02-25 14:38:46 +0000},
+	Date-Modified = {2018-02-27 16:31:15 +0000},
 	Publisher = {Birkh{\"a}user},
 	Title = {Stochastic approximation and optimization of random systems},
-	Volume = {17},
 	Year = {1992}}
 
 @book{degylu96,
@@ -190,18 +217,6 @@
 	Year = {2016},
 	Bdsk-Url-1 = {http://dl.acm.org/citation.cfm?id=2936996}}
 
-@article{lihong,
-	Author = {Du, Simon S and Chen, Jianshu and Li, Lihong and Xiao, Lin and Zhou, Dengyong},
-	Journal = {arXiv preprint arXiv:1702.07944},
-	Title = {Stochastic Variance Reduction Methods for Policy Evaluation},
-	Year = {2017}}
-
-@article{bach,
-	Author = {Dieuleveut, Aymeric and Flammarion, Nicolas and Bach, Francis},
-	Journal = {arXiv preprint arXiv:1602.05419},
-	Title = {Harder, better, faster, stronger convergence rates for least-squares regression},
-	Year = {2016}}
-
 @article{polyak-judisky,
 	Author = {Polyak, Boris T and Juditsky, Anatoli B},
 	Journal = {SIAM Journal on Control and Optimization},
@@ -214,8 +229,9 @@
 
 @techreport{ruppert,
 	Author = {Ruppert, David},
+	Date-Modified = {2018-02-27 16:31:36 +0000},
 	Institution = {Cornell University Operations Research and Industrial Engineering},
-	Title = {Efficient estimations from a slowly convergent Robbins-Monro process},
+	Title = {Efficient estimations from a slowly convergent {R}obbins-{M}onro process},
 	Year = {1988}}
 
 @book{borkarbook,
@@ -226,8 +242,8 @@
 
 @book{sutton,
 	Author = {Sutton, Richard S and Barto, Andrew G},
-	Date-Modified = {2018-02-27 15:03:43 +0000},
-	Publisher = {MIT press Cambridge},
+	Date-Modified = {2018-02-27 16:32:10 +0000},
+	Publisher = {MIT press},
 	Title = {Reinforcement learning: An introduction},
 	Year = {1998}}
 
@@ -243,16 +259,16 @@
 
 @inproceedings{gtd,
 	Author = {Sutton, Richard S and Maei, Hamid R and Szepesv{\'a}ri, Csaba},
-	Booktitle = {Advances in neural information processing systems},
-	Date-Modified = {2017-05-18 19:28:28 +0000},
+	Booktitle = {NIPS},
+	Date-Modified = {2018-02-27 16:32:57 +0000},
 	Pages = {1609--1616},
-	Title = {A Convergent $O(n)$ Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation},
+	Title = {A Convergent ${O}(n)$ Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation},
 	Year = {2009}}
 
 @inproceedings{gtd2,
 	Author = {Sutton, Richard S and Maei, Hamid Reza and Precup, Doina and Bhatnagar, Shalabh and Silver, David and Szepesv{\'a}ri, Csaba and Wiewiora, Eric},
-	Booktitle = {Proceedings of the 26th Annual International Conference on Machine Learning},
-	Date-Modified = {2017-05-18 19:28:18 +0000},
+	Booktitle = {ICML},
+	Date-Modified = {2018-02-27 16:32:31 +0000},
 	Pages = {993--1000},
 	Title = {Fast gradient-descent methods for temporal-difference learning with linear function approximation},
 	Year = {2009}}
@@ -351,10 +367,11 @@
 	Year = {1960}}
 
 @inproceedings{dab,
-	Author = {Dabney, William and Barto, Andrew G},
+	Author = {Dabney, William and Barto, Andrew G.},
 	Booktitle = {AAAI},
-	Date-Modified = {2018-02-27 15:02:27 +0000},
-	Title = {Adaptive Step-Size for Online Temporal Difference Learning.},
+	Date-Modified = {2018-02-27 16:25:42 +0000},
+	Pages = {872--878},
+	Title = {Adaptive Step-Size for Online Temporal Difference Learning},
 	Year = {2012}}
 
 @article{issues,
@@ -365,7 +382,8 @@
 	Bdsk-Url-1 = {https://sites.ualberta.ca/~szepesva/papers/TD-issues17.pdf}}
 
 @article{dalal,
-	Author = {Dalal, Gal and Szorenyi, Balazs and Thoppe, Gugan and Mannor, Shie},
+	Author = {Dalal, Gal and Sz{\"{o}}r{\'{e}}nyi, Bal\'azs and Thoppe, Gugan and Mannor, Shie},
+	Date-Modified = {2018-02-27 16:26:18 +0000},
 	Journal = {arXiv preprint arXiv:1703.05376},
 	Title = {Concentration Bounds for Two Timescale Stochastic Approximation with Applications to Reinforcement Learning},
 	Year = {2017}}
