@@ -577,8 +577,8 @@ Starting from \eqref{eq:intererr}, we have
 \EE{\norm{\eh_t}^2_{\lambda}}&\leq \frac{1}{(t+1)^2}\left[\lambda \B (\min\{(\alpha\lambda)^{-1},(t+1)\})^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{(\alpha\lambda)^{-1},(t+1)\})^2 \right]\\
 &= \left[\B (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2 \right]\,.
 \end{align}
-Here if $\min{(\alpha\lambda)^{-1},(t+1)}=\frac{1}{\alpha \lambda}$, then we have $\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha^2 \lambda}\leq \frac{(t+1)}{\alpha}$, and hence $\frac{1}{(t+1)^2}\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha (t+1)}$. In the other case, when $\min{(\alpha\lambda)^{-1},(t+1)}=(t+1)$, we have
-$\frac{1}{(t+1)^2}\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha (t+1)}$. Thus
+Here if $\min\{(\alpha\lambda)^{-1},(t+1)\}=\frac{1}{\alpha \lambda}$, then we have $\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2=\frac{1}{\alpha^2 \lambda}\leq \frac{(t+1)}{\alpha}$, and hence $\frac{1}{(t+1)^2}\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2=\frac{1}{\alpha (t+1)}$. In the other case, when $\min\{(\alpha\lambda)^{-1},(t+1)\}=(t+1)$, we have
+$\frac{1}{(t+1)^2}\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2=\frac{1}{\alpha (t+1)}$. Thus
 \begin{align}
 \EE{\norm{\eh_t}^2_{\lambda}}&\leq \left[\B \frac{1}{\alpha (t+1)}+ \alpha \sigma^2_{b_P} \right]\,.
 \end{align}
@@ -671,7 +671,7 @@ The eigenvalues of $I-\alpha A_P$ are $1-\alpha u\pm i v$, and we can ensure tha
 Let $A$ be a $\dcd$ matrix with $B\ge \max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x <B^2d$.
 \end{lemma}
 
-We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succeq D$ if $C-D$ is positive definite. We cite the following lemma without proof (see \cite{schur}). The lemma is often attributed to Schur: \todoc{Add citation!}
+We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succeq D$ if $C-D$ is positive definite. We cite the following lemma without proof (see \cite{schur}). The lemma is often attributed to Schur: 
 \begin{lemma}\label{lm:schur}
 Let $A,B,C$ $\dcd$ real matrices. Given a symmetric matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$ be a given $2d\times 2d$ matrix, it follows that $M\succeq 0$ if	$A\succeq 0$ and $C-B^\top A^{-1}B\succeq 0$.
 \end{lemma}
@@ -705,7 +705,7 @@ A +\beta\gamma\EE{\phi'_t\phi_t^\top}=& \EE{\phi_t\phi_t}-\gamma\EE{\phi_t{\phi'
 =\EE{\phi_t\phi_t}-\delta\EE{\phi_t{\phi'_t}^\top},
 \end{align*}
 where $\delta=\gamma(1-\beta)$. 
-From our assumption that in $\text{TDON}(B)$, $A_{\delta}=\EE{A_t}$ is PD,
+From our assumption that in $\text{TDON}(B)$, $A_{\delta}=\EE{A_t^\delta}$ is PD,
 it follows that $x^\top\big(\EE{\phi_t\phi_t}-\delta\EE{\phi_t\phi'_t} )x=x^\top A_{\delta} x>0$.
 
 \textbf{Part $(ii)$:}

@@ -30,7 +30,8 @@ Inspired by TD algorithms, \citet{dalal} provide a stochastic boundedness result
 which does not even guarantee that the error vanishes as $t$ increases.
 %however, there seems to be no straightforward way to convert their result to a convergence rate.
 
-\textbf{CALSA analysis:} Analysis of CALSA goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we build on the newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Lyapunov's equation and a similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of \citeauthor{bach}
+\textbf{CALSA analysis:} Analysis of CALSA goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we build on the newer analysis introduced by \citet{bach}. However, due to the generality of our setting (with Hurwitz assumption), diverging from the analysis of \citeauthor{bach},
+ we make use of Lyapunov's equation and a similarity transformations in a critical way to prove our results.
 
 \begin{comment}
 \paragraph{Double sampling} We suspect that GTD-Mirror-Prox algorithm suffers from the issue of double sampling. The updates of the GTDMP can be written as below (for simplicity we 
