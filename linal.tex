@@ -692,27 +692,30 @@ it follows that $x^\top\big(\EE{\phi_t\phi_t}-\delta\EE{\phi_t\phi'_t} )x=x^\top
 \textbf{$(ii)$:}
 In the case of normalized features we have
 \begin{align*}
-(A_t+A_t^\top) -\alpha A_t^\top A_t &= 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
-&=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
-&=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top
+(A_t+A_t^\top) -\alpha A_t^\top A_t 
+&= 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
+=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
+&=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
 \end{align*}
-Taking $\E$, we have
+Taking expectations, we have
 \begin{align*}
-\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }&=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}\\
-&=(1-\gamma^2)\EE{\phi_t\phi_t^\top}
-&\succeq 0
+\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}
+=(1-\gamma^2)\EE{\phi_t\phi_t^\top}
+\succeq 0\,.
 \end{align*}
 
 \textbf{$(iii)$}
  The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^4 d^2}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
 
-Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq M_t$, where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to ensure 
-\begin{align}
-&\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
-=&\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
-\succeq &\alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
-\succeq& \frac{\alpha}{2} A_t^\top A_t,
-\end{align}
-where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}
+Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq M_t$, \todoc{Clashes with noise $M_t$.}
+ where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to ensure 
+\begin{align*}
+\MoveEqLeft 
+\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
+&=\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
+&\succeq \alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
+&\succeq \frac{\alpha}{2} A_t^\top A_t\,,
+\end{align*}
+where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}.
 \end{proof}
 %\left[\begin{matrix}\end{matrix}\right]
