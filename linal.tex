@@ -678,7 +678,7 @@ The eigenvalues of $I-\alpha A_P$ are $1-\alpha u\pm i v$, and we can ensure tha
 \section{Proofs for \cref{sec:rl}}
 
 \begin{lemma}\label{lm:matnorm}
-Let $A$ be a $\dcd$ matrix with $B\ge \max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x <B^2d$.
+Let $A$ be a $\dcd$ matrix with $B\ge \max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x \le B^2d$.
 \end{lemma}
 
 We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succeq D$ if $C-D$ is positive definite. We cite the following lemma without proof (see \cite{schur}). The lemma is often attributed to Schur: 
@@ -695,20 +695,30 @@ Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follo
 
 \thtdadmis*
 \begin{proof}
-We need to show that $\rhos{P_A}>0$ holds for the said values of $\alpha$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
-\todoc{There is an $A_\delta$, whereas I used $\gamma$ for discount in introduction. I don't think $\delta$ is needed.
-And now $A_\delta$ is not introduced I think.}
-In what follows, for matrices $A, B\in \R^{\dcd}$, we use $A\qfeq B$, $A\qfleq B$ and $A \qfgeq B$ to denote the fact $x^\top (A-B) x = 0$, $x^\top (A-B) x \leq 0 $ and $x^\top (A-B) x \geq 0$, for all $x\in \R^d$. Here $q$ stands for \emph{quadratic forms}, and note that $A\qfeq A^\top$.
-\textbf{Part $(i)$:}  We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, 
+It is sufficient to show in all three cases that $\rhos{P_A}>0$ holds for the said values of $\alpha$. 
+
+We introduce the relations $\qfeq$, $\qfleq$ and $\qfgeq$ to compare (not necessarily) symmetric $d\times d$ matrices
+over the reals when the matrices are identified with the \emph{quadratic form} that they define.
+That is, for matrices $A, B\in \R^{\dcd}$, we write $A \qfleq B$ to denote that $x^\top (A-B) x \leq 0 $ holds for all $x\in \R^d$. Then, we write $A \qfgeq B$ when $B \qfleq A$ and we write $A \qfeq B$ when both $A \qfleq B$ and $B \qfgeq A$ hold. 
+Specifically, note that for any matrix $A$, $A\qfeq A^\top$.
+Further, for symmetric matrices $A \succeq B$ holds if and only if $A \qfgeq B$ holds. 
+Furthermore, $A=B$ implies $A \qfeq B$, though the converse does not hold.
+In particular, for a symmetric matrix $A$, $\lmin{A}>0$ is equivalent to $A \qfgeq 0$, where $0$ stands for the all-zero matrix.
+
+\textbf{Part $(i)$:}  We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, from $A_t = \phi_t(\phi_t-\gamma \phi'_t)^\top$ and $A_t+A_t^\top \qfeq 2 A_t$, we get
 \begin{align*}
-(A_t+A_t^\top) -\alpha A_t^\top A_t 
-&\qfeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
-&= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top +\beta\gamma\phi'_t\phi^\top_t-\beta\gamma^2\phi'_t{\phi'}_t^\top \\
-&= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma^2(\gamma\phi'_t\phi^\top_t- \phi'_t{\phi'}_t^\top)-\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top\,.
+A_t+A_t^\top -\alpha A_t^\top A_t 
+&\qfgeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
+&= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top 
+	+\beta\gamma\phi'_t\phi^\top_t-\beta\gamma^2\phi'_t{\phi'}_t^\top \\
+&= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top
+	 -\beta\gamma^2(\phi'_t{\phi'}_t^\top-\gamma\phi'_t\phi^\top_t)
+	 +\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top\,.
 \end{align*}
-Taking expectations, we have \todoc{I think there is a syntax error in the next line.}
+Taking expectations, and using $A = \EE{A_t}$,  $\E[ \phi_t\phi_t^\top] = \E[ \phi_t' (\phi_t')^\top]$
+and $A^\top \qfeq A$, we get 
 \begin{align*}
-\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\qfgeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
+\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\qfgeq  A -\beta\gamma^2 A+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
 \qfgeq (1-\gamma^2)\left\{A +\beta\gamma\EE{\phi'_t\phi_t^\top}\right\}\,.
 \end{align*}
 Now we have 
@@ -723,22 +733,38 @@ and thus $\rhos{P_A} \ge (1-\gamma^2) \lmin{ A_\delta} >0$.
 \textbf{Part $(ii)$:}
 In the case of normalized features we have
 \begin{align*}
+\MoveEqLeft
 (A_t+A_t^\top) -\alpha A_t^\top A_t 
-\qfeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
-=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
-&=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
+\qfeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi_t-\gamma\phi'_t)(\phi_t-\gamma\phi'_t)^\top
+=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
+=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
 \end{align*}
-Taking expectations, we have
+Taking expectations, and using $\E[ \phi_t \phi_t^\top ] = \E[ \phi_t' (\phi_t')^\top ]$, we get
 \begin{align*}
-\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}
+\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t } \qfeq \EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}
 =(1-\gamma^2)\EE{\phi_t\phi_t^\top}
 \succeq 0\,.
 \end{align*}
 
 \textbf{Part $(iii)$:}
- The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^2 d}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
+When $\alpha=\beta$,
+the GTD update in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, 
+	$H_t=
+		\left[\begin{matrix}
+			I &A_t \\ 
+			-(1-\alpha)A^\top_t & \alpha A_t^\top A_t
+		\end{matrix}\right]$, 
+and $g_t=\left[\begin{matrix} b_t\\ \alpha A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma \phi'_t)^\top$. To show that $\alpha=\frac{1}{2B^2 d}$ is a universal step-size choice, 
+we need to show that for this value of $\alpha$, 
+$\lmin{ \EE{ H_t + H_t^\top - \alpha H_t^\top H_t } }>0$.
 
-Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq S_t$, \todoc{Clashes with noise $M_t$.}
+Now 
+$H_t+H_t^\top
+	=\left[
+		\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top & 2\alpha A_t^\top A_t\end{matrix}\right]$ 
+and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  
+From \Cref{lm:matnorm} and the choice of $\alpha$, $\alpha A_t A_t^\top \preceq I$. Hence, using that $A\succeq B$ for symmetric $A,B$ is equivalent to $A \qfgeq B$, we get that
+ $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq S_t$, 
  where $S_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $S_t\succeq 0$ we need to prove that the Schur complement of $S_t$ is nonnegative. For this we have
 \begin{align*}
 \MoveEqLeft 
