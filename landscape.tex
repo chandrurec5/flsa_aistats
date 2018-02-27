@@ -4,7 +4,8 @@ While the previous section considered individual problem instances, in this sect
 to consider classes $\cP$ of problem instances.
 The first question that arises then is whether for a given class $\cP$ it is possible to find a single
 \emph{universal} stepsize that guarantees that the worst-case expected squared error,
-$\sup_{P\in \cP} \EE{ \norm{\eh_t}^2 }$, vanishes as $t\to\infty$.
+$\sup_{P\in \cP} \E_P[ \norm{\eh_t}^2 ]$, vanishes as $t\to\infty$. Here, $\E_P[\cdot]$ is used to
+signify that the randomness underlying $\E[\cdot]$ is governed by the instance $P$.
 
 As can be seen from \cref{th:lb},
 a universal stepsize may fail to exist for multiple reasons: 
@@ -58,8 +59,9 @@ Problem classes $\P_{SPD}$ and $\P_{ROT}$ are special cases of \Cref{assmp:lsa}-
 We first show even when a universal stepsize choice exists, uniform finite time rate of $\frac{C}{t}$, can be achieved only when the problem class has certain exploitable structure.
 \fi
 For the next result define
-$\eps_t(\cP) = \sup_{P\in \cP} \eep{\norm{\eh_t}^2}{P}$ and
-$\eps_t'(\cP) = \sup_{P\in \cP}\eep{\norm{\eh_t}^2_{A_P}}{P}$, where for $\eps_t'$ we assume that $\cP$ is such that for any $P\in \cP$, $A_P$ is an SPD matrix.
+$\eps_t(\cP) = \sup_{P\in \cP} \E_P[\norm{\eh_t}^2]$ and
+$\eps_t'(\cP) = \sup_{P\in \cP}\E_P[\norm{\eh_t}^2_{A_P}]$.
+%where for the definition of $\eps_t'$ we assume that $\cP$ is such that for any $P\in \cP$, $A_P$ is an SPD matrix.
 \begin{restatable}{theorem}{thpspd}\label{th:pspd}
 Any $\alpha\in(0,1)$ is a universal stepsize for
 both $\SPD$ and $\SPDSN$.
@@ -80,8 +82,9 @@ topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt]
 &\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{\sigma_b^2}{t}\,.
 \end{align*}
 \end{restatable}
+\if0
 The proof, which is given in \cref{sec:pspd}, is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix.
-
+\fi
 From the result stated for $\eps_t(\SPD)$,
 it follows that the $\SPD$ class is too broad in the sense that although any $\alpha\in (0,1)$ leads to an asymptotic $O(1/t)$ decrease of the error, for any choice of $\alpha$, the class contains an instance which makes the error grow linearly with $t$. Intuitively, this happens because an adversary can choose $A_P$ to be near zero, in which case CALSA accumulates the noise due to the randomness in $\{b_t\}$. When $\alpha=0$, the linear term would vanish, but the initial error remains. 
 
@@ -94,7 +97,13 @@ In the structured noise case and when the error is also scaled with $A_P$, the w
 the uniform error of $1/t$. This is because here the magnitude of the noise on a per-instance bases is also constrained
 by $A_P$. Thus, scaling down $A_P$ cannot hurt the CALSA algorithm anymore.
 
-
+\if
 Once we choose a stepsize $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible.  In what follows, without loss of generality, let the dimension be $d=1$.
-\Cref{th:pspd}-$(i)$: the $\frac{1}{(t+1)^2}$ in the denominator is directly a result of iterate averaging,  further, when adversary choose $A_P$ close to $0$, the forgetting factor is very close to unity, in which case no forgetting happens, and error accumulates due to the summation of the iterates leading to the $\B(t+1)^2$ and $\alpha^2 \sigma_b^2 O(t^3)$ terms. \Cref{th:pspd}-$(ii)$ is same as the previous except that, now the error is also measured with respect to $A_P$ as result the adversary cannot make the MSE worse by just choosing small enough $A_P$; here we can achieve a rate of $O(\frac{1}{\sqrt{t}})$ if we choose $\alpha=\frac{1}{\sqrt{t}}$. \Cref{th:pspd}-$(iii)$ is when the noise also scales with $A_P$, and a rate of $O(\frac{1}{t})$ for any fixed $\alpha\in(0,1)$ across all the problems in the $\P_{SPDSN}$. Note that \Cref{th:pspd}-$(iii)$ has special structure, i.e., the noise is \emph{scaled} and the mean squared error is measured with respect to the quadratic norm induced by $A_P$, and these result in a uniform finite time rate of $\frac{C}{t}$. We would like to mention that the results of \citet{bach} is very similar to  \Cref{th:pspd}-$(iii)$. Further, it is clear that these special structures are not present in the case of TD algorithms for LVE problems.
+\Cref{th:pspd}-$(i)$: the $\frac{1}{(t+1)^2}$ in the denominator is directly a result of iterate averaging,  further, when adversary choose $A_P$ close to $0$, the forgetting factor is very close to unity, in which case no forgetting happens, and error accumulates due to the summation of the iterates leading to the $\B(t+1)^2$ and $\alpha^2 \sigma_b^2 O(t^3)$ terms. \Cref{th:pspd}-$(ii)$ is same as the previous except that, now the error is also measured with respect to $A_P$ as result the adversary cannot make the MSE worse by just choosing small enough $A_P$; here we can achieve a rate of $O(\frac{1}{\sqrt{t}})$ if we choose $\alpha=\frac{1}{\sqrt{t}}$. \Cref{th:pspd}-$(iii)$ is when the noise also scales with $A_P$, and a rate of $O(\frac{1}{t})$ for any fixed $\alpha\in(0,1)$ across all the problems in the $\P_{SPDSN}$. Note that \Cref{th:pspd}-$(iii)$ has special structure, i.e., the noise is \emph{scaled} and the mean squared error is measured with respect to the quadratic norm induced by $A_P$, and these result in a uniform finite time rate of $\frac{C}{t}$. 
+\fi
+We note in passing that the results of \citet{bach} are very similar to this last result. \todoc{This is very vague..}
+In fact, our intention was to capture the effect of various properties that are available in LS instances on the error
+of CALSA.
+Furthermore, it is clear that the special structures that helped us to achieve the $O(1/t)$ worst-case rate
+are not present in the case of TD algorithms for LVE problems.
 
