@@ -698,23 +698,23 @@ Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follo
 We need to show that $\rhos{P_A}>0$ holds for the said values of $\alpha$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
 \todoc{There is an $A_\delta$, whereas I used $\gamma$ for discount in introduction. I don't think $\delta$ is needed.
 And now $A_\delta$ is not introduced I think.}
-
+In what follows, for matrices $A, B\in \R^{\dcd}$, we use $A\qfeq B$, $A\qfleq B$ and $A \qfgeq B$ to denote the fact $x^\top (A-B) x = 0$, $x^\top (A-B) x \leq 0 $ and $x^\top (A-B) x \geq 0$, for all $x\in \R^d$. Here $q$ stands for \emph{quadratic forms}, and note that $A\qfeq A^\top$.
 \textbf{Part $(i)$:}  We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, 
 \begin{align*}
 (A_t+A_t^\top) -\alpha A_t^\top A_t 
-& = 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
+&\qfeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top +\beta\gamma\phi'_t\phi^\top_t-\beta\gamma^2\phi'_t{\phi'}_t^\top \\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma^2(\gamma\phi'_t\phi^\top_t- \phi'_t{\phi'}_t^\top)-\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top\,.
 \end{align*}
 Taking expectations, we have \todoc{I think there is a syntax error in the next line.}
 \begin{align*}
-\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\succeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
-\succeq (1-\gamma^2)\left\{A +\beta\gamma\EE{\phi'_t\phi_t^\top}\right\}\,.
+\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\qfgeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
+\qfgeq (1-\gamma^2)\left\{A +\beta\gamma\EE{\phi'_t\phi_t^\top}\right\}\,.
 \end{align*}
 Now we have 
 \begin{align*}
 A +\beta\gamma\E[\phi'_t\phi_t^\top]=& \E[\phi_t\phi_t^\top]-\gamma\E[\phi_t{\phi'_t}^\top] +\beta\gamma\E[\phi'_t\phi_t^\top]
-=\E[\phi_t\phi_t^\top]-\delta\E[\phi_t{\phi'_t}^\top],
+\qfeq\E[\phi_t\phi_t^\top]-\delta\E[\phi_t{\phi'_t}^\top],
 \end{align*}
 where $\delta=\gamma(1-\beta)$. 
 From our assumption that $P\in \text{TDON}(B)$, it follows that $A_{\delta}=\EE{A_t^\delta}$ is PD
@@ -724,7 +724,7 @@ and thus $\rhos{P_A} \ge (1-\gamma^2) \lmin{ A_\delta} >0$.
 In the case of normalized features we have
 \begin{align*}
 (A_t+A_t^\top) -\alpha A_t^\top A_t 
-&= 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
+\qfeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
 =(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
 &=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
 \end{align*}
@@ -736,10 +736,10 @@ Taking expectations, we have
 \end{align*}
 
 \textbf{Part $(iii)$:}
- The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^4 d^2}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
+ The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^2 d}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
 
-Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq M_t$, \todoc{Clashes with noise $M_t$.}
- where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to prove that the Schur complement of $M_t$ is nonnegative. For this we have
+Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq S_t$, \todoc{Clashes with noise $M_t$.}
+ where $S_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $S_t\succeq 0$ we need to prove that the Schur complement of $S_t$ is nonnegative. For this we have
 \begin{align*}
 \MoveEqLeft 
 \alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
