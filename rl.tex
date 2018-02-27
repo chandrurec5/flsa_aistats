@@ -16,17 +16,18 @@ $A_t = \phi_t(\phi_t - \gamma \phi_t')^\top$ as in the caption of \cref{tb:tdalg
 The classes we define satisfy $\norm{A_t}_{\max}\le B$ with a known constant $B>0$, 
 as well as the following conditions:
 \begin{align*}
-\text{TDON}(B)&: \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}, \EE{A_t} \text{ is PD}\,;\\
-\text{TDOFF}(B)&: \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}, \norm{\phi_t}=1\,;\\
+\text{TDON}(B)&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \EE{A_t} \text{ is PD}\,;\\
+\text{TDOFF}(B)&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \norm{\phi_t}=1\,;\\
 \text{GTDOFF}(B)&: \text{no extra condition}
 \end{align*}
 The rationale of the class names should become clear after the next result.
 Here we note for the reader familiar with the RL literature that the classname ending of ``on'' vs. ``off'' signifies
 whether the condition holds in the so-called ``on-policy'', or the ``off-policy'' case, respectively.
-Note that a classical result establishes that $\EE{A_t}$ is indeed PD for the ``on-policy'' case, \todoc{Cite source; sutton95?}
-while the ``second order feature stationarity'' condition $ \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}$ will hold 
+Note that a classical result establishes that $\EE{A_t}$ is indeed PD for the ``on-policy'' case
+\cite{su88},
+while the ``second order feature stationarity'' condition $ \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top]$ will hold 
 when sampling (in the underlying Markov reward process) 
-is started from the stationary distribution \cite{sut95}. 
+is started from the stationary distribution \cite{su88}. 
 \if0
 \FloatBarrier
 \begin{table}[h]

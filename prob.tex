@@ -30,7 +30,7 @@ We further assume that $A_P = \EE{A_t}$ is \emph{Hurwitz}.
 %\item $A_P$ is invertible and thus the vector $\ts=A^{-1}_Pb_P$ is well-defined.
 \item \label{matvar}  
 The ``noise sequences'' $\{M_t\}_{t\ge 1}$, $\{N_t\}_{t\ge 1}$,
-where  $M_t= A_t-A_{P}$ \todoc{Clashes with $\norm{\cdot}_M$!!!}
+where  $M_t= A_t-A_{P}$
  and $N_t= b_t-b_{P}$,
 have uniformly bounded second conditional moments:
 For some $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$ constants,
@@ -142,7 +142,7 @@ Consider a \emph{Markov Decision Process} given by the tuple $\langle S,A,P,R,\g
 In this paper, we consider an important problem namely approximate policy evaluation (APE) in an $\iid$ sampling setting, where the data is given by the sequence  $D_t=(s_t,s'_t,r_t,a_t),t\geq 0$ with $s_t\sim \mu$,  $s'_t\sim p(s_t,\cdot)$, $a_t\sim\pi_b(s_t)$ and $r_t=r_{a_t}(s_t)$. Here, based on $\mu$ we have two different settings namely, the \emph{on-policy} setting where $\mu=d_{\pi}$ is the stationary distribution of  the \emph{target} policy and the \emph{off-policy} setting where $\mu$ is any arbitrary distribution. In the problem of APE, the aim is to approximate $V_\pi \approx \Phi \ts$, where $\Phi\in \R^{|S|\times d}$ is a feature matrix and $\ts\in\R^d$ is a weight vector to be learnt.
 \fi
 In this paper we consider the constant stepsize version of
-\citeauthor{sut95}'s TD(0) \cite{sut95}, and a constant stepsize version of a novel variant of the so-called
+\citeauthor{su88}'s TD(0) \cite{su88}, and a constant stepsize version of a novel variant of the so-called
 GTD algorithm \cite{gtd,gtd2}. The novelty of our variant is that it updates the parameter vector $\theta_t$ using
 the updates auxiliary parameter $y_t$, rather than using $y_{t-1}$ as in the original version. This small change will be instrumental for our results in \cref{sec:rl}. The algorithms are summarized in \Cref{tb:tdalgos}.
 %One can define $\P_{APE}$ to be the class of all APE problems with fixed $|S|$ and $|A|$ restricting to those policies that give rise to an irreducible Markov chains and restricting the entires of $\Phi$ to be bounded.
