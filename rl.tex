@@ -13,13 +13,13 @@ the entrywise $\max$-norm for matrices: $\norm{A}_{\max} = \max_{i,j} |A_{ij}|$.
 Recall that an LVE problem is given by the joint distribution of the i.i.d. sequence
 $\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}\subset \R^d\times \R^d \times \R$. We let 
 $A_t^\delta = \phi_t(\phi_t - \delta \phi_t')^\top$ for $\delta\in (0,1)$.
-The classes we define satisfy $\norm{A_t}_{\max}\le B$ with a known constant $B\ge 1$, \todoc{I assume $B\ge 1$ for simplicity so that $B^4\ge B^2$ holds.}
+The classes we define satisfy $\norm{A_t}_{\max}\le B_{GTD}$ and $\norm{\Phi}_{\max}\le B_{TD}$ with known constants $B_{TD}\ge 1$ and $B_{GTD}\ge 1$, \todoc{I assume $B\ge 1$ for simplicity so that $B^4\ge B^2$ holds.}
 as well as the following conditions:
 \begin{align*}
-\text{TDON}(B)&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \\
+\text{TDON}(B_{TD})&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \\
 						& \,\,\,\,\, \EE{A_t^\delta} \text{ is PD for all } \delta\in (0,1)\,;\\
-\text{TDOFF}(B)&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \norm{\phi_t}=1\,;\\
-\text{GTDOFF}(B)&: \text{no extra condition}
+\text{TDOFF}(B_{TD})&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \norm{\phi_t}=1\,;\\
+\text{GTDOFF}(B_{GTD})&: \text{no extra condition}
 \end{align*}
 The rationale of the class names should become clear after the next result.
 Here we note for the reader familiar with the RL literature that the classname ending of ``on'' vs. ``off'' signifies
@@ -46,16 +46,16 @@ $\P_{GTDOFF}$ & $\pi,\mu,P,R$ &$\mu\neq d_{\pi}$\\\hline
 \begin{restatable}{theorem}{thtdadmis}\label{th:tdadmis}
 The following hold:
 %Define constant $B\eqdef\max_{ij}\md{A_{ij}}$.  We have 
-$i)$ CATD(0) has a universal stepsize of $\alpha_{td}=\frac{1}{B^2d}$ for  the class $\text{TDON}(B)$.
-$ii)$ CATD(0) has a universal stepsize of $\alpha_{td}=1$ for  the class $\text{TDOFF}(B)$.
-$ii)$ CAGTD has a universal stepsize of $\alpha_{gtd}=\frac{1}{2B^2d}$ for the class $\text{GTDOFF}(B)$.
+$i)$ CATD(0) has a universal stepsize of $\alpha_{td}=\frac{1}{B^2_{TD}d}$ for  the class $\text{TDON}(B_{TD})$.
+$ii)$ CATD(0) has a universal stepsize of $\alpha_{td}=1$ for  the class $\text{TDOFF}(B_{TD})$.
+$ii)$ CAGTD has a universal stepsize of $\alpha_{gtd}=\frac{1}{2B^2_{GTD}d}$ for the class $\text{GTDOFF}(B_{GTD})$.
 \end{restatable}
 In the proof we show that the three classes are admissible for the respective algorithms.
 \if0
 The property $\EE{\phi_t\phi_t}=\EE{\phi'_t{\phi'_t}^\top}$ is known as second order feature stationarity, and is used in the proof.
 \fi
 
-From \Cref{tb:tdalgos}, the matrix $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$ is key to both CATD(0) and CAGTD. In the case of CATD(0),  the expression for $\rhos{P}$ involves $\phi^\top_t\phi_t$ which can take a maximum value of $B^2d$  and is the reason for the $B^2d$ term in $\alpha_{td}$. In the case of CAGTD, the expression for $\rhos{P}$ involves $A_t^\top A_t$, and hence $B^4d^2$ appears in $\alpha_{gtd}$. 
+From \Cref{tb:tdalgos}, the matrix $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$ is key to both CATD(0) and CAGTD. In the case of CATD(0),  the expression for $\rhos{P}$ involves $\phi^\top_t\phi_t$ which can take a maximum value of $B^2d$  and is the reason for the $B^2d$ term in $\alpha_{td}$. In the case of CAGTD, the expression for $\rhos{P}$ involves $A_t^\top A_t$, and hence $B^2_{GTD}d$ appears in $\alpha_{gtd}$. 
 The conservative stepsize for CAGTD seems to be the price paid for \emph{off-policy} stability. Notice that in the case of normalized features, the factor depending on $B$ and $d$ can be removed.
 
 Note that the above result in particular implies that the respective algorithms with the proposed stepsizes achieve the instance-dependent errors $O(\frac{1}{t})$ on these three classes of LVE problems.
