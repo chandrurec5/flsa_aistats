@@ -424,7 +424,7 @@ Consider the LSA with $(A_t,b_t)\sim P$ such that
 $A_t=A$ for all $t\ge 1$ 
 and $b_t = (N_t,0)^\top$.
 Note that in this example $\ts=0$, $\sigma_{A_P}^2 = 0$, $A_P=A$ and $\sigma_{b_P}^2 = \sigma^2$.
-Using \eqref{eq:errrecursion}, we calculate that $\eh_t$ satisfies
+We calculate $\eh_t$ to be
 \begin{align*}
 \eh_t&=\frac{1}{t+1}\sum_{s=0}^t e_t = \frac{1}{t+1}\sum_{s=0}^t (I-\alpha A)^{t-s} e_0 +\alpha \sum_{s=1}^t \sum_{i=s}^t (I-\alpha A)^{i-s} b_s\\
 &=\frac{1}{t+1}(\alpha A)^{-1}\left[\left(I-(I-\alpha A)^{t+1}\right)e_0 + \alpha \sum_{s=1}^t \left(I-(I-\alpha A)^{t+1-s}\right) b_s\right]\,.
@@ -523,9 +523,9 @@ For any $P$ in $\P_{SPD}$ or $\P_{SPDSN}$, the corresponding $A_P$ matrix is rea
 \theta_t&=(I-\alpha A_P)\theta_{t-1}+\alpha b_t\\
 \label{eq:gamrec}\gamma_t&=(I-\alpha \Lambda_P)\gamma_{t-1}+\alpha \zeta_t
 \end{align}
-Since $U$ is an orthogonal matrix $\norm{\gamma}_{\Lambda_P}=\gamma^\top \Lambda_P \gamma= \theta^\top U \Lambda_P U^\top \theta=\norm{\theta}_{A_P}$ and similarly $\norm{gamma}=\norm{\theta}$ and when $P\in \P_{SPDSN}$ we have $\EE{\zeta_t \zeta_t^\top}\leq \Lambda_P$. Thus, for any adversarial choice of $A_P$, it is equivalent to choosing a problem corresponding to $\Lambda_P$. Thus, in order to prove the bounds it is enough to choose such diagonal problems. In what follows, we let $e_t\eqdef\gamma_t-\gamma_*$ (though we have used $e_t=\theta_t-\ts$ everywhere else, we have re-defined to avoid introducing additional notation).
+Since $U$ is an orthogonal matrix $\norm{\gamma}_{\Lambda_P}=\gamma^\top \Lambda_P \gamma= \theta^\top U \Lambda_P U^\top \theta=\norm{\theta}_{A_P}$ and similarly $\norm{\gamma}=\norm{\theta}$ and when $P\in \P_{SPDSN}$ we have $\EE{\zeta_t \zeta_t^\top}\leq \Lambda_P$. Thus, for any adversarial choice of $A_P$, it is equivalent to choosing a problem corresponding to $\Lambda_P$. Thus, in order to prove the bounds it is enough to choose such diagonal problems. In what follows, we let $e_t\eqdef\gamma_t-\gamma_*$ (though we have used $e_t=\theta_t-\ts$ everywhere else, we have re-defined to avoid introducing additional notation).
 
-It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, it follows that such an adversarial choice should have $\Lambda(i)=\Lambda, i=1,\ldots, d$. Thus, it is enough to prove the bounds for the $1$-dimensional case, and multiply them with $d$ for the general case. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, we have the following relation for the error
+It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, it follows that such an adversarial choice should have $\Lambda(i)=\lambda, i=1,\ldots, d$. Thus, it is enough to prove the bounds for the $1$-dimensional case, and multiply them with $d$ for the general case. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, we have the following relation for the error
 \begin{align}\label{eq:onederr}
 \eh_t=\frac{1}{t+1}\left[\sum_{s=0}^t (1-\alpha \lambda)^s e_0+ \alpha \sum_{i=1}^t \sum_{s=0}^{t-i} (1-\alpha \lambda)^s b_i\right]
 \end{align}
@@ -674,8 +674,8 @@ We need to show for the said values of $\alpha$ it holds that $\rhos{P_A}>0$. %T
 Taking $\E$, we have
 \begin{align*}
 &\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t}\\
-&\succ  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\E{\phi'_t\phi_t^\top} \big)x\\
-&\succ (1-\gamma^2)[A +\beta\gamma\E{\phi'_t\phi_t^\top}]
+&\succeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\E{\phi'_t\phi_t^\top} \big)x\\
+&\succeq (1-\gamma^2)[A +\beta\gamma\E{\phi'_t\phi_t^\top}]
 \end{align*}
 Now we have 
 \begin{align*}
@@ -694,7 +694,7 @@ In the case of normalized features we have
 Taking $\E$, we have
 \begin{align*}
 \EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }&=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}\\
-&=(1-\gamma^2)\EE{\phi_t\phi_t^\top}
+&=(1-\gamma^2)\EE{\phi_t\phi_t^\top}\\
 &\succ 0
 \end{align*}
 
@@ -705,8 +705,8 @@ Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha
 \begin{align}
 &\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
 =&\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
-\succ &\alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
-\succ& \frac{\alpha}{2} A_t^\top A_t,
+\succeq &\alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
+\succeq& \frac{\alpha}{2} A_t^\top A_t,
 \end{align}
 where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}
 \end{proof}

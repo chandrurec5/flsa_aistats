@@ -15,7 +15,7 @@ Then, for any positive-valued, user-chosen stepsize sequence $\{\alpha_t\}_{t\ge
 can be implemented in $O(d)$ time and space, making such 
 \emph{linear stochastic approximation (LSA) algorithms} 
 an appealing alternative to directly 
-computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$ by inverting $\bar A_t$ (in which case the computational cost and storage costs are $O(d^2)$ or more).
+computing the solution to $\bar A_t \theta = \bar b_t$, where $\bar A_t = \frac1t\sum_{s=1}^t A_s$, $\bar b_t = \frac1t \sum_{s=1}^t b_s$ by inverting $\bar A_t$ (in which case the computational and storage costs are $O(d^2)$ or more).
 
 \if0
 independent and identically distributed according to $P$ (a distribution with bounded second moment). Here, $P$ denotes the given problem instance. The aim here is to compute a $\ts\in\R^d$ (a minimum or a fixed point) such that $\EE{A_t}\ts=\EE{b_t}$, where $\E$ is the expectation. When $A_t\,$s are rank-$1$ matrices, as is the case in a number of applications to be discussed soon, $b_t -A_t\theta_{t-1}$ can be computed in $O(d)$, which makes them suitable for high dimensional problems. Some examples of such LSA algorithms include the stochastic gradient descent algorithm (SGD) for the problem of linear prediction \cite{bach,bachaistats}, and the \emph{temporal difference} (TD) class of learning algorithms for approximate policy evaluation (APE) in reinforcement learning (RL) \cite{sutton,konda-tsitsiklis,KoTsi03LSA,gtd,gtd2,gtdmp}.
@@ -42,7 +42,7 @@ in the context of linear regression with the squared loss (LS),
 \citet{bach-moulines} suggested that
 \eqref{eq:lsaintro} should be used with $\alpha_t=\alpha>0$ ($t\ge 1$) 
 with some $\alpha>0$ to be chosen based on $\cP$, 
-and user the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$ as the output. 
+and use the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$ as the output. 
 \todoc{I think there is also an impossibility result for choosing $\{\alpha_t\}_{t\ge 1}$,
 at least for LS problems. Namely, no universal stepsize sequence achieves the optimal bound.}
 The main result of 
@@ -77,7 +77,7 @@ In particular,  in LVE
 (here $\norm{x}_Q^2 = x^\top\!\!Q x$ for $Q$ symmetric, positive definite), 
 this is not the case in TD.
 Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent, identically distributed (i.i.d.) sequence. 
-For our results that have a negative character there is no loss of generality
+For our results that have a negative character there is no loss of generality in 
 making this assumption. 
 The question as to what extent our other results can be extended to the Markov noise
 case remains for future work. \todoc{I don't have high hopes.}
@@ -142,7 +142,7 @@ In \cref{sec:exp} we illustrate these theoretical results by means of computer s
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 After our results, we briefly discuss related work in \cref{sec:related}.
 In connection to this, we also wish to mention
-that other computationally cheap methods such as those based on matrix sketching idea, could be a viable alternative to  CALSA. \todoc{Add some ref! Book..? Widgerson?} 
+that other computationally cheap methods such as those based on matrix sketching idea \cite{wang2015practical}, could be a viable alternative to  CALSA. \todoc{Add some ref! Book..? Widgerson?} 
 However, regardless of this, we believe that understanding a simple method like CALSA remains an important and foundational challenge.
 %However, especially in RL, LSA has been at the heart of the widely used TD algorithms for more than a decade, and our work contributes to the understanding of the limitations and benefits of such algorithms. Also, we believe understanding CALSA is foundational in the sense that in most cases of general incremental algorithms our understanding is based on their ``linearized'' versions. We now present some basic notations followed throughout the paper.
 

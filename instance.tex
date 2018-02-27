@@ -13,7 +13,7 @@ we borrow much from previous papers (e.g., \cite{bach-moulines,polyak-judisky}).
 \iffalse
 The core question is how the error depends on various instance-dependent quantities (variance of noise, spectral properties of matrices involved, the size of the initial error, etc.), how fast the error decreased over time.
 As we shall see, if the constant step-size belongs to a small enough neighborhood of zero (the size of which depends on the instance), the error decreases at a rate of $O(1/t)$ and both too small and too large step-sizes are undesirable. The main result, \Cref{th:rate}, which bounds the error from above, is corroborated with a lower bound which shows that the upper bound is tight.
-While the results of this section may not have appeared in this form in the literature, the steps of the analysis are quite standard. \todoc{I think we should say who we are building on.}
+While the results of this section may not have appeared in this form in the literature, the steps of the analysis are quite standard and build on the results of \citet{bach}.\todoc{I think we should say who we are building on.}
 \fi
 
 \iffalse
@@ -102,7 +102,7 @@ Thus, the MSE in round $t$ is bounded by a sum of two terms. The first, \emph{bi
 %\textbf{Behavior for extreme values of $\alpha$}: 
 As $\alpha\to 0$, the bias term blows up, due to the presence of $\alpha^{-1}$ there. This is unavoidable (see also \cref{th:lb} below) and is due to the slow forgetting of initial conditions for small $\alpha$. Small step-sizes are however useful to suppress noise, as seen from that in our bound $\alpha^2$ is seen to multiply the variances $\sigma^2_{A_P}$ and $\sigma^2_{b_P}$. In quantitative terms, we can see that the $\alpha^{-2}$ and $\alpha^2$ terms are trading off the two types of errors. As $\alpha$ is increased to a critical value $\alpha_{P_U}$, 
 $\rhos{P_U}\ra 0$ and the bounds blow up again. Indeed, too large stepsizes can lead to instability, though the upper bound of \cref{th:rate} is a bit loose in this respect.
-Finally, not that one can always take $U$ in the result that leads to the smallest bound. \todoc{Maybe here it is better to allow complex $U$!? This could be a note.}
+Finally, note that one can always take $U$ in the result that leads to the smallest bound (including a $U$ with complex entries, in which case, the analysis goes through with appropriate technical modifications). \todoc{Maybe here it is better to allow complex $U$!? This could be a note.}
 \begin{comment}
 \textbf{Proof Sketch:} We can expand the MSE as $\EE{\norm{\eh_t}^2}=\tfrac{1}{(t+1)^2}\, \ip{ \textstyle\sum_{s=0}^t e_s,\textstyle\sum_{s=0}^t e_s}\,,$
 where $\eh_t = \thh_t-\ts$ and $e_t = \theta_t-\ts$, and the inner product is a summation of \emph{diagonal} terms $\EE{\ip{e_s,e_s}}$ and \emph{cross} terms of $\EE{\ip{e_s,e_q}}$, $s\neq q$. Since, we also use a basis transformation via $U$, the growth of the diagonal terms and the cross terms depends on the spectral norm of the random matrices $I-\alpha \Lambda_t$ and that of the deterministic matrix $I-\alpha \Lambda$, respectively. This explains the reason as to why $\rhos{P_U}$ and $\rhod{P_U} $ appear in the bounds.
@@ -113,7 +113,7 @@ As promised, the next result shows that the bound of \cref{th:rate} is tight, at
 There exists a distribution $P$ over $ \R^{\dcd}\times\R^d$ satisfying \Cref{assmp:lsa} and a constant
  $\alpha_P>0$ so that $(\rhod{P}\ge )$ $\rhos{P}>0$  holds for all
 $0<\alpha<\alpha_P$ and
-for any $t\ge 1$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
+for any $t\ge 0$, \todoc{$t\ge 1$?} $\EE{\normsm{\thh_t-\ts}^2} 
 \geq \frac{1}{\alpha^2 \, \rhod{P}\rhos{P}} \,\left\{ \frac{\beta_{t+1}^2 \norm{\theta_0-\ts}^2}{(t+1)^2} 
 + \frac{\alpha^2 \sigma^2_{b_P}\sum_{s=1}^t \beta_{s}^2  }{(t+1)^2} \right\}\,,$
 where $\beta_{t} =  1-(1-\tfrac12 \alpha \rhos{P})^t$.

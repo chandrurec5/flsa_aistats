@@ -21,8 +21,8 @@ $\cF_t = \sigma(A_1,b_1,\dots,A_t,b_t)$ to denote the $\sigma$-algebra summarizi
 including time step $t\ge 1$ and we let $\cF_0$ denote the trivial $\sigma$-algebra. We will also assume
 that $A_P \defeq \EE{A_t}$ is nonsingular and let $\ts = A_P^{-1} b_P$ where $b_P \defeq \EE{b_t}$.
 
-We are interested in the mean squared error (MSE) at time $t$ given by $\E[\normsm{\thh_t-\ts}^2_M]$ 
-for some SPD matrix $M$. Our assumptions concerning $\{(A_t,b_t)\}_{t\ge 1}$ are as follows:
+We are interested in the mean squared error (MSE) at time $t$ given by $\E[\normsm{\thh_t-\ts}^2_Q]$ 
+for some SPD matrix $Q$. Our assumptions concerning $\{(A_t,b_t)\}_{t\ge 1}$ are as follows:
 \begin{assumption}\label{assmp:lsa}
 \begin{enumerate}[leftmargin=*, before = \leavevmode\vspace{-\baselineskip}]
 \item \label{dist} $\{(A_t, b_t)\}_{t\ge 1}$ is an \iid sequence with common distribution $P$. 
@@ -47,11 +47,11 @@ Since a Hurwitz matrix is necessarily nonsingular, $A_P$ is nonsingular as promi
 Note that the assumption that $A_P$ is Hurwitz is necessary for the boundedness of
 of the iterates $\{\theta_t\}_{t\ge 1}$ in any reasonable sense (e.g., in the sense that 
  $\E[\normsm{\theta_t}^2]$ is bounded).
- In general, $M$ is allowed to be dependent on the instance $P$. In particular, 
+ In general, $Q$ is allowed to be dependent on the instance $P$. In particular, 
  this is the case in linear regression, which we consider next.
 
 \if0
-Here we consider the \emph{multiplicative noise} case, where the noise in $A_t$ multiplies with the iterates $\theta_{t-1}$. In RL applications typically $A_P$ is known to be \emph{Hurwitz} and hence invertible (Hurwtiz matrices is a superset of real symmetric positive definite matrices). Note that `Hurwitz'-ness is necessary; it is trivial to construct examples where $A_P$ has negative eigenvalues and the iterates blow to infinity (i.e., $\norm{\theta_t}\ra\infty$ as $t\ra\infty$). Alos, it is in general not possible to exploit the presence of $M$ unless it is connected to $A_P$ in a special way (see \Cref{sec:land}), so in most results we let $M = \I$, i.e., $\EE{\normsm{\thh_t-\ts}^2_M}\leq \normsm{M}^2\E[\normsm{\thh_t-\ts}^2]$. 
+Here we consider the \emph{multiplicative noise} case, where the noise in $A_t$ multiplies with the iterates $\theta_{t-1}$. In RL applications typically $A_P$ is known to be \emph{Hurwitz} and hence invertible (Hurwtiz matrices is a superset of real symmetric positive definite matrices). Note that `Hurwitz'-ness is necessary; it is trivial to construct examples where $A_P$ has negative eigenvalues and the iterates blow to infinity (i.e., $\norm{\theta_t}\ra\infty$ as $t\ra\infty$). Also, it is in general not possible to exploit the presence of $Q$ unless it is connected to $A_P$ in a special way (see \Cref{sec:land}), so in most results we let $M = I$, i.e., $\EE{\normsm{\thh_t-\ts}^2_Q}\leq \normsm{Q}^2\E[\normsm{\thh_t-\ts}^2]$. 
 %However, invertibility might not hold in cases such as \cite{bertstab}, and is not within the scope of this paper. 
 And finally, the boundedness of the variances has also been assumed. 
 \fi
@@ -156,7 +156,7 @@ $\begin{aligned}\label{eq:td}
 \quad\thh_{t} &= \frac{1}{t+1}\sum_{s=0}^t \theta_s
 \end{aligned}
 $ & $\begin{aligned}\label{eq:gtd}
-y_{t}&=y_t+\beta(b_t +A_t\theta_{t-1} -y_{t-1}),\\
+y_{t}&=y_{t-1}+\beta(b_t +A_t\theta_{t-1} -y_{t-1}),\\
 \theta_{t}&=\theta_{t-1}+\alpha A_t^\top y_{t}\\
 \thh_{t}&=\frac{1}{t+1}\sum_{s=0}^t \theta_s, \hat{y}_{t}=\frac{1}{t+1}\sum_{s=0}^t y_s, 
 \end{aligned}
