@@ -683,8 +683,10 @@ Let $A$ be a $\dcd$ matrix with $B\ge \max_{ij}\left|A_{ij}\right|$. It follows 
 
 We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succeq D$ if $C-D$ is positive definite. We cite the following lemma without proof (see \cite{schur}). The lemma is often attributed to Schur: 
 \begin{lemma}\label{lm:schur}
-Let $A,B,C$ $\dcd$ real matrices. Given a symmetric matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$ be a given $2d\times 2d$ matrix, it follows that $M\succeq 0$ if	$A\succeq 0$ and $C-B^\top A^{-1}B\succeq 0$.
+Let $A,B,C$ be $\dcd$ real matrices. 
+Given a symmetric $2d\times 2d$  matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$, it follows that $M\succeq 0$ if	$A\succeq 0$ and  $C-B^\top A^{-1}B\succeq 0$.
 \end{lemma}
+The matrix  $C-B^\top A^{-1}B$ appearing in this result is called the Schur complement of $M$.
 \if0
 \begin{lemma}\label{lm:amat}
 Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follows that the matrix $A_\delta=\Phi^\top D_\pi(I-\delta P_\pi)\Phi$ is positive definite ($x^\top Ax>0,\forall x \in \R^d$) $\forall \delta\in(0,1)$.
@@ -693,7 +695,7 @@ Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follo
 
 \thtdadmis*
 \begin{proof}
-We need to show for the said values of $\alpha$ it holds that $\rhos{P_A}>0$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
+We need to show that $\rhos{P_A}>0$ holds for the said values of $\alpha$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
 \todoc{There is an $A_\delta$, whereas I used $\gamma$ for discount in introduction. I don't think $\delta$ is needed.
 And now $A_\delta$ is not introduced I think.}
 
@@ -707,16 +709,16 @@ And now $A_\delta$ is not introduced I think.}
 Taking expectations, we have \todoc{I think there is a syntax error in the next line.}
 \begin{align*}
 \EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\succeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
-\succeq (1-\gamma^2)[A +\beta\gamma\EE{\phi'_t\phi_t^\top}]\,.
+\succeq (1-\gamma^2)\left\{A +\beta\gamma\EE{\phi'_t\phi_t^\top}\right\}\,.
 \end{align*}
 Now we have 
 \begin{align*}
-A +\beta\gamma\EE{\phi'_t\phi_t^\top}=& \EE{\phi_t\phi_t}-\gamma\EE{\phi_t{\phi'_t}^\top} +\beta\gamma\EE{\phi'_t\phi_t^\top}
-=\EE{\phi_t\phi_t}-\delta\EE{\phi_t{\phi'_t}^\top},
+A +\beta\gamma\E[\phi'_t\phi_t^\top]=& \E[\phi_t\phi_t^\top]-\gamma\E[\phi_t{\phi'_t}^\top] +\beta\gamma\E[\phi'_t\phi_t^\top]
+=\E[\phi_t\phi_t^\top]-\delta\E[\phi_t{\phi'_t}^\top],
 \end{align*}
 where $\delta=\gamma(1-\beta)$. 
-From our assumption that in $\text{TDON}(B)$, $A_{\delta}=\EE{A_t^\delta}$ is PD,
-it follows that $x^\top\big(\EE{\phi_t\phi_t}-\delta\EE{\phi_t\phi'_t} )x=x^\top A_{\delta} x>0$.
+From our assumption that $P\in \text{TDON}(B)$, it follows that $A_{\delta}=\EE{A_t^\delta}$ is PD
+and thus $\rhos{P_A} \ge (1-\gamma^2) \lmin{ A_\delta} >0$.
 
 \textbf{Part $(ii)$:}
 In the case of normalized features we have
@@ -737,7 +739,7 @@ Taking expectations, we have
  The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^4 d^2}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
 
 Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq M_t$, \todoc{Clashes with noise $M_t$.}
- where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to ensure 
+ where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to prove that the Schur complement of $M_t$ is nonnegative. For this we have
 \begin{align*}
 \MoveEqLeft 
 \alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
