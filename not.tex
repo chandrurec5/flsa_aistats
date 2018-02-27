@@ -22,8 +22,9 @@ We use $\lmin{A}$ to denote the minimum eigenvalue of a symmetric matrix $A$, wh
 We denote the identity matrix in $\R^{\dcd}$ by $I$. 
 %and the set of invertible $\dcd$ complex matrices by $\gld$. \todoc{Is this used ever?}
 %For a positive real number $B>0$, we define $\C^{d}_B=\{b\in \R^d\mid \norm{b}\leq B\}$ and $\C^{\dcd}_B=\{A\in \R^{\dcd}\mid \norm{A}\leq B\}$ to be the balls in $\R^d$ and $\R^{d\times d}$, respectively, of radius $B$.  \todoc{Are these used?!}
-We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$; $\E$ denotes mathematical expectation. For two sequences $\{a_t\}_{t\geq 0}$ and $\{b_t\}_{t\geq 0}$ of positive real numbers we write $a_t\asymp b_t$ when there exists constants $c_1\geq c_2\geq 0$ such that $c_2 a_t\leq b_t\leq c_1 a_t$. \todoc{Weaker than what we want.
-We have that $a_t,b_t$ can also depend on constants. In this case, $c_1$ and $c_2$ are \emph{not} allowed to depend on these constants.}
+We use $Z\sim P$ to denote the fact that $Z$ (which can be a number, or vector, or matrix) is distributed according to probability distribution $P$; $\E$ denotes mathematical expectation. 
+For $t\ge 0$ let $a_t,b_t:X \to (0,\infty)$. We write $a_t\asymp b_t$ 
+when there exists constants $0\le c_1\leq c_2$ such that for any $x\in X$, $c_1 a_t(x)\leq b_t(x)\leq c_2 a_t(x)$. 
 %When $a_t,b_t$ depend on constants, $c_1$ and $c_2$ do not depend on those.
 \begin{comment}
 Let us now state some definitions that will be useful for presenting our main results. \todoc{Actually, we should remove all definitions not needed by the main body.}

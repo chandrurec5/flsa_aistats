@@ -65,7 +65,7 @@ $\eps_t'(\cP) = \sup_{P\in \cP}\E_P[\norm{\eh_t}^2_{A_P}]$.
 \begin{restatable}{theorem}{thpspd}\label{th:pspd}
 Any $\alpha\in(0,1)$ is a universal stepsize for
 both $\SPD$ and $\SPDSN$.
-Furthermore, for any fixed $\alpha\in (0,1)$, $\theta_0\in \R^d$,
+Furthermore, for any fixed $\alpha\in (0,1)$, $\theta_0\in \R^d$, \todoc{In general, the dimension is hidden in $\norm{e_0}^2$ and because $\sigma_b^2$ is a bound on the norm of the noise.}
 \if0
 \begin{enumerate}[label=(\emph{\roman*}),
 topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt]
@@ -79,7 +79,7 @@ topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt]
 \begin{align*}
 \eps_t(\SPD) &\asymp \norm{e_0}^2+\alpha^2\sigma_b^2 t\,,\quad
 \eps_t'(\SPD) \asymp \frac{\norm{e_0}^2}{\alpha t}+\sigma^2_b\alpha\,,\\
-&\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{1}{t}\,.
+&\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{d}{t}\,.
 \end{align*}
 \end{restatable}
 \if0
@@ -94,8 +94,8 @@ choice for $\alpha$ is $\alpha = 1/(\sigma_b \sqrt{t})$ and this choice
 gives the error $2\norm{e_0}^2 \sigma_b/\sqrt{t}$, which decreases over time.
 
 In the structured noise case and when the error is also scaled with $A_P$, the worst-case error improves to 
-the uniform error of $1/t$. This is because here the magnitude of the noise on a per-instance bases is also constrained
-by $A_P$. Thus, scaling down $A_P$ cannot hurt the CALSA algorithm anymore.
+scale with $1/t$. This is because here the magnitude of the noise on a per-instance bases is also constrained
+by $A_P$. Thus, scaling down $A_P$ will not hurt the CALSA algorithm anymore.
 
 \if
 Once we choose a stepsize $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible.  In what follows, without loss of generality, let the dimension be $d=1$.
