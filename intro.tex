@@ -24,7 +24,7 @@ independent and identically distributed according to $P$ (a distribution with bo
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
 
 Assuming sufficient regularity of $\{(A_t,b_t)\}_{t\ge 1}$, e.g., independence, or mixing, in addition to bounded moments, if the stepsize sequence converges to zero at an appropriate rate,
-convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses. \todoc{cite some papers that do this..}
+convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses \cite{bemepri90,borkarbook}. \todoc{cite some papers that do this..}
 In applications, one often starts from some additional broad properties of the common distribution
 $P$ underlying $\{(A_t,b_t)\}$, i.e., $P\in \cP$ for a known family of instances $\cP$.
 For example, in \emph{linear regression under the squared loss criterion} (LS), 
@@ -54,7 +54,7 @@ the constant stepsize $\alpha$ can be chosen solely based on the above-mentioned
 upper bound $B$ \todoc{I think they actually assume bounded data? Check this..}
 to guarantee that for some universal constant $c>0$
 the expected squared prediction error of using $\thh_t$ is at most $c B/t$ for any $t\ge 1$,
-which, up to constant factors, is information-theoretically optimal. \todoc{This needs a reference.}
+which, up to constant factors, is information-theoretically optimal \cite{nemirovski,agarwal,yudin}. \todoc{This needs a reference.}
 
 In this paper we ask to what extent the nice result 
 of \citet{bach-moulines} can be extended beyond LS;
