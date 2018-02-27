@@ -1,6 +1,6 @@
 %!TEX root =  flsa.tex
 \section{Introduction}\label{sec:intro}
-Various estimation and filtering problems in signal processing, reinforcement learning or econometrics
+Various estimation problems in supervised, unsupervised, or reinforcement learning and beyond
 are formulated as the problem of finding the unique solution $\ts\in \R^d$ 
 to the linear equation $\EE{A_t} \theta = \EE{b_t}$,
 where $\{(A_t,b_t)\}_{t\ge 1}$ is an $\R^{\dcd}\times \R^d$-valued random sequence with a common distribution $P$
@@ -24,7 +24,7 @@ independent and identically distributed according to $P$ (a distribution with bo
 %An additional feature in these class of applications is that $A_t$ turns out to be a rank-$1$ matrix and $A_t\theta_{t-1}$ can be obtained in $O(d)$, which is attractive due to the cheap per time step computational requirement.\par
 
 Assuming sufficient regularity of $\{(A_t,b_t)\}_{t\ge 1}$, e.g., independence, or mixing, in addition to bounded moments, if the stepsize sequence converges to zero at an appropriate rate,
-convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses \cite{bemepri90,borkarbook}. \todoc{cite some papers that do this..}
+convergence of $\{\theta_t\}_{t\ge 0}$ to $\ts$ can be guaranteed in various senses \cite{bemepri90,borkarbook}. 
 In applications, one often starts from some additional broad properties of the common distribution
 $P$ underlying $\{(A_t,b_t)\}$, i.e., $P\in \cP$ for a known family of instances $\cP$.
 For example, in \emph{linear regression under the squared loss criterion} (LS), 
@@ -37,27 +37,28 @@ so that the worst-case error is  ``small''
 over the whole class $\cP$ and for any  $t\ge 1$.
 
 To overcome the difficulty of choosing such a ``universally good'' stepsize sequence,
-following the ideas of \citet{ruppert} and \citet{polyak-judisky},
+following the ideas of \citet{ruppert}, \citet{polyak-judisky},
 in the context of linear regression with the squared loss (LS),
-\citet{bach-moulines} suggested that
+\citeauthor{bach-moulines} suggested that
 \eqref{eq:lsaintro} should be used with $\alpha_t=\alpha>0$ ($t\ge 1$) 
 with some $\alpha>0$ to be chosen based on $\cP$, 
-and use the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$ as the output. 
+and use the average $\thh_t\eqdef\frac{1}{t+1}\sum_{s=0}^t \theta_s$ as the output
+\cite{bach-moulines}.
 \todoc{I think there is also an impossibility result for choosing $\{\alpha_t\}_{t\ge 1}$,
 at least for LS problems. Namely, no universal stepsize sequence achieves the optimal bound.}
-The main result of 
-\citet{bach-moulines}, 
+Their main result 
 %which is further improved by  \citet{bach}, 
 is that for the LS problem, 
 under the assumption that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent sequence, 
-the constant stepsize $\alpha$ can be chosen solely based on the above-mentioned 
+the stepsize $\alpha$ can be chosen solely based on the above-mentioned 
 upper bound $B$ \todoc{I think they actually assume bounded data? Check this..}
-to guarantee that for some universal constant $c>0$
-the expected squared prediction error of using $\thh_t$ is at most $c B/t$ for any $t\ge 1$,
-which, up to constant factors, is information-theoretically optimal \cite{nemirovski,agarwal,yudin}. \todoc{This needs a reference.}
+to guarantee that for some universal constant $C>0$
+the expected squared prediction error of using $\thh_t$ is at most $C \,d\, B^2/t$ for any $t\ge 1$,
+which
+is information-theoretically near-optimal (e.g., \cite{Sha15}).
 
 In this paper we ask to what extent the nice result 
-of \citet{bach-moulines} can be extended beyond LS;
+of \citeauthor{bach-moulines} can be extended beyond LS;
 in other words, we are asking which aspects of the LS problem play a critical role. 
 Our interest stems from the desire to reproduce this result for
 linear value-function estimation (LVE) in reinforcement learning (RL) where
@@ -71,12 +72,12 @@ have been proposed as an analog of the ``LMS algorithm'' analyzed by
 The extension is not straightforward as there are a number of critical differences
 between the properties of the instances in LS and LVE.
 In particular,  in LVE
-{\em (i)}  $A=\EE{A_t}$ is in general non-symmetric;
-{\em (ii)} the sequence  $\{(A_t,b_t)\}_{t\ge 1}$ is ``driven by Markov noise'' \cite{tsivan95,tsivan97};
-{\em (iii)} and while the natural error metric in LS problems is $\normsm{\thh_t-\ts}_{A}^2$
+$(i)$  $A=\EE{A_t}$ is in general non-symmetric;
+$(ii)$ the sequence  $\{(A_t,b_t)\}_{t\ge 1}$ is ``driven by Markov noise'' \cite{tsivan95,tsivan97};
+$(iii)$ and while the natural error metric in LS problems is $\normsm{\thh_t-\ts}_{A}^2$
 (here $\norm{x}_Q^2 = x^\top\!\!Q x$ for $Q$ symmetric, positive definite), 
 this is not the case in TD.
-Of these differences we only consider (i) and (iii), assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent, identically distributed (i.i.d.) sequence. 
+Of these differences we only consider $(i)$ and $(iii)$, assuming that $\{(A_t,b_t)\}_{t\ge 1}$ is an independent, identically distributed (i.i.d.) sequence. 
 For our results that have a negative character there is no loss of generality in 
 making this assumption. 
 The question as to what extent our other results can be extended to the Markov noise
@@ -107,15 +108,15 @@ is at most $\frac{C}{t}+\frac{C'}{t^2}$
 with some positive constants $C,C'$ that we explicitly compute from $P$ and $\alpha$
 (\cref{th:rate}).
 Our result is an extension of the result by \citet{polyak-judisky} who proved a similar result
-for $A_t=A$. 
+for the case when $A_t=A$. 
 We also show that our upper bound is essentially tight up to a universal constant
-factor (\cref{th:lb}), thus the above result captures the instance-dependent
+factor (\cref{th:lb}), thus \cref{th:rate}  captures the instance-dependent
 behavior of CALSA in a faithful manner.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \textbf{Problem Landscape} (\Cref{sec:land}): 
 By means of a simple example we establish that 
-Hurwitzness and uniformly bounded moments \todoc{Uniform boundedness would be stronger.}
-alone are insufficient for the existence of a single \emph{universal} stepsize (\cref{prop:unistep}).
+Hurwitzness and uniform boundedness of $\{(A_t,b_t)\}_{t\ge 1}$
+alone are insufficient for the existence of a single, \emph{universal} stepsize (\cref{prop:unistep}).
 Here, a universal stepsize is one that guarantees the convergence of the worst-case expected squared 
 error over the class of problems to zero as $t\to\infty$.
 This result is complemented by \cref{th:pspd}, which distills the importance of various aspects
