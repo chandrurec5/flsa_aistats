@@ -699,10 +699,13 @@ We need to show that $\rhos{P_A}>0$ holds for the said values of $\alpha$. %This
 \todoc{There is an $A_\delta$, whereas I used $\gamma$ for discount in introduction. I don't think $\delta$ is needed.
 And now $A_\delta$ is not introduced I think.}
 
-\textbf{Part $(i)$:}  We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, 
+\textbf{Part $(i)$:}  We have $\alpha\phi_t^\top\phi_t=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. 
+\todoc{Are our assumptions strong enough for this?} 
+Now, 
 \begin{align*}
 (A_t+A_t^\top) -\alpha A_t^\top A_t 
-& = 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
+& \succeq
+ 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi_t-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top +\beta\gamma\phi'_t\phi^\top_t-\beta\gamma^2\phi'_t{\phi'}_t^\top \\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma^2(\gamma\phi'_t\phi^\top_t- \phi'_t{\phi'}_t^\top)-\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top\,.
 \end{align*}
@@ -743,6 +746,8 @@ Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha
 \begin{align*}
 \MoveEqLeft 
 \alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
+&\succeq
+\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4 A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
 &=\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
 &\succeq \alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
 &\succeq \frac{\alpha}{2} A_t^\top A_t\,,
