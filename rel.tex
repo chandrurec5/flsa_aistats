@@ -1,26 +1,39 @@
 %!TEX root =  flsa.tex
 \section{Related Work}\label{sec:related}
-\textbf{Other Stepsize Methods:} 
+\textbf{Other stepsize methods:} 
 It is clear that for the LSA in \eqref{eq:lsaintro} to be stable $\alpha_t$ should be non-increasing. In this paper, we showed the results for LSA with a constant stepsize and averaging of the iterates.  This brings us to a brief discussion on the other two non-increasing choices for stepsize strategies namely the diminishing and adaptive strategies.
 An immediate choice could be $\alpha_t=\frac{1}{t}$.
-However, this is a poor choice. 
+However, this is a poor choice because even for bounded
+$1$-dimensional problems with no noise it leads to constant worst-case error for any finite time step $t$.
+\if0
+error 
 To see this, consider the LSA in $1$-dimension given by $\theta_{t+1}=\theta_t+\alpha_t(b-a\theta_t)$, with $0<b=a\ll 1$. The solution to the linear  problem is $\ts=1$.
-An elementary calculation shows that the MSE converges only at a rate of $\Theta(\frac{1}{t^{2a}})$, which is very slow for small values of $a>0$. The ``search-then-converge'' role suggests 
+An elementary calculation shows that the MSE converges only at a rate of $\Theta(\frac{1}{t^{2a}})$, which is very slow for small values of $a>0$. The ``search-then-converge'' rule suggests 
 $\alpha_t=\frac{cc_0}{c+t}$ for some $c\gg 0$, so that initially for $t \ll c$, $\alpha_t \approx c_0$, while asymptotically $\alpha_t \sim c_0/t$. 
 However, the choice of $c$ and $c_0$ (based on knowledge of a class $\cP$) is still problematic in general.
-\citet{dab} introduce a new adaptive stepsize tuning method for TD algorithm and show that it performs better in comparison to various other adaptive approaches. The adaptive stepsize rule suggested\footnote{The case when eligibility traces are not used.} is $\alpha_t=\min(\alpha_{t-1},\parallel\phi^\top_t(\gamma\phi'_t-\phi_t)\parallel^{-1})$. It turns out that the \emph{minimum} is attained as soon as all the states transition pairs $(s,s')$ are visited at least once, after which rule stops to adapt and stepsize stays a constant. However, it is evident that a constant stepsize alone is not enough to filter the noise, and without additional averaging cannot be used to even estimate the mean of a single bounded random variable. 
+\fi
+Various heuristic methods exist for ``adapting'' the stepsize sequence; see, e.g., \citet{dab} and the references therein.
+The methods proposed do not have guarantees and given how difficult it is to experimentally validate a method
+whose main purpose is \emph{robustness}, it is hard to assess how good these methods are
+(e.g., the method of \citet{dab} seemed to perform well in their experiments, but one can \emph{show} that for finite state spaces it eventually settles on a constant step-size and hence it will fail to guarantee convergence).
+\if0
+an adaptive method (where the difficulty comes from the need to asses the methods worst-case performance)
+\citet{dab} introduce a new adaptive stepsize tuning method for TD and show that it performs better in comparison to various other adaptive approaches. The adaptive stepsize rule suggested\footnote{The case when eligibility traces are not used.} is $\alpha_t=\min(\alpha_{t-1},\parallel\phi^\top_t(\gamma\phi'_t-\phi_t)\parallel^{-1})$. It turns out that the \emph{minimum} is attained as soon as all the states transition pairs $(s,s')$ are visited at least once, after which rule stops to adapt and stepsize stays a constant. However, it is evident that a constant stepsize alone is not enough to filter the noise, and without additional averaging cannot be used to even estimate the mean of a single bounded random variable. 
+\fi
 
-\textbf{Work on GTD/TD} The initial convergence analysis for GTD/GTD2/TDC was only asymptotic in nature \cite{gtd,gtd2} with diminishing stepsizes.
+\textbf{Error bounds for GTD/TD} The initial convergence analysis for GTD/GTD2/TDC was only asymptotic in nature \cite{gtd,gtd2} with diminishing stepsizes.
 In the case of GTD/GTD2 diminishing stepsizes $\alpha_t=O(\frac{1}{\sqrt{t}})$, projection of iterates and PR-averaging leads to a rate of $O(\frac{1}{\sqrt{t}})$ 
 for the prediction error $\normsm{A_P\thh_t-b_P}^2$ with high probability \cite{gtdmp}. 
-\citet{gtdmp} also suggest a new version of GTD based on stochastic mirror prox ideas, called the GTD-Mirror-Prox (GTDMP), 
-which also shown to achieve an $O(\frac{1}{\sqrt{t}})$ rate for $\normsm{A_P\thh_t-b_P}^2$ with high probability under similar stepsize choice that was used by them for the GTD. Inspired by TD algorithms, \citet{dalal} provide a stochastic boundedness result, however, there seems to be no straightforward way to convert the results to a convergence rate expression.
+\citet{gtdmp} also suggest a new version of GTD based on stochastic mirror prox ideas, called the GTD-Mirror-Prox (GTDMP), with identical guarantees.
+%which also shown to achieve an $O(\frac{1}{\sqrt{t}})$ rate for $\normsm{A_P\thh_t-b_P}^2$ with high probability under similar stepsize choice that was used by them for the GTD. 
+Inspired by TD algorithms, \citet{dalal} provide a stochastic boundedness result, 
+which does not even guarantee that the error vanishes as $t$ increases.
+%however, there seems to be no straightforward way to convert their result to a convergence rate.
 
-\textbf{Other LSA:} Analysis of LSA with CS-PR goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we use newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Jordan decomposition and similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of 
-\citet{bach}. 
+\textbf{CALSA analysis:} Analysis of CALSA goes back to the work by \citet{polyak-judisky}, wherein they considered the additive noise setting i.e., $A_t=A$ for some deterministic Hurwitz matrix $A\in \R^{\dcd}$. A key improvement in our paper is that we consider the `multiplicative' noise case, i.e., $A_t$ is non-constant random matrix. To tackle the multiplicative noise we build on the newer analysis introduced by \citet{bach}. However, since the general LSA setting (with Hurwitz assumption) does not enjoy special structures of the SGD setting of \citet{bach}, we make use of Lyapunov's equation and a similarity transformations in a critical way to prove our results, thus diverging from the line of analysis of \citeauthor{bach}
 
 \begin{comment}
-\paragraph{Double Sampling} We suspect that GTD-Mirror-Prox algorithm suffers from the issue of double sampling. The updates of the GTDMP can be written as below (for simplicity we 
+\paragraph{Double sampling} We suspect that GTD-Mirror-Prox algorithm suffers from the issue of double sampling. The updates of the GTDMP can be written as below (for simplicity we 
 \begin{align}\label{eq:gtdmp}
 \begin{split}
 y_t^m=y_t+\alpha_t(b_t-A_t\theta_t- M_t y_t), \theta_t^m=\theta_t+\alpha_t A_t^\top y_t,\\
