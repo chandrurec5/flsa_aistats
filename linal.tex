@@ -518,18 +518,20 @@ $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2 \B \Lambda  +\a
 \label{sec:pspd}
 \thpspd*
 \begin{proof}
-For any $P$ in $\SPD$ or $\SPDSN$, \todoc{Class names need to be updated and we don't have (i), (ii) and (iii) anymore.} the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U$ (i.e., $U^\top U=I$) such that $U^\top U=I$ and $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma=U^\top \theta$. Now, we have
+For any $P$ in $\SPD$ or $\SPDSN$, the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U\in \R^{d\times d}$ (i.e., $U^\top U=I$) such that $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma_t=U^\top \theta_t$. Now, we have
 \begin{align}
 \theta_t&=(I-\alpha A_P)\theta_{t-1}+\alpha b_t\,,\\
 \label{eq:gamrec}\gamma_t&=(I-\alpha \Lambda_P)\gamma_{t-1}+\alpha \zeta_t\,.
 \end{align}
-Since $U$ is an orthogonal matrix $\norm{\gamma}_{\Lambda_P}=\gamma^\top \Lambda_P \gamma= \theta^\top U \Lambda_P U^\top \theta=\norm{\theta}_{A_P}$ and similarly $\norm{\gamma}=\norm{\theta}$ and when $P\in \P_{SPDSN}$ we have $\EE{\zeta_t \zeta_t^\top}\leq \Lambda_P$. Thus, for any adversarial choice of $A_P$, it is equivalent to choosing a problem corresponding to $\Lambda_P$. Thus, in order to prove the bounds it is enough to choose such diagonal problems. In what follows, we let $e_t\eqdef\gamma_t-\gamma_*$ (though we have used $e_t=\theta_t-\ts$ everywhere else, we have re-defined to avoid introducing additional notation).
+Since $U$ is an orthogonal matrix $\norm{\gamma}_{\Lambda_P}=\gamma^\top \Lambda_P \gamma= \theta^\top U \Lambda_P U^\top \theta=\norm{\theta}_{A_P}$ and similarly $\norm{\gamma}=\norm{\theta}$ and when $P\in \P_{SPDSN}$ we have $\EE{\zeta_t \zeta_t^\top}\preceq \Lambda_P$. Thus, for any adversarial choice of $A_P$ is equivalent to choosing a problem when the $A_P$ is diagonal. Thus, in order to prove the bounds it is enough to consider such diagonal problems. In what follows, by slightly abusing our notation, we recycle $e_t$ and let $e_t\eqdef\gamma_t-\gamma_*$.
+% (though we have used $e_t=\theta_t-\ts$ everywhere else, we have re-defined to avoid introducing additional notation).
 
-It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, it follows that such an adversarial choice should have $\Lambda(i)=\lambda, i=1,\ldots, d$. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, we have the following relation for the error
+It is clear that \eqref{eq:gamrec}, has $d$ separate $1$-dimensional equations. Further, the MSE is a summation of $d$ separate terms (i.e. $\EE{\norm{\eh_t}}=\sum_{i=1}^d \eh_t(i)^2$, $\EE{\norm{\eh_t}_{\Lambda_P}}=\sum_{i=1}^d \Lambda(i) \eh_t(i)^2$, where $\Lambda(i),i=1,\ldots, d$ are the eigenvalues) and any adversarial choice will maximize each of the $d$ terms. Thus, it follows that under our boundedness assumption such an adversarial choice should have $\Lambda(i)=\lambda, i=1,\ldots, d$. In what follows, we deal with the $1$-dimensional case, where $\lambda\in (0,1)$ is the eigenvalue, and $b_t\in \R$ is the noise sequence and the condition $\EE{b_tb_t^\top}\leq A_P$ translates to $\EE{b_t^2}\leq \lambda$. In the $1$-dimensional case, the error $\eh_t = 1/(t+1) \sum_{s=0}^t e_t$ satisfies 
 \begin{align}\label{eq:onederr}
 \eh_t=\frac{1}{t+1}\left[\sum_{s=0}^t (1-\alpha \lambda)^s e_0+ \alpha \sum_{i=1}^t \sum_{s=0}^{t-i} (1-\alpha \lambda)^s b_i\right]\,.
 \end{align}
-We now look at cases $(i)$, $(ii)$ and $(iii)$, and prove matching lower and upper bounds. In what follows, we use the facts
+We now look at the three claims and prove matching lower and upper bounds for the error. 
+In what follows, we use the following facts:
 \begin{enumerate}
 \item For sufficiently large $t$ we have $(1-\frac{1}{t+1})^t\geq c$ (the constant $c\approx \frac{1}{e}$, where $e$ is the base of the natural logarithm). This will be used in the lower bound proofs.
 \item $\sum_{s=0}^t(1-\alpha \lambda)^2\leq \min\{(\alpha\lambda)^{-1},(t+1)\}$. This will be used in the upper bound proofs.
