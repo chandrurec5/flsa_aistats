@@ -1,5 +1,5 @@
 %!TEX root =  flsa.tex
-\section{Universal stepsizes in TD}\label{sec:rl}
+\section{Universal stepsizes in LVE}\label{sec:rl}
 We now turn to the question of the existence of universal stepsizes for CATD(0) and CAGTD (cf. \cref{tb:tdalgos}). \todoc{Extensions to TD($\lambda$) etc.?}
 In what follows, we define what we call \emph{admissibility}, 
 a sufficient condition for the existence of a universal stepsize. 
@@ -7,20 +7,27 @@ a sufficient condition for the existence of a universal stepsize.
 Call a problem class $\P$ \emph{admissible} if there exists a unique $U$ and $\alpha_{\P_U}>0$ such that
 $\rhos{P_U}>0$ holds for all $P\in \P$ and $\alpha\in(0,\alpha_{\P_U})$.
 \end{definition}
-If $\P$ is admissible, it  follows from \Cref{th:rate} that an asymptotic ``fast'' rate of $O(\frac1t)$ is achieved for any $P\in \cP$.
-We now define three LVE problem classes considered in this paper as follows:
-\begin{comment}
-\begin{table}
-\resizebox{\columnwidth}{!}{
-\begin{tabular}{|c|c|c|c|}\hline
-Class &Fixed &Variable &Remark\\\hline
-$\P_{TDON}$ & $\Phi,S,A,\gamma$ & $\pi,P,R$ &$\mu=d_{\pi}, \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}$\\\hline
-$\P_{TDOFF}$ & $\Phi,S,A,\gamma$ & $\pi,\mu,P,R$ &$\mu\neq d_{\pi}, \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}$, $\norm{\phi_t}=1$\\\hline
-$\P_{GTDOFF}$ & $\Phi,S,A,\gamma$ & $\pi,\mu,P,R$ &$\mu\neq d_{\pi}$\\\hline
-\end{tabular}
-}
-\end{table}
-\end{comment}
+If $\P$ is admissible, it  follows from \Cref{th:rate} that an asymptotic ``fast'' rate of $O(\frac1t)$ is achieved for any $P\in \cP$. 
+We now define three LVE problem classes. For the definitions introduce
+the entrywise $\max$-norm for matrices: $\norm{A}_{\max} = \max_{i,j} |A_{ij}|$.
+Recall that an LVE problem is given by the joint distribution of the i.i.d. sequence
+$\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}\subset \R^d\times \R^d \times \R$. We let 
+$A_t = \phi_t(\phi_t - \gamma \phi_t')^\top$ as in the caption of \cref{tb:tdalgos}.
+The classes we define satisfy $\norm{A_t}_{\max}\le B$ with a known constant $B>0$, 
+as well as the following conditions:
+\begin{align*}
+\text{TDON}(B)&: \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}, \EE{A_t} \text{ is PD}\,;\\
+\text{TDOFF}(B)&: \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}, \norm{\phi_t}=1\,;\\
+\text{GTDOFF}(B)&: \text{no extra condition}
+\end{align*}
+The rationale of the class names should become clear after the next result.
+Here we note for the reader familiar with the RL literature that the classname ending of ``on'' vs. ``off'' signifies
+whether the condition holds in the so-called ``on-policy'', or the ``off-policy'' case, respectively.
+Note that a classical result establishes that $\EE{A_t}$ is indeed PD for the ``on-policy'' case, \todoc{Cite source; sutton95?}
+while the ``second order feature stationarity'' condition $ \EE{\phi_t\phi_t}=\EE{\phi'_t\phi'_t}$ will hold 
+when sampling (in the underlying Markov reward process) 
+is started from the stationary distribution. 
+\if0
 \FloatBarrier
 \begin{table}[h]
 \resizebox{\columnwidth}{!}{
@@ -33,14 +40,21 @@ $\P_{GTDOFF}$ & $\pi,\mu,P,R$ &$\mu\neq d_{\pi}$\\\hline
 }
 \caption{Here, $S,A,\gamma$ are fixed across all the class and the second column shows the quantities that vary across the respective classes. These three capture \emph{on/off-policy} learning scenarios arising in RL.}
 \end{table}
+\fi
 \begin{restatable}{theorem}{thtdadmis}\label{th:tdadmis}
-Define constant $B\eqdef\max_{ij}\md{A_{ij}}$.  We have 
-$i)$ CATD(0) has a universal stepsize of $\alpha_{td}=\frac{1}{B^2d}$ for  the class $\P_{TDON}$.
-$ii)$ CATD(0) has a universal stepsize of $\alpha_{td}=1$ for  the class $\P_{TDOFF}$.
-$ii)$ CAGTD has a universal stepsize of $\alpha_{gtd}=\frac{1}{2B^4d^2}$ for the class $\P_{GTDOFF}$.
+The following hold:
+%Define constant $B\eqdef\max_{ij}\md{A_{ij}}$.  We have 
+$i)$ CATD(0) has a universal stepsize of $\alpha_{td}=\frac{1}{B^2d}$ for  the class $\text{TDON}(B)$.
+$ii)$ CATD(0) has a universal stepsize of $\alpha_{td}=1$ for  the class $\text{TDOFF}(B)$.
+$ii)$ CAGTD has a universal stepsize of $\alpha_{gtd}=\frac{1}{2B^4d^2}$ for the class $\text{GTDOFF}(B)$.
 \end{restatable}
-\textbf{Proof sketch:} We show that classes $\P_{TDON}$, $\P_{TDOFF}$ and $\P_{GTDOFF}$ are admissible. The property $\EE{\phi_t\phi_t}=\EE{\phi'_t{\phi'_t}^\top}$ is known as second order feature stationarity, and is used in the proof.
- From \Cref{tb:tdalgos}, the matrix $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$ is key to both CATD(0) and CAGTD. In the case of CATD(0),  the expression for $\rhos{P}$ involves $\phi^\top_t\phi_t$ which can take a maximum value of $B^2d$ (as per our assumption in \Cref{th:tdadmis}), and is the reason for the $B^2d$ term in $\alpha_{td}$. In the case of CAGTD, the expression for $\rhos{P}$ involves $A_t^\top A_t$, and hence $B^4d^2$ appears in $\alpha_{gtd}$. The conservative stepsize for CAGTD seems to be the price paid for \emph{off-policy} stability. Notice that in the case of normalized features the stepsize the factor depending on $B$ and $d$ can be removed.
+In the proof we show that the three classes are admissible for the respective algorithms.
+\if0
+The property $\EE{\phi_t\phi_t}=\EE{\phi'_t{\phi'_t}^\top}$ is known as second order feature stationarity, and is used in the proof.
+\fi
 
-Thus, the TD algorithms achieve an asymptotic fast rate of $O(\frac{1}{t})$ on these three classes of LVE problems.
+ From \Cref{tb:tdalgos}, the matrix $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$ is key to both CATD(0) and CAGTD. In the case of CATD(0),  the expression for $\rhos{P}$ involves $\phi^\top_t\phi_t$ which can take a maximum value of $B^2d$  and is the reason for the $B^2d$ term in $\alpha_{td}$. In the case of CAGTD, the expression for $\rhos{P}$ involves $A_t^\top A_t$, and hence $B^4d^2$ appears in $\alpha_{gtd}$. 
+The conservative stepsize for CAGTD seems to be the price paid for \emph{off-policy} stability. Notice that in the case of normalized features the factor depending on $B$ and $d$ can be removed.
+
+Note that the above result in particular implies that the respective algorithms with the proposed stepsizes achieve the instance-dependent errors $O(\frac{1}{t})$ on these three classes of LVE problems.
 
