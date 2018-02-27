@@ -510,7 +510,7 @@ Taking expectation, we have
 The $\sum_{s=1}^t s^2=O(t^3)$, and hence we have $\EE{\norm{\eh_t}}\approx \frac{1}{(t+1)^2} \big(\B (t+1)^2+\alpha^2 O(t^3) \sigma^2_{b_P})$. 
 Similarly, we have
 
-$\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2 \B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P})$. Now, using $\alpha \Lambda t <1$, it follows that $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2\B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P} \Lambda)\approx O(\frac{1}{\alpha (t+1)}+\alpha \sigma^2_{b_P})$. Further, in the case of $\P_{SPDSN}$, it follows $\sigma^2_{b_P}<\Lambda$, we have $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2\B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P} \Lambda)\approx O(\frac{1}{\alpha (t+1)}+\frac{1}{t})$.
+$\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2 \B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P})$. Now, using $\alpha \Lambda t <1$, it follows that $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2\B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P} \Lambda)\approx O(\frac{1}{\alpha (t+1)}+\alpha \sigma^2_{b_P})$. Further, in the case of $\SPDSN$, it follows $\sigma^2_{b_P}<\Lambda$, we have $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2\B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P} \Lambda)\approx O(\frac{1}{\alpha (t+1)}+\frac{1}{t})$.
 
 \end{comment}
 
@@ -518,7 +518,7 @@ $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2 \B \Lambda  +\a
 \label{sec:pspd}
 \thpspd*
 \begin{proof}
-For any $P$ in $\P_{SPD}$ or $\P_{SPDSN}$, \todoc{Class names need to be updated and we don't have (i), (ii) and (iii) anymore.} the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U$ (i.e., $U^\top U=I$) such that $U^\top U=I$ and $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma=U^\top \theta$. Now, we have
+For any $P$ in $\SPD$ or $\SPDSN$, \todoc{Class names need to be updated and we don't have (i), (ii) and (iii) anymore.} the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U$ (i.e., $U^\top U=I$) such that $U^\top U=I$ and $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma=U^\top \theta$. Now, we have
 \begin{align}
 \theta_t&=(I-\alpha A_P)\theta_{t-1}+\alpha b_t\,,\\
 \label{eq:gamrec}\gamma_t&=(I-\alpha \Lambda_P)\gamma_{t-1}+\alpha \zeta_t\,.
@@ -534,19 +534,19 @@ We now look at cases $(i)$, $(ii)$ and $(iii)$, and prove matching lower and upp
 \item For sufficiently large $t$ we have $(1-\frac{1}{t+1})^t\geq c$ (the constant $c\approx \frac{1}{e}$, where $e$ is the base of the natural logarithm). This will be used in the lower bound proofs.
 \item $\sum_{s=0}^t(1-\alpha \lambda)^2\leq \min\{(\alpha\lambda)^{-1},(t+1)\}$. This will be used in the upper bound proofs.
  \end{enumerate}
-\textbf{$(i)$ Lower Bound:}
+\textbf{Lower Bound for $\eps_t(\SPD)$:}
  For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2}=\frac{1}{(t+1)^2}\left[ (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P} \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
 where we use the property of independence. Now for this choice of $\lambda$ we have
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ c^2(t+1)^2 \B+ \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]\\
-&\geq c^2\left[B+ \alpha^2 \sigma^2_{b_P} \Theta(t) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ c^2(t+1)^2 \B+ \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]
+\geq c^2\left[B+ \alpha^2 \sigma^2_{b_P} \Theta(t) \right],
 \end{align}
 which completes the lower bound part for this case.
 
-\textbf{$(i)$ Upper Bound:}
+\textbf{Upper Bound for $\eps_t(\SPD)$:}
 Starting from \eqref{eq:intererr}, we have
 \begin{align}
 \EE{\norm{\eh_t}^2}
@@ -557,19 +557,21 @@ Starting from \eqref{eq:intererr}, we have
 \end{align}
 which completes the upper bound part for this case.
 
-\textbf{$(ii)$ Lower Bound:}
+\textbf{Lower Bound for $\eps_t'(\SPD)$:}
+We will slightly abuse notation by writing $\norm{\eh_t}^2_{\lambda} = \lambda (\eh_t)^2$
+and writing $\norm{\eh_t}^2 = (\eh_t)^2$.
 For sufficiently large $t$, and any step-size $\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
 where we use the property of independence. Now for this choice of $\lambda$ we have
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]\\
-&= c^2\left[\frac{\B}{\alpha (t+1)}+ \alpha  \sigma^2_{b_P} \Theta(1) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2\sigma^2_{b_P} c^2\sum_{i=1}^t (i)^2\right]
+= c^2\left[\frac{\B}{\alpha (t+1)}+ \alpha  \sigma^2_{b_P} \Theta(1) \right],
 \end{align}
 which completes the lower bound part for this case.
 
-\textbf{$(ii)$ Upper Bound:}
+\textbf{Upper Bound for $\eps_t'(\SPD)$:}
 Starting from \eqref{eq:intererr}, we have
 \begin{align}
 \EE{\norm{\eh_t}^2_{\lambda}}&\leq \frac{1}{(t+1)^2}\left[\lambda \B (\min\{(\alpha\lambda)^{-1},(t+1)\})^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{(\alpha\lambda)^{-1},(t+1)\})^2 \right]\\
@@ -582,28 +584,43 @@ $\frac{1}{(t+1)^2}\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha (t
 \end{align}
 This completes the upper bound part for this case.
 
-\textbf{$(iii)$ Lower Bound:}
+\textbf{Lower Bound for $\eps_t'(\SPDSN)$:}
 For sufficiently large $t$, and any step-size$\alpha \in (0,1)$ pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation in \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
 \begin{align}\label{eq:intererr}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
 where we use the property of independence. Now for this choice of $\lambda$ we have
 \begin{align}
-\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2 \lambda c^2\sum_{i=1}^t (i)^2\right]\\
-&= c^2\left[\frac{\B}{\alpha (t+1)}+   \Theta(\frac{1}{t}) \right],
+\EE{\norm{\eh_t}^2}&\geq \frac{1}{(t+1)^2}\left[ \lambda c^2(t+1)^2 \B+ \lambda \alpha^2 \lambda c^2\sum_{i=1}^t (i)^2\right]
+= c^2\left[\frac{\B}{\alpha (t+1)}+   \Theta(\frac{1}{t}) \right],
 \end{align}
 where we use $\sigma^2_{b_P}=\lambda$. This completes the lower bound part for this case.
 
-\textbf{$(iii)$ Upper Bound:}
+\textbf{Upper Bound for $\eps_t'(\SPDSN)$:}
 Starting from \eqref{eq:intererr}, we have
 \begin{align}
-\EE{\norm{\eh_t}^2_{\lambda}}&\leq \frac{1}{(t+1)^2}\left[\lambda \B (\min\{(\alpha\lambda)^{-1},(t+1)\})^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{(\alpha\lambda)^{-1},(t+1)\})^2 \right]\\
-&= \left[\B (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2+ \lambda \alpha^2 \lambda (t+1) (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2 \right]\,.
+\EE{\norm{\eh_t}^2_{\lambda}}
+&\leq \frac{1}{(t+1)^2}\left[\lambda \B 
+	(\min\{(\alpha\lambda)^{-1},(t+1)\})^2
+		+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{(\alpha\lambda)^{-1},(t+1)\})^2 \right]\\
+&= \left[\B 
+	(\min\{\frac{1}{\alpha \lambda (t+1)},1\})^2
+		+ \lambda \alpha^2 \lambda (t+1) (\min\{\frac{1}{\alpha \lambda (t+1)},1\})^2 \right]\,.
 \end{align}
-Here if $\min{(\alpha\lambda)^{-1},(t+1)}=\frac{1}{\alpha \lambda}$, then we have $\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha^2 \lambda}\leq \frac{(t+1)}{\alpha}$, and hence $\frac{1}{(t+1)^2}\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha (t+1)}$. In the other case, when $\min{(\alpha\lambda)^{-1},(t+1)}=(t+1)$, we have
-$\frac{1}{(t+1)^2}\lambda(\min{(\alpha\lambda)^{-1},(t+1)})^2=\frac{1}{\alpha (t+1)}$. Thus
+Here if 
+$\min\{(\alpha\lambda)^{-1},(t+1)\} = \frac{1}{\alpha \lambda}$, 
+then we have 
+$\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2
+	=\frac{1}{\alpha^2 \lambda}\leq \frac{(t+1)}{\alpha}$, 
+	and hence 
+$\frac{1}{(t+1)^2} \lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2
+						=\frac{1}{\alpha (t+1)}$. 
+In the other case, when $\min\{(\alpha\lambda)^{-1},(t+1)\}=(t+1)$, we have
+	$\frac{1}{(t+1)^2}\lambda(\min\{(\alpha\lambda)^{-1},(t+1)\})^2=\frac{1}{\alpha (t+1)}$. 
+Thus,
 \begin{align}
-\EE{\norm{\eh_t}^2_{\lambda}}&\leq \left[\B \frac{1}{\alpha (t+1)}+ \alpha \frac{1}{\alpha (t+1)} \right]\,,
+\EE{\norm{\eh_t}^2_{\lambda}}
+	&\leq \left[\B \frac{1}{\alpha (t+1)}+ \alpha \frac{1}{\alpha (t+1)} \right]\,,
 \end{align}
 where we use $\sigma^2_{b_P}=\lambda$. This completes the upper bound part for this case.
 \end{proof}
@@ -633,7 +650,7 @@ Now, using $\alpha A_P t <1$, it follows that
 \EE{\norm{\eh_t}_{A_P}}& \approx\left(\frac{1}{(t+1)^2} [(t+1)^2\B A_P  +\alpha^2 O(t^3) \sigma^2_{b_P} A_P]\right) \\
 &\approx\left(\frac{1}{\alpha (t+1)}+\alpha \sigma^2_{b_P}\right)
 \end{align}
-Further, in the case of $\P_{SPDSN}$, it follows $\sigma^2_{b_P}<A_P$, we have 
+Further, in the case of $\SPDSN$, it follows $\sigma^2_{b_P}<A_P$, we have 
 \begin{align}
 \EE{\norm{\eh_t}_{A_P}}&=\approx \left(\frac{1}{(t+1)^2} [(t+1)^2\B \Lambda  +\alpha^2 O(t^3) \sigma^2_{b_P} A_P] \right)\\ 
 &\approx\left(\frac{1}{\alpha (t+1)}+\frac{1}{t}\right)
