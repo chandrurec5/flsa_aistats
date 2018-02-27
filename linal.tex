@@ -518,7 +518,7 @@ $\EE{\norm{\eh_t}_\Lambda}\approx \frac{1}{(t+1)^2} \big((t+1)^2 \B \Lambda  +\a
 \label{sec:pspd}
 \thpspd*
 \begin{proof}
-For any $P$ in $\P_{SPD}$ or $\P_{SPDSN}$, the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U$ (i.e., $U^\top U=I$) such that $U^\top U=I$ and $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma=U^\top \theta$. Now, we have
+For any $P$ in $\P_{SPD}$ or $\P_{SPDSN}$, \todoc{Class names need to be updated and we don't have (i), (ii) and (iii) anymore.} the corresponding $A_P$ matrix is real symmetric and positive definite. Thus, for each problem instance there exists an orthogonal matrix $U$ (i.e., $U^\top U=I$) such that $U^\top U=I$ and $U^\top A_P U=\Lambda_P$. Define $\zeta_t\eqdef U^\top b_t$, and $\gamma=U^\top \theta$. Now, we have
 \begin{align}
 \theta_t&=(I-\alpha A_P)\theta_{t-1}+\alpha b_t\\
 \label{eq:gamrec}\gamma_t&=(I-\alpha \Lambda_P)\gamma_{t-1}+\alpha \zeta_t
@@ -649,65 +649,73 @@ The eigenvalues of $I-\alpha A_P$ are $1-\alpha u\pm i v$, and we can ensure tha
 \section{Proofs for \cref{sec:rl}}
 
 \begin{lemma}\label{lm:matnorm}
-Let $A$ be a $\dcd$ matrix with $B\eqdef\max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x <B^2d$.
+Let $A$ be a $\dcd$ matrix with $B\ge \max_{ij}\left|A_{ij}\right|$. It follows that $\max_{x\in \R^d: \norm{x}\leq1}x^\top A^\top A x <B^2d$.
 \end{lemma}
 
-We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succ D$ if $C-D$ is positive definite.
+We now resort to an the following notation for real symmetric positive definite $\dcd$ matrices $C$ and $D$: $C\succeq D$ if $C-D$ is positive definite. We cite the following lemma without proof (see \cite{schur}). The lemma is often attributed to Schur: \todoc{Add citation!}
 \begin{lemma}\label{lm:schur}
-Let $A,B,C$ $\dcd$ real matrices. Given a symmetric matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$ be a given $2d\times 2d$ matrix, it follows that $M\succ 0$ if	$A\succ$ and $C-B^\top A^{-1}B\succ 0$.
+Let $A,B,C$ $\dcd$ real matrices. Given a symmetric matrix $M=\left[\begin{matrix}A&B \\B^\top &C\end{matrix}\right]$ be a given $2d\times 2d$ matrix, it follows that $M\succeq 0$ if	$A\succeq 0$ and $C-B^\top A^{-1}B\succeq 0$.
 \end{lemma}
-
+\if0
 \begin{lemma}\label{lm:amat}
 Let $\delta\in(0,1)$ a given discount factor and let $\pi$ be a policy. It follows that the matrix $A_\delta=\Phi^\top D_\pi(I-\delta P_\pi)\Phi$ is positive definite ($x^\top Ax>0,\forall x \in \R^d$) $\forall \delta\in(0,1)$.
 \end{lemma}
+\fi
 
 \thtdadmis*
 \begin{proof}
 We need to show for the said values of $\alpha$ it holds that $\rhos{P_A}>0$. %This is equivalent to showing $\max_{x\in \R^d: \norm{x}\leq 1}\E{x^\top(I-\alpha A_t)^\top (I-\alpha A_t)x}<1$. 
+\todoc{There is an $A_\delta$, whereas I used $\gamma$ for discount in introduction. I don't think $\delta$ is needed.
+And now $A_\delta$ is not introduced I think.}
 
 \textbf{$(i)$}   We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t<\beta$ for some $\beta\in (0,1)$. Now, 
 \begin{align*}
-(A_t+A_t^\top) -\alpha A_t^\top A_t =& 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
+(A_t+A_t^\top) -\alpha A_t^\top A_t 
+& = 2\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\phi_t(\phi-\gamma\phi'_t)^\top+\beta\gamma\phi'_t(\phi_t-\gamma{\phi'}_t)^\top\\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top +\beta\gamma\phi'_t\phi^\top_t-\beta\gamma^2\phi'_t{\phi'}_t^\top \\
 &= (2-\beta)\phi_t(\phi_t-\gamma\phi'_t)^\top -\beta\gamma^2(\gamma\phi'_t\phi^\top_t- \phi'_t{\phi'}_t^\top)-\beta\gamma(1-\gamma^2)\phi'_t\phi_t^\top\\
 \end{align*}
-Taking $\E$, we have
+Taking expectations, we have \todoc{I think there is a syntax error in the next line.}
 \begin{align*}
-&\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t}\\
-&\succeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\E{\phi'_t\phi_t^\top} \big)x\\
-&\succeq (1-\gamma^2)[A +\beta\gamma\E{\phi'_t\phi_t^\top}]
+\EE{ (A_t+A_t^\top)-\alpha A_t^\top A_t} &\succeq  A -\beta\gamma^2(A)+\beta\gamma(1-\gamma^2)\EE{\phi'_t\phi_t^\top}
+\succeq (1-\gamma^2)[A +\beta\gamma\EE{\phi'_t\phi_t^\top}]
 \end{align*}
 Now we have 
 \begin{align*}
-A +\beta\gamma\E{\phi'_t\phi_t^\top}=& \EE{\phi_t\phi_t}-\gamma\E{\phi_t{\phi'_t}^\top} +\beta\gamma\E{\phi'_t\phi_t^\top}\\
-&=\E{\phi_t\phi_t}-\delta\E{\phi_t{\phi'_t}^\top},
+A +\beta\gamma\EE{\phi'_t\phi_t^\top}=& \EE{\phi_t\phi_t}-\gamma\EE{\phi_t{\phi'_t}^\top} +\beta\gamma\EE{\phi'_t\phi_t^\top}
+=\EE{\phi_t\phi_t}-\delta\EE{\phi_t{\phi'_t}^\top},
 \end{align*}
-where $\delta=\gamma(1-\beta)$. However it follows that $x^\top\big(\E{\phi_t\phi_t}-\delta\E{\phi_t\phi'_t} )x=x^\top A_{\delta} x>0$ from \Cref{lm:amat}.
+where $\delta=\gamma(1-\beta)$. 
+From our assumption that in $\text{TDON}(B)$, $A_{\delta}=\EE{A_t}$ is PD,
+it follows that $x^\top\big(\EE{\phi_t\phi_t}-\delta\EE{\phi_t\phi'_t} )x=x^\top A_{\delta} x>0$.
 
 \textbf{$(ii)$:}
 In the case of normalized features we have
 \begin{align*}
-(A_t+A_t^\top) -\alpha A_t^\top A_t &= 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
-&=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
-&=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top
+(A_t+A_t^\top) -\alpha A_t^\top A_t 
+&= 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi-\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
+=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top\\
+&=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
 \end{align*}
-Taking $\E$, we have
+Taking expectations, we have
 \begin{align*}
-\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }&=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}\\
-&=(1-\gamma^2)\EE{\phi_t\phi_t^\top}\\
-&\succ 0
+\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t }=\EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}
+=(1-\gamma^2)\EE{\phi_t\phi_t^\top}
+\succeq 0\,.
 \end{align*}
 
 \textbf{$(iii)$}
  The GTD updates in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, $H_t=\left[\begin{matrix}I &A_t \\ -(1-\alpha)A^\top_t & \alpha A_t^\top A_t\end{matrix}\right]$, and $g_t=\left[\begin{matrix} b_t\\ A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma{\phi'}_t)^\top$. To show that $\alpha=\frac{1}{2B^4 d^2}$ is a universal step-size choice, we need to show that   $\inf_{x\in \R^d:\norm{x}=1}\E{x^\top[(H_t+H_t^\top) -\alpha H_t^\top H_t]x}>0$.
 
-Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succ M_t$, where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succ 0$ we need to ensure 
-\begin{align}
-&\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
-=&\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
-\succeq &\alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
-\succeq& \frac{\alpha}{2} A_t^\top A_t,
-\end{align}
-where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}
+Now $H_t+H_t^\top=\left[\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top 2\alpha A_t^\top A_t\end{matrix}\right]$ and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  We see that $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq M_t$, \todoc{Clashes with noise $M_t$.}
+ where $M_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $M_t\succeq 0$ we need to ensure 
+\begin{align*}
+\MoveEqLeft 
+\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
+&=\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
+&\succeq \alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
+&\succeq \frac{\alpha}{2} A_t^\top A_t\,,
+\end{align*}
+where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}.
 \end{proof}
 %\left[\begin{matrix}\end{matrix}\right]
