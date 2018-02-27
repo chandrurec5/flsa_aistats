@@ -11,24 +11,23 @@ If $\P$ is admissible, it  follows from \Cref{th:rate} that an asymptotic ``fast
 We now define three LVE problem classes. For the definitions introduce
 the entrywise $\max$-norm for matrices: $\norm{A}_{\max} = \max_{i,j} |A_{ij}|$.
 Recall that an LVE problem is given by the joint distribution of the i.i.d. sequence
-$\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}\subset \R^d\times \R^d \times \R$. We let 
-$A_t^\delta = \phi_t(\phi_t - \delta \phi_t')^\top$ for $\delta\in (0,1)$.
-The classes we define satisfy $\norm{A_t}_{\max}\le B_{GTD}$ and $\norm{\phi_t}_{\max}\le B_{TD}$ with known constants $B_{TD}\ge 1$ and $B_{GTD}\ge 1$, \todoc{I assume $B\ge 1$ for simplicity so that $B^4\ge B^2$ holds.}
-as well as the following conditions:
+$\{(\phi_t,\phi_t',r_t)\}_{t\ge 1}\subset \R^d\times \R^d \times \R$. 
+The classes we define are as follows:
+%satisfy $\norm{A_t}_{\max}\le B_{GTD}$ and $\norm{\phi_t}_{\max}\le B_{TD}$ with known constants $B_{TD}\ge 1$ and $B_{GTD}\ge 1$, \todoc{I assume $B\ge 1$ for simplicity so that $B^4\ge B^2$ holds.}
+%as well as the following conditions:
 \begin{align*}
-\text{TDON}(B_{TD})&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \\
-						& \,\,\,\,\, \EE{A_t^\delta} \text{ is PD for all } \delta\in (0,1)\,;\\
-\text{TDOFF}(B_{TD})&: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], \norm{\phi_t}=1\,;\\
-\text{GTDOFF}(B_{GTD})&: \text{no extra condition}
+\text{SOFS}(B)&\!\!: \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top], % \\
+						%& \,\,\,\,\, 
+						\norm{\phi_t}\le B\,, t\ge 1\,.\\
+\text{GTDOFF}(B)&\!\!:  \norm{A_t}_{\max} \le B, t\ge 1\,.
 \end{align*}
-The rationale of the class names should become clear after the next result.
-Here we note for the reader familiar with the RL literature that the classname ending of ``on'' vs. ``off'' signifies
-whether the condition holds in the so-called ``on-policy'', or the ``off-policy'' case, respectively.
-Note that a classical result establishes that $\EE{A_t^\delta}$ is indeed PD for the ``on-policy'' case
-\cite{su88},
-while the ``second order feature stationarity'' condition $ \E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top]$ will hold 
+Here, $\text{SOFS}$ stands for \emph{second-order feature stationarity}, 
+while $\text{GTDOFF}$ stands for ``off-policy'', a specific nomenclature borrow from the RL literature.
+%(The second-order feature stationarity constraint replaces the ``on-policy'' constraint that is often used
+to guarantee stability of the TD algorithm.)
+Note that the ``second order feature stationarity'' condition $\E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top]$ will hold 
 when sampling (in the underlying Markov reward process) 
-is started from the stationary distribution \cite{su88}. 
+is started from the stationary distribution. 
 \if0
 \FloatBarrier
 \begin{table}[h]
