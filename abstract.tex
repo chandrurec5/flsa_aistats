@@ -1,3 +1,28 @@
+%!TEX root =  flsa.tex
 \begin{abstract}
-Temporal difference learning algorithms such as TD(0) and GTD in reinforcement learning (RL) and the stochastic gradient descent (SGD) for linear prediction are linear stochastic approximation (LSA) algorithms. These algorithms make only $O(d)$ ($d$ is the parameter dimension) computations per iteration. In the design of LSA algorithms, step-size choice is critical, and is often tuned in an ad-hoc manner. In this paper,  we study a constant stepsize averaged linear stochastic approximation (CALSA) algorithm, and for a given class of  problems, we ask whether properties of $i)$ a \emph{universal} constant stepsize and $ii)$ a \emph{uniform} fast rate of $\frac{C}{t}$ for the mean square-error hold for all instance of the class, where the constant $C>0$ does not depend on the problem instance. We show that the answer to these question, in general, is \emph{no}. However, we show the TD(0) and CAGTD algorithms with a problem independent universal constant step-size and iterate averaging, achieve an asymptotic fast rate of $O(\frac{1}{t})$.  
+\if
+Stochastic approximation algorithms, 
+such as the LMS algorithm in linear least squares regression (LS),
+or TD(0) and GTD in reinforcement learning (RL),
+are not only easy to implement, but their storage and iteration costs are also minimal.
+Recent work has shown that for bounded LS,
+the constant step-size version of the LMS algorithm with iterate averaging is also information-efficient, making it
+an ideal choice for LS.
+In this paper we investigate to what extent this result extends beyond LS.
+Noticing that all the above methods have an update rule that takes a linear form,
+\fi
+In this paper we study study constant stepsize averaged linear stochastic approximation.
+With an eye towards linear value estimation in reinforcement learning, 
+we ask whether for a given class of linear estimation problems 
+ $i)$ a single \emph{universal} constant stepsize with $ii)$ a $C/t$ worst-case expected error
+ with a class-dependent constant $C>0$ can be guaranteed when the error is measured via 
+ an appropriate weighted squared norm. Such a result has recently been obtained in the context
+ of linear least squares regression.
+We give examples that show that the answer to these questions in general is \emph{no}. 
+On the positive side, we also characterize the instance dependent behavior of the error of the said algorithms,
+identify some conditions under which the answer to the above questions can be changed to the positive,
+and in particular show instance-dependent 
+error bounds of magnitude $O(1/t)$ for the constant stepsize iterate averaged versions
+of TD(0) and a novel variant of GTD, where the stepsize is chosen independently of the value estimation
+instance. Computer simulations are used to illustrate and complement the theory.
 \end{abstract}
