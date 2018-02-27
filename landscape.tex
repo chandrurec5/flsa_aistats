@@ -1,20 +1,48 @@
+%!TEX root =  flsa.tex
 \section{Problem Landscape}\label{sec:land}
 While the previous section considered individual problem instances, in this section we start
 to consider classes $\cP$ of problem instances.
 The first question that arises then is whether for a given class $\cP$ it is possible to find a single
-($\cP$-)\emph{universal} stepsize that guarantees that the worst-case expected squared error vanishes as $t\to\infty$.
+\emph{universal} stepsize that guarantees that the worst-case expected squared error,
+$\sup_{P\in \cP} \EE{ \norm{\eh_t}^2 }$, vanishes as $t\to\infty$.
 
-A universal stepsize can fail to exist for multiple reasons: One is that the 
-The next result shows that Hurwitzness of $A=A_P$ is far from sufficient for this.
-To see
-
-The next result shows that universal stepsizes need not exist always.
+As can be seen from \cref{th:lb},
+a universal stepsize may fail to exist for multiple reasons: 
+First, it will fail to exist if the noise variance is not uniformly bounded, e.g.,
+when $\sup_{P\in \cP} \sigma^2_{b_P}=+\infty$
+(while \cref{th:lb} does not show it, we believe that $\sup_{P} \sigma^2_{A_P}=+\infty$ will also
+lead to the same conclusion).
+Hence, in what follows, we assume that the variance is uniformly bounded; in fact, we will often
+assume that the data $\{(A_t,b_t)\}_{t\ge 1}$ itself is uniformly bounded.
+We consider this as a mild assumption.
+The second mode of failure is more interesting: This happens because $\EE{\norm{F_{t,1} e_0}^2}$ 
+is uncontrolled. In fact, when $A_t = A$, $F_{t,1} = (I-\alpha A)^t$ and so a necessary condition
+for controlling $\norm{F_{t,1}}$ is that $\rho(I-\alpha A)<1$.
+A simple example this cannot be satisfied uniformly over all instances regardless of the choice of $\alpha$
+is the case of  the $\ROTa{2,B}$ class: 
+which we define as the class when $d=2$, $B>0$ is a constant,
+and every instance $P$ in $\ROTa{2,B}$ is a Dirac distribution,
+putting a point mass on a pair $(A,b)$, where $\norm{b}^2\le B$ 
+and $A$ is a $2\times 2$, scaled rotation matrix:
+$A=\left[\begin{matrix} u &v \\ -v & u\end{matrix}\right]$ such that $u^2+v^2\leq B$ and $u>0$.
+Note that the condition $u>0$ guarantees that $A$ is a Hurwitz matrix.
 \begin{restatable}{proposition}{propunistep}\label{prop:unistep}
-There does not exist $\alpha$ such that $\Lambda(I-\alpha A_P)<1, \forall P\in \P_{ROT}$. 
+For any $\alpha>0$, $B>0$, $\sup_{P\in \ROTa{2,B}}  \rho(I-\alpha A_P) =1+ B> 1$.
 \end{restatable}
-In the case of $\P_{ROT}$,  $\Lambda(I-\alpha A_P)=(1-\alpha u)^2+v^2$ and as $u\ra 0$ the stepsize $\alpha\ra 0$ and hence $\alpha_{\P}$ is an empty-set.
+\begin{proof}
+Let $A$ be the scaled rotation matrix given by $u,v$ as in the description of $\ROTa{2,B}$.
+Since $\rho(I-\alpha A)=(1-\alpha u)^2+v^2$, we see that as $u\to 0+$, we can let $v^2 \to B$.
+Thus, $\sup_{P\in \ROTa{2,B}}  \rho(I-\alpha A_P) \ge 1+B$.
+\end{proof}
+Next, we consider the following classes:
+\begin{align*}
+\MoveEqLeft  \SPD: P \text{ is such that } A_P \text{ is SPD }, \norm{A_P}\le 1, A_t = A_P, \\
+		 &\,\,b_P=0, \sigma_{b_P}^2 \le \sigma_b^2\,;\\
+\MoveEqLeft \SPDSN: P \text{ is in } \SPD \text{ and in addition } \EE{ b_t b_t^\top } \preceq A_P\,.
+\end{align*}
+Here, $A\preceq B$ is $B-A$ is PSD. The abbreviation $\SPD$ stands for symmetric positive definite (the property of $A_P$), while $\SPDSN$ stands for symmetric positive definite with \emph{structured noise}.
 
-
+\if0
 In this section, we show that it is not `always' possible to $(ii)$ choose a universal stepsize or $(ii)$ have a \emph{uniform} finite time rate of $\frac{C}{t}$, where $C>0$ is independent of problem instance.
 We first consider the question of choosing a \emph{universal} constant stepsize which is defined as follows:
 \begin{definition} Let $\P$ be a problem class and $P\in\P$ be an instance, then define $\alpha^{stab}_{P}\subset (0,\infty)$ to be such that the random matrix product $\Pi_{s=1}^t (I-\alpha A_s)\ra 0$ (note $(b_t,A_t)\overset{i.i.d}{\sim} P$ ) as $t\ra\infty$ whenever $\alpha\in \alpha^{stab}_P$ and $\alpha^{stab}_{\P}\eqdef\cap_{P\in \P}\alpha_{P}$. Define any $\alpha\in\alpha_{\P}$ to be a \emph{universal} stepsize choice for $\P$.
@@ -28,9 +56,45 @@ Define the following \emph{additive noise} problem classes (where $A_t=A_P,\fora
 \end{definition}
 Problem classes $\P_{SPD}$ and $\P_{ROT}$ are special cases of \Cref{assmp:lsa}-\eqref{dist}, i.e., they have only \emph{additive} noise through $b_t$. While the additive noise case does not hold for our domains such as RL, we are interested in these classes to understand how problem structure plays a crucial role in universality of stepsize and uniformity of rates. In $\P_{SPD}$, the matrices are diagonalizable, all the eigenvalues are real. However, in $\P_{rot}$ the matrices are \emph{Hurwitz} and eigenvalues have non-zero imaginary parts. Further in $\P_{SPDSN}$, the noise \emph{scales} with the underlying $A_P$ matrix. 
 We first show even when a universal stepsize choice exists, uniform finite time rate of $\frac{C}{t}$, can be achieved only when the problem class has certain exploitable structure.
+\fi
+For the next result define
+$\eps_t(\cP) = \sup_{P\in \cP} \eep{\norm{\eh_t}^2}{P}$ and
+$\eps_t'(\cP) = \sup_{P\in \cP}\eep{\norm{\eh_t}^2_{A_P}}{P}$, where for $\eps_t'$ we assume that $\cP$ is such that for any $P\in \cP$, $A_P$ is an SPD matrix.
 \begin{restatable}{theorem}{thpspd}\label{th:pspd}
-Any $\alpha\in(0,1)$ is a universal stepsize for $\P_{SPD}$ and $\P_{SPDSN}$. Let $\B=\norm{e_0}^2$, then $(i)$  $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2}{P}\asymp\frac{1}{(t+1)^2}(\B (t+1)^2+ \alpha^2\sigma_b^2 \Theta(t^3))=\B+\alpha^2\sigma_b^2 \Theta(t)$. $(ii)$ $\arg\max_{P\in \P_{SPD}}\eep{\norm{\eh_t}^2_{A_P}}{P} \asymp (\frac{\B}{\alpha t})+\Theta(\sigma^2_b\alpha)$. $(iii)$ $\arg\max_{P\in\P_{SPDSN}}\eep{\norm{\eh_t}^2_{A_P}}{P}\asymp (\frac{\B}{\alpha t})+\Theta(\frac{1}{t})$.
+Any $\alpha\in(0,1)$ is a universal stepsize for
+both $\SPD$ and $\SPDSN$.
+Then, for any fixed $\alpha\in (0,1)$, $\theta_0\in \R^d$,
+\if0
+\begin{enumerate}[label=(\emph{\roman*}),
+topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt]
+\item $\eps_t(\SPD) \asymp
+%\frac{1}{(t+1)^2}(\B (t+1)^2+ \alpha^2\sigma_b^2 \Theta(t^3))=
+\norm{e_0}^2+\alpha^2\sigma_b^2 t$;
+\item $\eps_t'(\SPD) \asymp (\frac{\norm{e_0}^2}{\alpha t})+\sigma^2_b\alpha$;
+\item $\eps_t'(\SPDSN) \asymp (\frac{\norm{e_0}^2}{\alpha t})+\frac{1}{t}$.
+\end{enumerate}
+\fi
+\begin{align*}
+\eps_t(\SPD) &\asymp \norm{e_0}^2+\alpha^2\sigma_b^2 t\,,\quad
+\eps_t'(\SPD) \asymp \frac{\norm{e_0}^2}{\alpha t}+\sigma^2_b\alpha\,,\\
+&\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{\sigma_b^2}{t}\,.
+\end{align*}
 \end{restatable}
-Once we choose a stepsize $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible. The proof is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix. In what follows, without loss of generality, let the dimension be $d=1$.
+The proof, which is given in \cref{sec:pspd}, is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix.
+
+From the result stated for $\eps_t(\SPD)$,
+it follows that the $\SPD$ class is too broad in the sense that although any $\alpha\in (0,1)$ leads to an asymptotic $O(1/t)$ decrease of the error, for any choice of $\alpha$, the class contains an instance which makes the error grow linearly with $t$. Intuitively, this happens because an adversary can choose $A_P$ to be near zero, in which case CALSA accumulates the noise due to the randomness in $\{b_t\}$. When $\alpha=0$, the linear term would vanish, but the initial error remains. 
+
+When the error is measured with respect to the SPD matrix $A_P$ (as is the case in LS), the worst-case error, $\eps_t'(\SPD)$ is dramatically improved. This is because the adversarial choice of letting $A_P$ approach zero also
+automatically reduces the error. Note that in this case for a \emph{fixed} time step $t$, the best possible ($\norm{e_0}$-independent)
+choice for $\alpha$ is $\alpha = 1/(\sigma_b \sqrt{t})$ and this choice 
+gives the error $2\norm{e_0}^2 \sigma_b/\sqrt{t}$, which decreases over time.
+
+In the structured noise case and when the error is also scaled with $A_P$, the worst-case error improves to 
+the uniform error of $1/t$. This is because here the magnitude of the noise on a per-instance bases is also constrained
+by $A_P$. Thus, scaling down $A_P$ cannot hurt the CALSA algorithm anymore.
+
+
+Once we choose a stepsize $\alpha$, and an adversary then picks a problem $P$ so as to make the MSE as large as possible.  In what follows, without loss of generality, let the dimension be $d=1$.
 \Cref{th:pspd}-$(i)$: the $\frac{1}{(t+1)^2}$ in the denominator is directly a result of iterate averaging,  further, when adversary choose $A_P$ close to $0$, the forgetting factor is very close to unity, in which case no forgetting happens, and error accumulates due to the summation of the iterates leading to the $\B(t+1)^2$ and $\alpha^2 \sigma_b^2 O(t^3)$ terms. \Cref{th:pspd}-$(ii)$ is same as the previous except that, now the error is also measured with respect to $A_P$ as result the adversary cannot make the MSE worse by just choosing small enough $A_P$; here we can achieve a rate of $O(\frac{1}{\sqrt{t}})$ if we choose $\alpha=\frac{1}{\sqrt{t}}$. \Cref{th:pspd}-$(iii)$ is when the noise also scales with $A_P$, and a rate of $O(\frac{1}{t})$ for any fixed $\alpha\in(0,1)$ across all the problems in the $\P_{SPDSN}$. Note that \Cref{th:pspd}-$(iii)$ has special structure, i.e., the noise is \emph{scaled} and the mean squared error is measured with respect to the quadratic norm induced by $A_P$, and these result in a uniform finite time rate of $\frac{C}{t}$. We would like to mention that the results of \citet{bach} is very similar to  \Cref{th:pspd}-$(iii)$. Further, it is clear that these special structures are not present in the case of TD algorithms for LVE problems.
 

@@ -21,12 +21,18 @@
 \usepackage{makecell}
 \usepackage{slashbox}
 \usepackage{mathtools}
+\usepackage{xspace}
 
 \usepackage[capitalize]{cleveref}
 \crefname{assumption}{Assumption}{Assumption}
 
 %\usepackage[numbers, sort, comma, square]{natbib}
 %New Commands
+\newcommand{\eps}{\varepsilon}
+\newcommand{\ROT}{\text{\sc ROT}\xspace}
+\newcommand{\ROTa}[1]{\text{\sc ROT}(#1)\xspace}
+\newcommand{\SPD}{\mathrm{SPD}\xspace}
+\newcommand{\SPDSN}{\mathrm{SPDSN}\xspace}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \DeclareMathOperator{\supp}{supp}
 \newcommand{\ip}[1]{\langle#1\rangle}
