@@ -79,13 +79,13 @@ topsep=0pt,itemsep=1pt,wide, labelwidth=!, labelindent=0pt]
 \begin{align*}
 \eps_t(\SPD) &\asymp \norm{e_0}^2+\alpha^2\sigma_b^2 t\,,\quad
 \eps_t'(\SPD) \asymp \frac{\norm{e_0}^2}{\alpha t}+\sigma^2_b\alpha\,,\\
-&\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{\sigma_b^2}{t}\,.
+&\text{ and }\qquad \eps_t'(\SPDSN) \asymp \frac{\norm{e_0}^2}{\alpha t}+\frac{1}{t}\,.
 \end{align*}
 \end{restatable}
 \if0
 The proof, which is given in \cref{sec:pspd}, is based on arguing that any adversarial choice can be reduced to a $1$-dimensional case by transforming any $A_P$ into a diagonal matrix.
 \fi
-From the result stated for $\eps_t(\SPD)$,
+From the result stated for $\eps_t(\SPD)$, \todoc{Problems: $\asymp$ is not defined. Further, I find it strange that $\sigma_b^2$ does not appear at all in the last result. These are related I think to each other..}
 it follows that the $\SPD$ class is too broad in the sense that although any $\alpha\in (0,1)$ leads to an asymptotic $O(1/t)$ decrease of the error, for any choice of $\alpha$, the class contains an instance which makes the error grow linearly with $t$. Intuitively, this happens because an adversary can choose $A_P$ to be near zero, in which case CALSA accumulates the noise due to the randomness in $\{b_t\}$. When $\alpha=0$, the linear term would vanish, but the initial error remains. 
 
 When the error is measured with respect to the SPD matrix $A_P$ (as is the case in LS), the worst-case error, $\eps_t'(\SPD)$ is dramatically improved. This is because the adversarial choice of letting $A_P$ approach zero also
