@@ -118,7 +118,7 @@
       error bars/y dir      = both,
       error bars/y explicit = true,
       legend pos=north west,
-      xlabel=iters$\times 2e^2$ for CATD(0) (iters $\times 2e^3$ for CAGTD),
+      xlabel=iters$\times 2e^2$ for CATD(0)/iters $\times 2e^3$ for CAGTD,
       ylabel=$\EE{\norm{A_{TD}\thh_t-b_{TD}}^2}$
     ]
 
@@ -163,8 +163,7 @@
 
 \end{tabular}
 %\caption{Summary of experiments. The top left plot is the experiment that illustrates \Cref{th:pspd} on uniform rates. The top right plot is the result for BAIRD domain. The rest of the plots are correspond to experiments in CATD($0$) and CAGTD, here, T, FUN, FN stand for tile coding, Fourier un-normalized and normalized respectively. The plots in the second row show the MSE in the case of CATD($0$) and CAGTD, where $\hat{z}_t=[\hat{y}_t^\top, \thh_t^\top]^\top \in \R^{2d}$ contains both dual and primal variables of the CAGTD algorithm. The left most plot in the third row shows TD error for CATD(0) and CAGTD algorithms, note that only the primal variable $\thh_t$ of CAGTD enters the error term $\norm{A_{TD}\thh_t-b_{TD}}$. The right plot in the third row shows the convergence of the TD error in the case of CAGTD algorithm for the three types of basis. In the plots in the second and the third row, the $x$-axis is number of iterations, with $2e^4$ as the maximum. However, the CAGTD curve in the bottom left has been made $10\times$ faster, i.e., the maximum number of iterations is $2e^5$.} 
-\caption{\small Experimental results. T, FUN, FN stand for tile coding, Fourier un-normalized and normalized respectively.  In the bottom left plot, the CAGTD curve is rescaled: the $x$-axis in this case runs till $2e^5$ iterations,
-while for CATD(0) the $x$-axis runs till $2e^4$ iterations.} 
+\caption{\small Experimental results. T, FUN, FN stand for tile coding, Fourier un-normalized and normalized, respectively.  In the bottom left plot, the CAGTD curve is rescaled as shown on the label of the $x$ axis.} 
 \label{fig:results}
 \end{figure}
 
