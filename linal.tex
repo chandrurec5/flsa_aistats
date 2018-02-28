@@ -570,7 +570,7 @@ which completes the upper bound part for this case.
 We will slightly abuse notation by writing $\norm{\eh_t}^2_{\lambda} = \lambda (\eh_t)^2$
 and writing $\norm{\eh_t}^2 = (\eh_t)^2$.
 As before, pick $\lambda$ such that $\alpha \lambda (t+1)=1$. Taking expectation of both sides of \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
-\begin{align}\label{eq:intererr}
+\begin{align}\label{eq:intererr2}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
 where we use the property of independence. Now for our choice of $\lambda$, for some universal constants $c,c'>0$,
@@ -581,7 +581,7 @@ where we use the property of independence. Now for our choice of $\lambda$, for 
 which completes the lower bound part for this case.
 
 \textbf{Upper Bound for $\eps_t'(\SPD)$:}
-Starting from \eqref{eq:intererr}, we have
+Starting from \eqref{eq:intererr2}, we have
 \begin{align}
 \EE{\norm{\eh_t}^2_{\lambda}}&\leq \frac{1}{(t+1)^2}\left[\lambda \B (\min\{(\alpha\lambda)^{-1},(t+1)\})^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{(\alpha\lambda)^{-1},(t+1)\})^2 \right]\\
 &= \left[\B (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2+ \lambda \alpha^2 \sigma^2_{b_P} (t+1) (\min\{\frac{1}{\alpha \lambda (t+1)},1)^2 \right]\,.
@@ -596,7 +596,7 @@ This completes the upper bound part for this case.
 \textbf{Lower Bound for $\eps_t'(\SPDSN)$:}
 Pick $\lambda$ such that $\alpha \lambda (t+1)=1$. 
 Taking expectations of both sides of \eqref{eq:onederr}, and letting $\B=e_0^2$, we have
-\begin{align}\label{eq:intererr}
+\begin{align}\label{eq:intererr3}
 \EE{\norm{\eh_t}^2_{\lambda}}=\frac{1}{(t+1)^2}\left[ \lambda (\sum_{s=0}^t(1-\alpha \lambda)^s)^2 \B+ \alpha^2\sigma^2_{b_P}\lambda \sum_{i=1}^t (\sum_{s=0}^{t-i} (1-\alpha \lambda)^s)^2\right],
 \end{align}
 where we use the property of independence. Now for our choice of $\lambda$ we have, for some universal constants $c,c'>0$ that
@@ -607,7 +607,7 @@ where we use the property of independence. Now for our choice of $\lambda$ we ha
 where we used that $\sigma^2_{b_P}=\lambda$. This completes the lower bound part for this case.
 
 \textbf{Upper Bound for $\eps_t'(\SPDSN)$:}
-Starting from \eqref{eq:intererr}, we have
+Starting from \eqref{eq:intererr3}, we have
 \begin{align}
 \EE{\norm{\eh_t}^2_{\lambda}}
 &\leq \frac{1}{(t+1)^2}\left[\lambda \B 
