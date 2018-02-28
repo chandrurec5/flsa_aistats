@@ -12,10 +12,10 @@ An elementary calculation shows that the MSE converges only at a rate of $\Theta
 $\alpha_t=\frac{cc_0}{c+t}$ for some $c\gg 0$, so that initially for $t \ll c$, $\alpha_t \approx c_0$, while asymptotically $\alpha_t \sim c_0/t$. 
 However, the choice of $c$ and $c_0$ (based on knowledge of a class $\cP$) is still problematic in general.
 \fi
-Various heuristic methods exist for ``adapting'' the stepsize sequence; see, e.g., \citet{dab} and the references therein.
+Various heuristic methods exist for ``adapting'' the stepsize sequence; see, e.g., \cite{dab} and the references therein.
 The methods proposed do not have guarantees and given how difficult it is to experimentally validate a method
 whose main purpose is \emph{robustness}, it is hard to assess how good these methods are
-(e.g., the method of \citet{dab} seemed to perform well in their experiments, but one can \emph{show} that for finite state spaces it eventually settles on a constant step-size and hence it will fail to guarantee convergence).
+(e.g., the method of \citet{dab} performed well in their experiments, but one can \emph{show} that for finite state spaces it eventually settles on a constant step-size and hence it fails to guarantee convergence).
 \if0
 an adaptive method (where the difficulty comes from the need to asses the methods worst-case performance)
 \citet{dab} introduce a new adaptive stepsize tuning method for TD and show that it performs better in comparison to various other adaptive approaches. The adaptive stepsize rule suggested\footnote{The case when eligibility traces are not used.} is $\alpha_t=\min(\alpha_{t-1},\parallel\phi^\top_t(\gamma\phi'_t-\phi_t)\parallel^{-1})$. It turns out that the \emph{minimum} is attained as soon as all the states transition pairs $(s,s')$ are visited at least once, after which rule stops to adapt and stepsize stays a constant. However, it is evident that a constant stepsize alone is not enough to filter the noise, and without additional averaging cannot be used to even estimate the mean of a single bounded random variable. 

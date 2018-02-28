@@ -21,8 +21,7 @@ The classes we define are as follows:
 						\norm{\phi_t}\le B\,, t\ge 1\,.\\
 \text{GTDOFF}(B)&\!\!:  \norm{A_t}_{\max} \le B, t\ge 1\,.
 \end{align*}
-Here, $\text{SOFS}$ stands for \emph{second-order feature stationarity}, 
-while $\text{GTDOFF}$ stands for ``off-policy'', a specific nomenclature borrow from the RL literature.
+Here, $\text{SOFS}$ stands for \emph{second-order feature stationarity}, while $\text{GTDOFF}$ stands for ``off-policy'', a specific nomenclature borrow from the RL literature.
 %(The second-order feature stationarity constraint replaces the ``on-policy'' constraint that is often used to guarantee stability of the TD algorithm.)
 Note that the ``second order feature stationarity'' condition $\E[\phi_t\phi_t^\top]=\E[\phi'_t(\phi'_t)^\top]$ will hold 
 when sampling (in the underlying Markov reward process) 
@@ -49,13 +48,13 @@ The following hold:
 $i)$ CATD(0) has a universal stepsize of $\alpha_{td}=\frac{1}{B}$ for  the class $\text{SOFS}(B)$.
 $ii)$ CAGTD has a universal stepsize of $\alpha_{gtd}=\frac{1}{2B^2 d}$ for the class $\text{GTDOFF}(B)$.
 \end{restatable}
-In the proof we show that the three classes are admissible for the respective algorithms.
+In the proof we show that the two classes are admissible for the respective algorithms.
 \if0
 The property $\EE{\phi_t\phi_t}=\EE{\phi'_t{\phi'_t}^\top}$ is known as second order feature stationarity, and is used in the proof.
 \fi
 
 From \Cref{tb:tdalgos}, the matrix $A_t=\phi_t(\phi_t-\gamma\phi'_t)^\top$ is key to both CATD(0) and CAGTD. In the case of CATD(0),  the expression for $\rhos{P}$ involves $\phi^\top_t\phi_t$ which can take a maximum value of $B^2d$  and is the reason for the $B^2d$ term in $\alpha_{td}$. In the case of CAGTD, the expression for $\rhos{P}$ involves $A_t^\top A_t$, and hence $B^2_{GTD}d$ appears in $\alpha_{gtd}$. 
-The conservative stepsize for CAGTD seems to be the price paid for \emph{off-policy} stability. Notice that in the case of normalized features, the factor depending on $B$ and $d$ can be removed.
+The conservative stepsize for CAGTD seems to be the price paid for \emph{off-policy} stability. \todoc{This text MUST be updated.}
 
 Note that the above result in particular implies that the respective algorithms with the proposed stepsizes achieve the instance-dependent errors $O(\frac{1}{t})$ on these three classes of LVE problems.
 
