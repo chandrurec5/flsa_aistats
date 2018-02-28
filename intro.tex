@@ -126,14 +126,15 @@ matching lower and upper bounds).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \textbf{Reinforcement Learning} (\Cref{sec:rl}): 
 In the context of reinforcement learning we establish that the constant stepsize averaged TD($0$) 
-and a novel version of GTD assume universal stepsizes in a number of cases  \todoc{Do the same for GTD2?}
-for various problem classes with bounded data (\cref{th:tdadmis}).
-In particular, this is first shown for averaged TD($0$) for the ``on-policy case'', which we define
-using the so-called ``second-order feature stationarity condition''. This change is partially made necessary because we consider the i.i.d. case; while it can also be viewed as the ``real'' requirement
-for the stability of TD(0). 
-Finally, we establish that this condition can be dropped for the novel version of GTD. The strength of these results is that a user 
-who is concerned with achieving the $O(1/t)$ problem-dependent rate over broad classes of LVE problems
-is relieved from the burden of designing stepsize tuning methods.
+and a novel version of GTD assume universal stepsizes in two \todoc{Do the same for GTD2?}
+problem classes with bounded data (\cref{th:tdadmis}).
+%In particular, this is first shown for averaged TD($0$) for the ``on-policy case'', which we define
+%slightly differently from its standard formulation (the change is made necessary because we consider the i.i.d. case). 
+We show that a universal stepsize exist for averaged TD($0$) 
+provided that the data is ``stationary'' (the second moments of features and next-state features match).
+We then establish that stationarity condition can be dropped for the novel version of GTD. The strength of these results is that they free the user 
+concerned with achieving the $O(1/t)$ problem-dependent rate from the burden of 
+designing stepsize tuning methods.
 In \cref{sec:exp} we illustrate these theoretical results by means of computer simulations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
