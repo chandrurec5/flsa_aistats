@@ -126,13 +126,14 @@ matching lower and upper bounds).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item \textbf{Reinforcement Learning} (\Cref{sec:rl}): 
 In the context of reinforcement learning we establish that the constant stepsize averaged TD($0$) 
-and a novel version of GTD assume universal stepsizes in two \todoc{Do the same for GTD2?}
-problem classes with bounded data (\cref{th:tdadmis}).
-%In particular, this is first shown for averaged TD($0$) for the ``on-policy case'', which we define
-%slightly differently from its standard formulation (the change is made necessary because we consider the i.i.d. case). 
-We show that a universal stepsize exist for averaged TD($0$) 
-provided that the data is ``stationary'' (the second moments of features and next-state features match).
-We then establish that stationarity condition can be dropped for the novel version of GTD. The strength of these results is that they free the user 
+and a novel version of GTD assume universal stepsizes in a number of cases  \todoc{Do the same for GTD2?}
+for various problem classes with bounded data (\cref{th:tdadmis}).
+In particular, this is first shown for averaged TD($0$) for the ``on-policy case'', which we define
+slightly differently from its standard formulation (the change is made necessary because we consider the i.i.d. case). 
+We also show that a universal stepsize exist for averaged TD($0$) 
+even for the general (non-on-policy case) provided that 
+the features are normalized and the data is ``stationary'' (the second moments of features and next-state features match).
+Finally, we establish that even the normalization condition can be dropped for the novel version of GTD. The strength of these results is that they free the user 
 concerned with achieving the $O(1/t)$ problem-dependent rate from the burden of 
 designing stepsize tuning methods.
 In \cref{sec:exp} we illustrate these theoretical results by means of computer simulations.

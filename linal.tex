@@ -705,66 +705,6 @@ Further, for symmetric matrices $A \succeq B$ holds if and only if $A \qfgeq B$ 
 Also, $A=B$ implies $A \qfeq B$, though the converse does not hold.
 In particular, for a symmetric matrix $A$, $\lmin{A}>0$ is equivalent to $A \qfgeq 0$, where $0$ stands for the all-zero matrix.
 
-\textbf{Part $(i)$:}
-$\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t\le 1$, and hence
-\begin{align*}
-\MoveEqLeft
-(A_t+A_t^\top) -\alpha A_t^\top A_t 
-\qfgeq 2\phi_t(\phi_t-\gamma\phi'_t)^\top - (\phi_t-\gamma\phi'_t)(\phi_t-\gamma\phi'_t)^\top
-=(\phi_t+\gamma\phi'_t)(\phi-\gamma\phi'_t)^\top
-=\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top\,.
-\end{align*}
-Taking expectations, and using $\E[ \phi_t \phi_t^\top ] = \E[ \phi_t' (\phi_t')^\top ]$, we get
-\begin{align*}
-\EE{(A_t+A_t^\top) -\alpha A_t^\top A_t } \qfeq \EE{\phi_t\phi_t^\top-\gamma^2\phi'_t{\phi'_t}^\top}
-=(1-\gamma^2)\EE{\phi_t\phi_t^\top}
-\succeq 0\,.
-\end{align*}
-
-\textbf{Part $(ii)$:}
-When $\alpha=\beta$,
-the GTD update in \Cref{tb:tdalgos} can be expressed as $x_{t+1}=x_t+\alpha (g_t -H_t x_t)$, where $x_t=\left[\begin{matrix}y_t\\\theta_t\end{matrix}\right]$, 
-	$H_t=
-		\left[\begin{matrix}
-			I &A_t \\ 
-			-(1-\alpha)A^\top_t & \alpha A_t^\top A_t
-		\end{matrix}\right]$, 
-and $g_t=\left[\begin{matrix} b_t\\ \alpha A_t^\top b_t\end{matrix}\right]$, where $A_t=\phi_t(\phi_t-\gamma \phi'_t)^\top$. To show that $\alpha=\frac{1}{2B^2 d}$ is a universal step-size choice, 
-we need to show that for this value of $\alpha$, 
-$\lmin{ \EE{ H_t + H_t^\top - \alpha H_t^\top H_t } }>0$.
-
-Now 
-$H_t+H_t^\top
-	=\left[
-		\begin{matrix} 2I & \alpha A_t\\ \alpha A_t^\top & 2\alpha A_t^\top A_t\end{matrix}\right]$ 
-and $H_t^\top H_t=\left[\begin{matrix} I+(1-\alpha)^2A_tA_t^\top & A_t-\alpha(1-\alpha)A_tA_t^\top A_t\\ A_t^\top-\alpha(1-\alpha)A_t^\top A_t A_t^\top & A_t^\top A_t+\alpha^2A_t^\top A_t A_t^\top A_t\end{matrix}\right]$.  
-From \Cref{lm:matnorm} and the choice of $\alpha$, $\alpha A_t A_t^\top \preceq I$. Hence, using that $A\succeq B$ for symmetric $A,B$ is equivalent to $A \qfgeq B$, we get that
- $(H_t+H_t^\top) -\alpha(H_t^\top H_t) \succeq S_t$, 
- where $S_t=\left[\begin{matrix}I &\alpha^2(1-\alpha) A_tA_t^\top A_t\\ \alpha^2(1-\alpha) A_t^\top A_t A_t^\top &\alpha A_t^\top A_t-\alpha^3A_t^\top A_tA_t^\top A_t\end{matrix}\right]$. Now from \Cref{lm:schur}, to show that $S_t\succeq 0$ we need to prove that the Schur complement of $S_t$ is nonnegative. For this we have
-\begin{align*}
-\MoveEqLeft 
-\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4(1-\alpha)^2A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
-&\succeq
-\alpha A_t^\top A_t -\alpha^3A_t^\top A_t A_t^\top A_t - \alpha^4 A_t^\top A_t A_t^\top A_t A_t^\top A_t\\
-&=\alpha A_t^\top\big(I-\alpha^2 A_tA_t^\top-\alpha^3A_tA_t^\top A_tA_t^\top\big)A_t\\
-&\succeq \alpha A_t^\top\big(I-\alpha^2 A_t(I+\alpha A_t^\top A_t)A_t^\top\big)A_t\\
-&\succeq \frac{\alpha}{2} A_t^\top A_t\,,
-\end{align*}
-where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}.
-\end{proof}
-
-\begin{comment}
-\begin{proof}
-It is sufficient to show in all three cases that $\rhos{P_A}>0$ holds for the said values of $\alpha$. 
-
-We introduce the relations $\qfeq$, $\qfleq$ and $\qfgeq$ to compare (not necessarily) symmetric $d\times d$ matrices
-over the reals when the matrices are identified with the \emph{quadratic form} that they define.
-That is, for matrices $A, B\in \R^{\dcd}$, we write $A \qfleq B$ to denote that $x^\top (A-B) x \leq 0 $ holds for all $x\in \R^d$. Then, we write $A \qfgeq B$ when $B \qfleq A$ and we write $A \qfeq B$ when both $A \qfleq B$ and $B \qfgeq A$ hold. 
-Specifically, note that for any matrix $A$, $A\qfeq A^\top$.
-Further, for symmetric matrices $A \succeq B$ holds if and only if $A \qfgeq B$ holds. 
-Also, $A=B$ implies $A \qfeq B$, though the converse does not hold.
-In particular, for a symmetric matrix $A$, $\lmin{A}>0$ is equivalent to $A \qfgeq 0$, where $0$ stands for the all-zero matrix.
-
 \textbf{Part $(i)$:}  We have $\alpha\phi^\top\phi=\frac{1}{B^2d}\phi^\top_t\phi_t\le \beta$ for some $\beta\in (0,1]$. Now, from $A_t = \phi_t(\phi_t-\gamma \phi'_t)^\top$ and $A_t+A_t^\top \qfeq 2 A_t$, we get
 \begin{align*}
 A_t+A_t^\top -\alpha A_t^\top A_t 
@@ -837,5 +777,4 @@ From \Cref{lm:matnorm} and the choice of $\alpha$, $\alpha A_t A_t^\top \preceq 
 \end{align*}
 where the last inequality follows from the choice of $\alpha$, bound $B$ on the features and \Cref{lm:matnorm}.
 \end{proof}
-\end{comment}
 %\left[\begin{matrix}\end{matrix}\right]
